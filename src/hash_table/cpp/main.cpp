@@ -2,23 +2,28 @@
 
 //--------------------------------------------------
 
-#include "../hpp/graphics/graphics.hpp"
+#include "../hpp/hash_table.hpp"
 
 //--------------------------------------------------
 
 
 int main (void) {
 
-    initialize_sdl ();
-    Image_Mixer* mixer = mixer_ctor ();
+    Hash_Table* table = hash_table_ctor (10, HF_7);
+
+    for (size_t i = 0; i < 500; i++) {
+
+        char* string = (char*) calloc (100, CHAR_SIZE);
+        sprintf (string, "%zd", i);
+
+        hash_table_push (table, string);
+    }
 
 
-    mixer_load_media (mixer);
-    mixer_work (mixer);
+    hash_table_print (table);
 
 
-    mixer_dtor (mixer);
-    SDL_Quit   ();
+    hash_table_dtor (table);
 
 
     printf ("goodbye!\n");

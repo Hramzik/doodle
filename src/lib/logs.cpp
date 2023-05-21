@@ -1,5 +1,5 @@
-#ifndef LOGS_HPP_INCLUDED
-#define LOGS_HPP_INCLUDED
+#ifndef LOGS_CPP_INCLUDED
+#define LOGS_CPP_INCLUDED
 //--------------------------------------------------
 
 
