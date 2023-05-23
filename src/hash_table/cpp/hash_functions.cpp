@@ -129,3 +129,50 @@ int hf_crc32 (const char* value) {
     return crc ^ 0xFFFFFFFFUL;
 }
 
+
+inline int hf_crc32_opt (const char* value) {
+
+    int hash = -1;
+
+    while (*value != '\0') {
+
+        hash = _mm_crc32_u8 (hash, *value);
+
+        value += 1;
+    }
+
+
+    return hash;
+}
+
+
+inline int hf_crc32_opt_2 (const char* value) {
+
+    int hash = -1;
+
+
+    asm volatile (
+
+        ".intel_syntax noprefix\n"
+
+        "crc32_opt_2_next_byte:\n"
+        "mov ch, [rbx]\n"
+        "cmp ch, 0\n"
+        "je crc32_opt_2_exit\n"
+
+        "crc32 eax, ch\n"
+        "inc rbx\n"
+        "jmp crc32_opt_2_next_byte\n"
+
+        "crc32_opt_2_exit:\n"
+
+        ".att_syntax prefix\n"
+        : "=a" (hash)
+        : "a"  (hash), "b" (value)
+        : "rcx"
+    );
+
+
+    return hash;
+}
+

@@ -6,6 +6,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "immintrin.h"
 
 
 //--------------------------------------------------
@@ -58,7 +59,11 @@ Return_code create_hash_node (Hash_Node** node_ptr, const char* value);
 bool hash_table_search (Hash_Table* table, const char* value);
 bool hash_node_search  (Hash_Node* node,   const char* value);
 
-int hash_table_get_hash (Hash_Table* table, const char* value);
+int my_strcmp (const char* string1, const char* string2);
+
+
+int hash_table_get_hash        (Hash_Table* table, const char* value);
+int hash_table_get_chain_index (Hash_Table* table, const char* value);
 
 Return_code hash_table_print (Hash_Table* table);
 Return_code hash_nodes_print (Hash_Node* node);
@@ -67,13 +72,18 @@ size_t hash_node_get_chain_size (Hash_Node* node);
 
 //--------------------------------------------------
 
-int hf_constant_one  (const char* value);
-int hf_first_char    (const char* value);
-int hf_strlen        (const char* value);
-int hf_sum_char      (const char* value);
-int hf_rorxor        (const char* value);
-int hf_rolxor        (const char* value);
-int hf_crc32         (const char* value);
+       int hf_constant_one (const char* value);
+       int hf_first_char   (const char* value);
+       int hf_strlen       (const char* value);
+       int hf_sum_char     (const char* value);
+       int hf_rorxor       (const char* value);
+       int hf_rolxor       (const char* value);
+       int hf_crc32        (const char* value);
+inline int hf_crc32_opt    (const char* value);
+inline int hf_crc32_opt_2  (const char* value);
+
+extern
+int hf_crc32_opt_3  (const char* value);
 
 
 //--------------------------------------------------

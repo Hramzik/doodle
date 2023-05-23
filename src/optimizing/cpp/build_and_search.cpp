@@ -23,7 +23,7 @@ Return_code build_table_and_search_words (const char* src_file_name, const char*
     Timer* timer = timer_ctor ();
 
 
-    Hash_Table* table = hash_table_ctor (SEARCH_HASH_TABLE_SIZE, HF_CRC32);
+    Hash_Table* table = hash_table_ctor (SEARCH_HASH_TABLE_SIZE, HF_CRC32_OPT_2);
     hash_table_read_file (table, src_file_name);
 
 
@@ -36,6 +36,8 @@ Return_code build_table_and_search_words (const char* src_file_name, const char*
     size_t words_found    = 0;
 
     while (read_word (&buffer_ptr, word) != SPECIAL_CASE) {
+
+        for (size_t i = 0; i < NUMBER_OF_SEARCHES - 1; i++) hash_table_search (table, word);
 
         if (hash_table_search (table, word)) words_found += 1;
 

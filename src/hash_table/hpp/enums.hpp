@@ -12,6 +12,9 @@ enum Hash_function {
     HF_RORXOR,
     HF_ROLXOR,
     HF_CRC32,
+    HF_CRC32_OPT,
+    HF_CRC32_OPT_2,
+    //HF_CRC32_OPT_3,
 };
 
 

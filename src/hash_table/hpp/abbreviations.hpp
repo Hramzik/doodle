@@ -10,6 +10,8 @@
 #define HF_5 HF_RORXOR
 #define HF_6 HF_ROLXOR
 #define HF_7 HF_CRC32
+#define HF_8 HF_CRC32_OPT
+#define HF_9 HF_CRC32_OPT_2
 
 
 //--------------------------------------------------

@@ -140,7 +140,7 @@ Return_code hash_node_push (Hash_Node* node, const char* value) {
 
 int hash_table_get_hash (Hash_Table* table, const char* value) {
 
-    if (!table) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (!table) { LOG_ERROR (BAD_ARGS); return 0; }
 
 
     switch (table->hash_function) {
@@ -152,12 +152,24 @@ int hash_table_get_hash (Hash_Table* table, const char* value) {
         case HF_RORXOR:       return hf_rorxor       (value);
         case HF_ROLXOR:       return hf_rolxor       (value);
         case HF_CRC32:        return hf_crc32        (value);
+        case HF_CRC32_OPT:    return hf_crc32_opt    (value);
+        case HF_CRC32_OPT_2:  return hf_crc32_opt_2  (value);
+        //case HF_CRC32_OPT_3:  return hf_crc32_opt_3  (value);
 
         default: LOG_ERROR (CRITICAL); return 0;
     }
 
 
     return 0; // never happens
+}
+
+
+int hash_table_get_chain_index (Hash_Table* table, const char* value) {
+
+    if (!table) { LOG_ERROR (BAD_ARGS); return 0; }
+
+
+    return (unsigned) hash_table_get_hash (table, value) % table->size;
 }
 
 
@@ -212,10 +224,10 @@ bool hash_table_search (Hash_Table* table, const char* value) {
     if (!value) { LOG_ERROR (BAD_ARGS); return false; }
 
 
-    for (int i = 0; i < table->size; i++) {
+    int chain_index = hash_table_get_chain_index (table, value);
 
-        if (hash_node_search (table->buffer [i], value)) return true;
-    }
+
+    if (hash_node_search (table->buffer [chain_index], value)) return true;
 
 
     return false;
@@ -227,13 +239,30 @@ bool hash_node_search (Hash_Node* node, const char* value) {
     if (!value) { LOG_ERROR (BAD_ARGS); return false; }
 
 
-    if (!node) return false;
+    while (node) {
+
+        if (!my_strcmp (node->value, value)) return true;
+
+        node = node->next;
+    }
 
 
-    if (!strcmp (node->value, value)) return true;
-
-
-    return hash_node_search (node->next, value);
+    return false;
 }
 
+
+int my_strcmp (const char* string1, const char* string2) {
+
+    while (*string1 == *string2 && *string1 != '\0') {
+
+        string1 += 1;
+        string2 += 1;
+    }
+
+
+    if (*string1 == *string2) return 0;
+
+
+    return 1;
+}
 

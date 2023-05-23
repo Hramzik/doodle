@@ -15,8 +15,12 @@ define compile_3_opt
 	$(sc) $(cc) $1 $2 $3 -o $4 $(flags) -O3 -mavx2
 endef
 
-define compile_5_opt
-	$(sc) $(cc) $1 $2 $3 $4 $5 -o $6 $(flags) -O3 -mavx2
+define compile_6_opt_pg
+	$(sc) $(cc) $1 $2 $3 $4 $5 $6 -o $7 $(flags) -O0 -mavx2 -pg
+endef
+
+define compile_5_opt_pg
+	$(sc) $(cc) $1 $2 $3 $4 $5 -o $6 $(flags) -O2 -mavx2 -pg
 endef
 
 sc = @ #showcommands
@@ -38,8 +42,9 @@ test_functions:
 	$(default_path))
 
 optimize:
-	$(call compile_5_opt, \
+	$(call compile_6_opt_pg, \
 	$(cppfolder1)/hash_table.cpp, \
+	$(cppfolder1)/crc32.obj, \
 	$(cppfolder2)/func_testing.cpp, \
 	$(cppfolder3)/build_and_search.cpp, \
 	$(cppfolder3)/main.cpp, \
