@@ -26,7 +26,7 @@ define compile_sdl_opt_4
 endef
 
 define compile_sdl
-	$(sc) $(cc) $1 $2 $3 $4 $5 -o $6 $(flags_sdl) $(flags_cut_bc_of_sdl)
+	$(sc) $(cc) $1 $2 $3 $4 $5 $6 $7 $8 -o $9 $(flags_sdl) $(flags_cut_bc_of_sdl)
 endef
 
 sc = @ #showcommands
@@ -38,13 +38,18 @@ all: game
 
 
 game:
-	$(call compile_sdl, \
+	$(sc) $(cc) \
 \
 	$(MAIN_FOLDER)/main.cpp, \
 	$(GAME_FOLDER)/c-dtors.cpp, \
+	$(GAME_FOLDER)/game-media.cpp, \
+	$(GAME_FOLDER)/game.cpp, \
+	$(GAME_FOLDER)/keyboard_input.cpp, \
 	$(FIELD_FOLDER)/field.cpp, \
 	$(FIELD_FOLDER)/c-dtors.cpp, \
+	$(FIELD_FOLDER)/players.cpp, \
+	$(FIELD_FOLDER)/platforms.cpp, \
 	$(LIB_FOLDER)/logs.cpp, \
 \
-	$(default_path))
+	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

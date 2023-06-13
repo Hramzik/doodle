@@ -9,7 +9,13 @@
 
 int main (void) {
 
-    Game* game = game_ctor ();
+    Game* game = create_game ();
+
+
+    game_work (game);
+
+
+    game_dtor (game);
 
 
     printf ("goodbye!\n");

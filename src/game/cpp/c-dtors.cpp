@@ -158,7 +158,7 @@ Return_code game_data_ctor (Game_Data* data) {
 }
 
 
-Game* game_ctor (void) {
+Game* create_game (void) {
 
     Game* game = (Game*) calloc (1, GAME_SIZE);
 

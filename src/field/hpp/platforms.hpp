@@ -28,4 +28,10 @@ typedef struct Platforms {
 
 
 //--------------------------------------------------
+
+
+Return_code platforms_push (Platforms* platforms, Platform platform);
+
+
+//--------------------------------------------------
 #endif

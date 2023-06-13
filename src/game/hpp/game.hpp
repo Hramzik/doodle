@@ -47,7 +47,7 @@ typedef struct Game {
 Return_code initialize_sdl (void);
 Return_code quit_sdl       (void);
 
-Game*       game_ctor            (void);
+Game*       create_game            (void);
 Return_code game_output_ctor     (Game_Output* output);
 Return_code game_media_ctor      (Game_Media* media);
 Return_code game_conditions_ctor (Game_Conditions* conditions);
