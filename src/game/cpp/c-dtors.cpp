@@ -113,8 +113,8 @@ Return_code game_media_ctor (Game_Media* media) {
     media->platform_textures = (SDL_Texture**) calloc (DEFAULT_PLATFORM_TEXTURES_COUNT, sizeof (SDL_Texture*));
 
 
-    media->doodler_textures_count  = DEFAULT_DOODLER_TEXTURES_COUNT;
-    media->platform_textures_count = DEFAULT_PLATFORM_TEXTURES_COUNT;
+    media->doodler_textures_count  = 0;
+    media->platform_textures_count = 0;
 
 
     return SUCCESS;

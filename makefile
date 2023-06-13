@@ -39,17 +39,15 @@ all: game
 
 game:
 	$(sc) $(cc) \
-\
-	$(MAIN_FOLDER)/main.cpp, \
-	$(GAME_FOLDER)/c-dtors.cpp, \
-	$(GAME_FOLDER)/game-media.cpp, \
-	$(GAME_FOLDER)/game.cpp, \
-	$(GAME_FOLDER)/keyboard_input.cpp, \
-	$(FIELD_FOLDER)/field.cpp, \
-	$(FIELD_FOLDER)/c-dtors.cpp, \
-	$(FIELD_FOLDER)/players.cpp, \
-	$(FIELD_FOLDER)/platforms.cpp, \
-	$(LIB_FOLDER)/logs.cpp, \
-\
+	$(MAIN_FOLDER)/main.cpp \
+	$(GAME_FOLDER)/c-dtors.cpp \
+	$(GAME_FOLDER)/game_media.cpp \
+	$(GAME_FOLDER)/game.cpp \
+	$(GAME_FOLDER)/keyboard_input.cpp \
+	$(FIELD_FOLDER)/field.cpp \
+	$(FIELD_FOLDER)/c-dtors.cpp \
+	$(FIELD_FOLDER)/players.cpp \
+	$(FIELD_FOLDER)/platforms.cpp \
+	$(LIB_FOLDER)/logs.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

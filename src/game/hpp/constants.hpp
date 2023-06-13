@@ -35,11 +35,11 @@ const double BIG_HORIZONTAL_STEP   = 1;
 const double SMALL_HORIZONTAL_STEP = 1;
 
 
-const double DOODLER_WIDTH  = 50;
-const double DOODLER_HEIGHT = 50;
+const int DOODLER_WIDTH  = 50; // int because of int in SDL_Rect
+const int DOODLER_HEIGHT = 50;
 
-const double PLATFORM_WIDTH = 50;
-const double PLATFORM_HEIGHT = 50;
+const int PLATFORM_WIDTH = 50;
+const int PLATFORM_HEIGHT = 50;
 
 const size_t DEFAULT_PLAYER_SKIN = 0;
 const double DEFAULT_PLAYER_DY   = 10;

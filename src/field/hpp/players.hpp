@@ -25,7 +25,7 @@ typedef struct Players {
 //--------------------------------------------------
 
 
-Return_code players_push (Players* players, Plater player);
+Return_code players_push (Players* players, Player player);
 
 
 //--------------------------------------------------

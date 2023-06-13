@@ -58,7 +58,7 @@ Return_code game_load_doodler_texture (Game* game, const char* path) {
     }
 
 
-    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (crack->crack_window->renderer, temp_surface);
+    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
     SDL_FreeSurface (temp_surface);
 
     if (!new_texture) {
@@ -90,7 +90,7 @@ Return_code game_load_platform_texture (Game* game, const char* path) {
     }
 
 
-    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (crack->crack_window->renderer, temp_surface);
+    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
     SDL_FreeSurface (temp_surface);
 
     if (!new_texture) {
@@ -117,6 +117,15 @@ Return_code game_load_doodler_textures (Game* game) {
 
 
     LOAD_DOODLER (DOODLER_SKIN1_PATH);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_load_platform_textures (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
     LOAD_PLATFORM (PLATFORM_SKIN1_PATH);

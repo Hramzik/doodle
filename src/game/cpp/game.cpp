@@ -29,9 +29,9 @@ Return_code game_spawn_players (Game* game) {
 
     switch (game->data.game_mode) {
 
-        case SINGLE_PLAYER: game_spawn_player (game, DEFAULT_WINDOW_WIDTH / 2, 10, DEFAULT_PLAYER_SKIN);
+        case SINGLE_PLAYER: game_spawn_player (game, DEFAULT_WINDOW_WIDTH / 2, DEFAULT_WINDOW_HEIGHT / 6, DEFAULT_PLAYER_SKIN); break;
         case DUO:
-        default:
+        default: break;
     }
 
 
@@ -48,7 +48,7 @@ Return_code game_spawn_player (Game* game, double x, double y, size_t skin) {
     Player player = { .motion = player_motion, .score = 0, .skin = skin };
 
 
-    players_push (game->field.players, player);
+    players_push (&game->field.players, player);
 
 
     return SUCCESS;
@@ -112,7 +112,6 @@ Return_code game_render (Game* game) {
 }
 
 
-
 Return_code game_render_player (Game* game, Player* player) {
 
     if (!game)   { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -120,10 +119,15 @@ Return_code game_render_player (Game* game, Player* player) {
 
 
     SDL_Texture* player_texture = game->media.doodler_textures [player->skin];
-    SDL_Rect dstrect = { .x = player->motion.x - DOODLER_WIDTH / 2, .y = player->motion.y, .w = DOODLER_WIDTH, .h = DOODLER_HEIGHT };
+    SDL_Rect dstrect;
+
+    dstrect.x = (int) player->motion.x - DOODLER_WIDTH / 2;
+    dstrect.y = DEFAULT_WINDOW_WIDTH - (int) player->motion.y - DOODLER_HEIGHT;
+    dstrect.w = DOODLER_WIDTH;
+    dstrect.h = DOODLER_HEIGHT;
 
 
-    SDL_RenderCopy (game->output.renderer, player_texture, nullptr, dstrect);
+    SDL_RenderCopy (game->output.renderer, player_texture, nullptr, &dstrect);
 
 
     return SUCCESS;
@@ -137,10 +141,14 @@ Return_code game_render_platform (Game* game, Platform* platform) {
 
 
     SDL_Texture* platform_texture = game->media.platform_textures [0]; // TEMPORARY
-    SDL_Rect dstrect = { .x = platform->motion.x - PLATFORM_WIDTH / 2, .y = platform->motion.y, .w = PLATFORM_WIDTH, .h = PLATFORM_HEIGHT };
+    SDL_Rect dstrect;
 
+    dstrect.x = (int) platform->motion.x - PLATFORM_WIDTH / 2;
+    dstrect.y = DEFAULT_WINDOW_WIDTH - (int) platform->motion.y - PLATFORM_HEIGHT;
+    dstrect.w = PLATFORM_WIDTH;
+    dstrect.h = PLATFORM_HEIGHT;
 
-    SDL_RenderCopy (game->output.renderer, platform_texture, nullptr, dstrect);
+    SDL_RenderCopy (game->output.renderer, platform_texture, nullptr, &dstrect);
 
 
     return SUCCESS;

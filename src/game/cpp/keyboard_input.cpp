@@ -18,7 +18,7 @@ Return_code game_handle_keyboard_input (Game* game) {
 
         case SINGLE_PLAYER: game_handle_keyboard_input_singleplayer (game); break;
         case DUO:
-        default:
+        default: break;
     }
 
 
