@@ -2,10 +2,11 @@
 
 cc = gcc
 
-MAIN_FOLDER  = src
-GAME_FOLDER  = src/game/cpp
-FIELD_FOLDER = src/field/cpp
-LIB_FOLDER   = src/lib
+MAIN_FOLDER   = src
+GAME_FOLDER   = src/game/cpp
+ENGINE_FOLDER = src/engine/cpp
+TIMER_FOLDER  = src/timer/cpp
+LIB_FOLDER    = src/lib
 
 exefolder = exe
 
@@ -40,14 +41,17 @@ all: game
 game:
 	$(sc) $(cc) \
 	$(MAIN_FOLDER)/main.cpp \
+	$(TIMER_FOLDER)/timer.cpp \
 	$(GAME_FOLDER)/c-dtors.cpp \
+	$(GAME_FOLDER)/render.cpp \
 	$(GAME_FOLDER)/game_media.cpp \
 	$(GAME_FOLDER)/game.cpp \
 	$(GAME_FOLDER)/keyboard_input.cpp \
-	$(FIELD_FOLDER)/field.cpp \
-	$(FIELD_FOLDER)/c-dtors.cpp \
-	$(FIELD_FOLDER)/players.cpp \
-	$(FIELD_FOLDER)/platforms.cpp \
+	$(GAME_FOLDER)/singleplayer.cpp \
+	$(ENGINE_FOLDER)/engine.cpp \
+	$(ENGINE_FOLDER)/c-dtors.cpp \
+	$(ENGINE_FOLDER)/players.cpp \
+	$(ENGINE_FOLDER)/platforms.cpp \
 	$(LIB_FOLDER)/logs.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

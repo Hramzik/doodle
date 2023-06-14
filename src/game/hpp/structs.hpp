@@ -15,6 +15,9 @@ typedef struct Game_Media {
     SDL_Texture** platform_textures;
     size_t        platform_textures_count;
 
+    SDL_Texture** background_textures;
+    size_t        background_textures_count;
+
 } Game_Media; const size_t GAME_MEDIA_SIZE = sizeof (Game_Media);
 
 
@@ -42,11 +45,26 @@ typedef struct Game_Conditions {
 
 typedef struct Game_Data {
 
-    int high_score = 0;
+    int       high_score;
     Game_mode game_mode;
+    double    camera_y;
 
 } Game_Data; const size_t GAME_DATA_SIZE = sizeof (Game_Data);
 
+
+typedef struct Game {
+
+    Game_Output output;
+
+    Game_Media media;
+
+    Game_Data data;
+
+    Game_Conditions conditions;
+
+    Game_Engine engine;
+
+} Game; const size_t GAME_SIZE = sizeof (Game);
 
 
 //--------------------------------------------------

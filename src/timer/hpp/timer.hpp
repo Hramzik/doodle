@@ -18,6 +18,7 @@
 typedef struct Timer {
 
     clock_t start_time;
+    size_t  frame_number;
 
 } Timer; const size_t TIMER_SIZE = sizeof (Timer);
 
@@ -33,6 +34,8 @@ size_t timer_get_total_delay_h  (Timer* timer);
 size_t timer_get_total_delay_m  (Timer* timer);
 size_t timer_get_total_delay_s  (Timer* timer);
 size_t timer_get_total_delay_ms (Timer* timer);
+
+Return_code timer_next_frame (Timer* timer);
 
 
 //--------------------------------------------------

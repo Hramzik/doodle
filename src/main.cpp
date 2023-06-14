@@ -9,6 +9,8 @@
 
 int main (void) {
 
+    srand ( (unsigned) time (nullptr));
+
     Game* game = create_game ();
 
 

@@ -109,12 +109,14 @@ Return_code game_media_ctor (Game_Media* media) {
     if (!media) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    media->doodler_textures  = (SDL_Texture**) calloc (DEFAULT_DOODLER_TEXTURES_COUNT,  sizeof (SDL_Texture*));
-    media->platform_textures = (SDL_Texture**) calloc (DEFAULT_PLATFORM_TEXTURES_COUNT, sizeof (SDL_Texture*));
+    media->doodler_textures    = (SDL_Texture**) calloc (DEFAULT_DOODLER_TEXTURES_COUNT,    sizeof (SDL_Texture*));
+    media->platform_textures   = (SDL_Texture**) calloc (DEFAULT_PLATFORM_TEXTURES_COUNT,   sizeof (SDL_Texture*));
+    media->background_textures = (SDL_Texture**) calloc (DEFAULT_BACKGROUND_TEXTURES_COUNT, sizeof (SDL_Texture*));
 
 
-    media->doodler_textures_count  = 0;
-    media->platform_textures_count = 0;
+    media->doodler_textures_count    = 0;
+    media->platform_textures_count   = 0;
+    media->background_textures_count = 0;
 
 
     return SUCCESS;
@@ -136,7 +138,13 @@ Return_code game_media_dtor (Game_Media* media) {
         SDL_DestroyTexture (media->platform_textures [i]);
     }
 
+    for (size_t i = 0; i < media->background_textures_count; i++) {
 
+        SDL_DestroyTexture (media->background_textures [i]);
+    }
+
+
+    free (media->background_textures);
     free (media->doodler_textures);
     free (media->platform_textures);
 
@@ -151,7 +159,8 @@ Return_code game_data_ctor (Game_Data* data) {
 
 
     data->high_score = 0;
-    data->game_mode = SINGLE_PLAYER;
+    data->game_mode  = SINGLE_PLAYER;
+    data->camera_y   = 0;
 
 
     return SUCCESS;
@@ -167,7 +176,7 @@ Game* create_game (void) {
     game_media_ctor      (&game->media);
     game_data_ctor       (&game->data);
     game_conditions_ctor (&game->conditions);
-    game_field_ctor      (&game->field);
+    game_engine_ctor      (&game->engine);
 
 
     return game;
@@ -181,7 +190,7 @@ Return_code game_dtor (Game* game) {
 
     game_output_dtor (&game->output);
     game_media_dtor  (&game->media);
-    game_field_dtor  (&game->field);
+    game_engine_dtor  (&game->engine);
 
 
     free (game);

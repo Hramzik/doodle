@@ -20,7 +20,8 @@ Timer* timer_ctor (void) {
     Timer* timer = (Timer*) calloc (TIMER_SIZE, 1);
 
 
-    timer->start_time = clock ();
+    timer->start_time   = clock ();
+    timer->frame_number = 0;
 
 
     return timer;
@@ -75,5 +76,17 @@ size_t timer_get_total_delay_ms  (Timer* timer) {
 
 
     return 1000 * (clock() - timer->start_time) / CLOCKS_PER_SEC;
+}
+
+
+Return_code timer_next_frame (Timer* timer) {
+
+    if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    timer->frame_number += 1;
+
+
+    return SUCCESS;
 }
 

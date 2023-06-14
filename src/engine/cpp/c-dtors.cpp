@@ -2,7 +2,7 @@
 
 //--------------------------------------------------
 
-#include "../hpp/field.hpp"
+#include "../hpp/engine.hpp"
 
 //--------------------------------------------------
 
@@ -63,26 +63,39 @@ Return_code platforms_dtor (Platforms* platforms) {
 }
 
 
-Return_code game_field_ctor (Game_Field* field) {
+Return_code engine_data_ctor (Engine_Data* data) {
 
-    if (!field) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (!data) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    players_ctor   (&field->players);
-    platforms_ctor (&field->platforms);
+    data->t = DEFAULT_UPDATE_TIME;
 
 
     return SUCCESS;
 }
 
 
-Return_code game_field_dtor (Game_Field* field) {
+Return_code game_engine_ctor (Game_Engine* engine) {
 
-    if (!field) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    players_dtor   (&field->players);
-    platforms_dtor (&field->platforms);
+    players_ctor     (&engine->players);
+    platforms_ctor   (&engine->platforms);
+    engine_data_ctor (&engine->data);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_engine_dtor (Game_Engine* engine) {
+
+    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    players_dtor   (&engine->players);
+    platforms_dtor (&engine->platforms);
 
 
     return SUCCESS;

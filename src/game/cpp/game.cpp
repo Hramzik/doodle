@@ -9,19 +9,6 @@
 //--------------------------------------------------
 
 
-Return_code game_load_media (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    game_load_doodler_textures  (game);
-    game_load_platform_textures (game);
-
-
-    return SUCCESS;
-}
-
-
 Return_code game_spawn_players (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -29,7 +16,7 @@ Return_code game_spawn_players (Game* game) {
 
     switch (game->data.game_mode) {
 
-        case SINGLE_PLAYER: game_spawn_player (game, DEFAULT_WINDOW_WIDTH / 2, DEFAULT_WINDOW_HEIGHT / 6, DEFAULT_PLAYER_SKIN); break;
+        case SINGLE_PLAYER: game_spawn_player (game, DEFAULT_WINDOW_WIDTH / 2, DEFAULT_WINDOW_HEIGHT * 3 / 6, DEFAULT_PLAYER_SKIN - 1); break;
         case DUO:
         default: break;
     }
@@ -45,10 +32,10 @@ Return_code game_spawn_player (Game* game, double x, double y, size_t skin) {
 
 
     Object_Motion player_motion = { .x = x, .y = y, .dx = 0, .dy = DEFAULT_PLAYER_DY, .ddx = 0, .ddy = DEFAULT_PLAYER_DDY };
-    Player player = { .motion = player_motion, .score = 0, .skin = skin };
+    Player player = { .motion = player_motion, .score = 0, .skin = skin, .platform_hit_ind = -1 };
 
 
-    players_push (&game->field.players, player);
+    players_push (&game->engine.players, player);
 
 
     return SUCCESS;
@@ -64,6 +51,9 @@ Return_code game_work (Game* game) {
     game_spawn_players (game);
 
 
+    Timer* timer = timer_ctor ();
+
+
     while(true) {
 
     //--------------------------------------------------
@@ -73,14 +63,15 @@ Return_code game_work (Game* game) {
     //--------------------------------------------------
 
 
-        // engine call
+        game_update      (game);
+        timer_next_frame (timer);
 
 
         SDL_RenderClear   (game->output.renderer);
         game_render       (game);
         SDL_RenderPresent (game->output.renderer);
 
-
+        //if (timer->frame_number % 2500 == 0) player_dump (&game->engine.players.buffer [0]);
         // timer
     }
 
@@ -92,19 +83,88 @@ Return_code game_work (Game* game) {
 }
 
 
-Return_code game_render (Game* game) {
+
+//--------------------------------------------------
+
+
+Return_code game_update (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < game->field.players.count; i++) {
+    game_spawn_objects (game);
 
-        game_render_player (game, &game->field.players.buffer [i]);
+
+    engine_check_collisions (&game->engine);
+
+
+    engine_move_objects (&game->engine);
+    game_mirror_players (game);
+    game_move_camera    (game);
+
+
+    //game_despawn_object (game);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_spawn_objects (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    //game_spawn_players   (game);
+    game_spawn_platforms (game);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_spawn_platforms (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    switch (game->data.game_mode) {
+
+        case SINGLE_PLAYER: game_spawn_platforms_singleplayer (game); break;
+        case DUO:
+        default: break;
     }
 
-    for (size_t i = 0; i < game->field.platforms.count; i++) {
 
-        game_render_platform (game, &game->field.platforms.buffer [i]);
+    return SUCCESS;
+}
+
+
+Return_code game_move_camera (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    double min_player_y = players_get_min_player_y (&game->engine.players);
+
+
+    if (game->data.camera_y + DEFAULT_WINDOW_HEIGHT / 2 < min_player_y) {
+
+        game->data.camera_y = min_player_y - DEFAULT_WINDOW_HEIGHT / 2;
+    }
+
+
+    return SUCCESS;
+}
+
+Return_code game_mirror_players (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    for (size_t i = 0; i < game->engine.players.count; i++) {
+
+        game_mirror_player (game, &game->engine.players.buffer [i]);
     }
 
 
@@ -112,46 +172,15 @@ Return_code game_render (Game* game) {
 }
 
 
-Return_code game_render_player (Game* game, Player* player) {
+Return_code game_mirror_player (Game* game, Player* player) {
 
-    if (!game)   { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    SDL_Texture* player_texture = game->media.doodler_textures [player->skin];
-    SDL_Rect dstrect;
-
-    dstrect.x = (int) player->motion.x - DOODLER_WIDTH / 2;
-    dstrect.y = DEFAULT_WINDOW_WIDTH - (int) player->motion.y - DOODLER_HEIGHT;
-    dstrect.w = DOODLER_WIDTH;
-    dstrect.h = DOODLER_HEIGHT;
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_RenderCopy (game->output.renderer, player_texture, nullptr, &dstrect);
+    while (player->motion.x < 0)                    player->motion.x += DEFAULT_WINDOW_WIDTH;
+    while (player->motion.x > DEFAULT_WINDOW_WIDTH) player->motion.x -= DEFAULT_WINDOW_WIDTH;
 
 
     return SUCCESS;
 }
-
-
-Return_code game_render_platform (Game* game, Platform* platform) {
-
-    if (!game)     { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!platform) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    SDL_Texture* platform_texture = game->media.platform_textures [0]; // TEMPORARY
-    SDL_Rect dstrect;
-
-    dstrect.x = (int) platform->motion.x - PLATFORM_WIDTH / 2;
-    dstrect.y = DEFAULT_WINDOW_WIDTH - (int) platform->motion.y - PLATFORM_HEIGHT;
-    dstrect.w = PLATFORM_WIDTH;
-    dstrect.h = PLATFORM_HEIGHT;
-
-    SDL_RenderCopy (game->output.renderer, platform_texture, nullptr, &dstrect);
-
-
-    return SUCCESS;
-}
-
 
