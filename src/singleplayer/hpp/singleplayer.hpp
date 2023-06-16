@@ -1,13 +1,12 @@
-#ifndef COMMON_ENGINE_HPP_INCLUDED
-#define COMMON_ENGINE_HPP_INCLUDED
+#ifndef SINGLEPLAYER_HPP_INCLUDED
+#define SINGLEPLAYER_HPP_INCLUDED
 //--------------------------------------------------
 
 
 #include "includes.hpp"
-#include "enums.hpp"
 #include "constants.hpp"
-#include "structs.hpp"
 #include "functions.hpp"
+#include "static_functions.hpp"
 
 
 //--------------------------------------------------

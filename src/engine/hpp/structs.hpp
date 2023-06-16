@@ -48,6 +48,8 @@ typedef struct Platform {
 
     Object_Motion motion;
 
+    Platform_type type;
+
 } Platform; const size_t PLATFORM_SIZE = sizeof (Platform);
 
 

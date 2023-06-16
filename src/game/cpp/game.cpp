@@ -16,7 +16,7 @@ Return_code game_spawn_players (Game* game) {
 
     switch (game->data.game_mode) {
 
-        case SINGLE_PLAYER: game_spawn_player (game, DEFAULT_WINDOW_WIDTH / 2, DEFAULT_WINDOW_HEIGHT * 3 / 6, DEFAULT_PLAYER_SKIN - 1); break;
+        case SINGLE_PLAYER: game_spawn_player_singleplayer (game); break;
         case DUO:
         default: break;
     }
@@ -47,10 +47,7 @@ Return_code game_work (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    game_load_media    (game);
-    game_spawn_players (game);
-
-
+    game_load_media (game);
     Timer* timer = timer_ctor ();
 
 
@@ -115,7 +112,7 @@ Return_code game_spawn_objects (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    //game_spawn_players   (game);
+    game_spawn_players   (game);
     game_spawn_platforms (game);
 
 
@@ -157,6 +154,7 @@ Return_code game_move_camera (Game* game) {
     return SUCCESS;
 }
 
+
 Return_code game_mirror_players (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -182,5 +180,11 @@ Return_code game_mirror_player (Game* game, Player* player) {
 
 
     return SUCCESS;
+}
+
+
+double random_scale (double input) {
+
+    return (double) rand () / RAND_MAX * input;
 }
 

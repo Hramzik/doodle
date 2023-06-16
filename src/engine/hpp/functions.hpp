@@ -51,7 +51,10 @@ Return_code engine_move_player  (Game_Engine* engine, Player* player);
 
 // motion
 
-Object_Motion static_motion (double x, double y);
+Object_Motion static_motion      (double x, double y);
+Object_Motion linear_motion      (double x, double y, double dx, double dy);
+Object_Motion linear_dynamics    (double dx, double dy);
+Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy);
 
 
 //--------------------------------------------------

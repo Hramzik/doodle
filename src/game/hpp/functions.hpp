@@ -1,5 +1,5 @@
-#ifndef SINGLEPLAYER_HPP_INCLUDED
-#define SINGLEPLAYER_HPP_INCLUDED
+#ifndef GAME_FUNCTIONS_HPP_INCLUDED
+#define GAME_FUNCTIONS_HPP_INCLUDED
 //--------------------------------------------------
 
 #include "game.hpp"
@@ -88,10 +88,9 @@ Return_code game_handle_d_up_singleplayer     (Game* game);
 
 //--------------------------------------------------
 
-// singleplayer
+// support functions
 
-Return_code game_spawn_platforms_singleplayer (Game* game);
-int         game_get_difficulty_singleplayer  (Game* game);
+double random_scale (void);
 
 
 //--------------------------------------------------

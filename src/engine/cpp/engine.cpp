@@ -24,6 +24,57 @@ Object_Motion static_motion (double x, double y) {
 }
 
 
+Object_Motion linear_motion (double x, double y, double dx, double dy) {
+
+    Object_Motion motion;
+
+    motion.x = x;
+    motion.y = y;
+
+    motion.dx  = dx;
+    motion.dy  = dy;
+    motion.ddx = 0;
+    motion.ddy = 0;
+
+
+    return motion;
+}
+
+
+Object_Motion linear_dynamics (double dx, double dy) {
+
+    Object_Motion motion;
+
+    motion.x = 0;
+    motion.y = 0;
+
+    motion.dx  = dx;
+    motion.dy  = dy;
+    motion.ddx = 0;
+    motion.ddy = 0;
+
+
+    return motion;
+}
+
+
+Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy) {
+
+    Object_Motion motion;
+
+    motion.x = 0;
+    motion.y = 0;
+
+    motion.dx  = dx;
+    motion.dy  = dy;
+    motion.ddx = ddx;
+    motion.ddy = ddy;
+
+
+    return motion;
+}
+
+
 Return_code engine_check_collisions (Game_Engine* engine) {
 
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }

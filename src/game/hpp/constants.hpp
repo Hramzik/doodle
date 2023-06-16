@@ -61,14 +61,8 @@ const double SMALL_HORIZONTAL_STEP = 1;
 const size_t DEFAULT_PLAYER_SKIN = 3;
 
 
-const int MAX_DIFFICULTY_0_SCORE = 1000;
-const int MAX_DIFFICULTY_1_SCORE = 2000;
-
 const size_t PLATFORM_TYPES_COUNT = 1;
 
-
-const double MIN_PLATFORM_GAP = 40;
-const double MAX_PLATFORM_GAP = 100;
 
 const double VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT = 0;
 
