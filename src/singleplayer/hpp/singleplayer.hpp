@@ -2,11 +2,10 @@
 #define SINGLEPLAYER_HPP_INCLUDED
 //--------------------------------------------------
 
-
 #include "includes.hpp"
 #include "constants.hpp"
 #include "functions.hpp"
-#include "static_functions.hpp"
+#include "global_functions.hpp"
 
 
 //--------------------------------------------------

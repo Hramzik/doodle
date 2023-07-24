@@ -16,7 +16,7 @@ Return_code game_spawn_players (Game* game) {
 
     switch (game->data.game_mode) {
 
-        case SINGLE_PLAYER: game_spawn_player_singleplayer (game); break;
+        case SINGLE_PLAYER: game_spawn_players_singleplayer (game); break;
         case DUO:
         default: break;
     }
@@ -26,16 +26,24 @@ Return_code game_spawn_players (Game* game) {
 }
 
 
-Return_code game_spawn_player (Game* game, double x, double y, size_t skin) {
+Return_code game_add_player (Game* game, Player player) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Object_Motion player_motion = { .x = x, .y = y, .dx = 0, .dy = DEFAULT_PLAYER_DY, .ddx = 0, .ddy = DEFAULT_PLAYER_DDY };
-    Player player = { .motion = player_motion, .score = 0, .skin = skin, .platform_hit_ind = -1 };
-
-
     players_push (&game->engine.players, player);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_add_platform (Game* game, Platform platform) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    platforms_push (&game->engine.platforms, platform);
 
 
     return SUCCESS;
@@ -68,12 +76,12 @@ Return_code game_work (Game* game) {
         game_render       (game);
         SDL_RenderPresent (game->output.renderer);
 
-        //if (timer->frame_number % 2500 == 0) player_dump (&game->engine.players.buffer [0]);
-        // timer
+        while (timer_get_frame_time_ms (timer) < 100);
+        if (timer->frame_number % 10 == 0) {timer_print_fps (timer); timer_print_last_frame_delay_ms (timer); }
     }
 
 
-    // timer dtor
+    timer_dtor (timer);
 
 
     return SUCCESS;
@@ -188,3 +196,10 @@ double random_scale (double input) {
     return (double) rand () / RAND_MAX * input;
 }
 
+/*
+Return_code check_global_constants (void) {
+
+    return SUCCESS;
+}
+
+*/

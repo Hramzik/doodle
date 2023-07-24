@@ -6,7 +6,8 @@
 #include "game.hpp"
 
 
-//------------------ settings ----------------------
+//--------------------------------------------------
+// settings
 
 
 const int DEFAULT_WINDOW_WIDTH  = 500; // int because of int field in SDL_rect
@@ -25,6 +26,8 @@ const size_t SIZE_T_SIZE = sizeof (size_t);
 const size_t CHAR_SIZE   = sizeof (char);
 
 //--------------------------------------------------
+// skins
+
 
 const size_t DOODLER_SKIN_PATHS_START_LINE = __LINE__;
 
@@ -51,20 +54,23 @@ const size_t BACKGROUND_SKIN_PATHS_START_LINE = __LINE__;
 
 const size_t DEFAULT_BACKGROUND_TEXTURES_COUNT = __LINE__ - BACKGROUND_SKIN_PATHS_START_LINE;
 
+
 //--------------------------------------------------
+// players
 
 
 const double BIG_HORIZONTAL_STEP   = 2;
 const double SMALL_HORIZONTAL_STEP = 1;
 
 
-const size_t DEFAULT_PLAYER_SKIN = 3;
+//--------------------------------------------------
+// platforms
 
 
 const size_t PLATFORM_TYPES_COUNT = 1;
 
-
 const double VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT = 0;
+
 
 //--------------------------------------------------
 #endif

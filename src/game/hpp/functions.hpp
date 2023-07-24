@@ -43,15 +43,16 @@ Return_code game_load_background_texture (Game* game, const char* path);
 
 // game
 
-Return_code game_spawn_players (Game* game);
-Return_code game_spawn_player  (Game* game, double x, double y, size_t skin);
+Return_code game_spawn_objects   (Game* game);
+Return_code game_spawn_players   (Game* game);
+Return_code game_spawn_platforms (Game* game);
+Return_code game_add_player      (Game* game, Player player);
+Return_code game_add_platform    (Game* game, Platform platform);
 
 Return_code game_work (Game* game);
 
-Return_code game_update (Game* game);
-Return_code game_spawn_objects (Game* game);
-Return_code game_spawn_platforms (Game* game);
-Return_code game_move_camera (Game* game);
+Return_code game_update         (Game* game);
+Return_code game_move_camera    (Game* game);
 Return_code game_mirror_players (Game* game);
 Return_code game_mirror_player  (Game* game, Player* player);
 
@@ -90,7 +91,7 @@ Return_code game_handle_d_up_singleplayer     (Game* game);
 
 // support functions
 
-double random_scale (void);
+double random_scale (double input);
 
 
 //--------------------------------------------------

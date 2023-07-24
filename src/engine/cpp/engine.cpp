@@ -209,7 +209,9 @@ Return_code player_move_collision (Player* player, Platform* platform, double t)
     motion->dx += motion->ddx * t;
     motion->dy += motion->ddy * t;
 
-    //printf ("debug: passed point moving collision!\n");
+
+    (void) platform; // cloud
+
 
     player->platform_hit_ind = -1;
 

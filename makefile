@@ -2,11 +2,12 @@
 
 cc = gcc
 
-MAIN_FOLDER   = src
-GAME_FOLDER   = src/game/cpp
-ENGINE_FOLDER = src/engine/cpp
-TIMER_FOLDER  = src/timer/cpp
-LIB_FOLDER    = src/lib
+MAIN_FOLDER         = src
+GAME_FOLDER         = src/game/cpp
+ENGINE_FOLDER       = src/engine/cpp
+SINGLEPLAYER_FOLDER = src/singleplayer/cpp
+TIMER_FOLDER        = src/timer/cpp
+LIB_FOLDER          = src/lib
 
 exefolder = exe
 
@@ -47,11 +48,12 @@ game:
 	$(GAME_FOLDER)/game_media.cpp \
 	$(GAME_FOLDER)/game.cpp \
 	$(GAME_FOLDER)/keyboard_input.cpp \
-	$(GAME_FOLDER)/singleplayer.cpp \
 	$(ENGINE_FOLDER)/engine.cpp \
 	$(ENGINE_FOLDER)/c-dtors.cpp \
 	$(ENGINE_FOLDER)/players.cpp \
 	$(ENGINE_FOLDER)/platforms.cpp \
+	$(SINGLEPLAYER_FOLDER)/singleplayer.cpp \
+	$(SINGLEPLAYER_FOLDER)/difficulty_0.cpp \
 	$(LIB_FOLDER)/logs.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

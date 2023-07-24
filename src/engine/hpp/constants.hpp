@@ -17,8 +17,7 @@ const size_t MAX_PLATFORMS_COUNT = 10000;
 
 
 const double DEFAULT_UPDATE_TIME = 0.1;
-const double DEFAULT_PLAYER_DY   = 2.2;
-const double DEFAULT_PLAYER_DDY  = -0.007;
+
 
 const double PLAYER_DY_AFTER_COLLISION = 1.75;
 

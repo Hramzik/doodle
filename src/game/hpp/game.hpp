@@ -4,7 +4,6 @@
 
 
 #include "../../engine/hpp/engine.hpp"
-
 #include "../../timer/hpp/timer.hpp"
 
 
@@ -29,6 +28,7 @@
 #include "constants.hpp"
 #include "structs.hpp"
 #include "functions.hpp"
+#include "../../singleplayer/hpp/global_functions.hpp"
 
 
 //--------------------------------------------------
