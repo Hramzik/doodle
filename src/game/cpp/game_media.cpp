@@ -195,6 +195,7 @@ Return_code game_load_platform_textures (Game* game) {
 
 
     LOAD_PLATFORM (PLATFORM_SKIN1_PATH);
+    LOAD_PLATFORM (PLATFORM_SKIN2_PATH);
 
 
     return SUCCESS;

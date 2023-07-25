@@ -61,10 +61,10 @@ Return_code game_render_player (Game* game, Player* player) {
     SDL_Texture* player_texture = game->media.doodler_textures [player->skin];
     SDL_Rect dstrect;
 
-    dstrect.x = (int) player->motion.x - DOODLER_WIDTH / 2;
-    dstrect.y = (int) game->data.camera_y + DEFAULT_WINDOW_HEIGHT - (int) player->motion.y - DOODLER_HEIGHT;
-    dstrect.w = DOODLER_WIDTH;
-    dstrect.h = DOODLER_HEIGHT;
+    dstrect.x = (int) player->motion.x - DOODLER_TEXTURE_WIDTH / 2;
+    dstrect.y = (int) game->data.camera_y + DEFAULT_WINDOW_HEIGHT - (int) player->motion.y - DOODLER_TEXTURE_HEIGHT;
+    dstrect.w = DOODLER_TEXTURE_WIDTH;
+    dstrect.h = DOODLER_TEXTURE_HEIGHT;
 
 
     SDL_RenderCopy (game->output.renderer, player_texture, nullptr, &dstrect);
@@ -81,6 +81,9 @@ Return_code game_render_platform (Game* game, Platform* platform) {
 
 
     SDL_Texture* platform_texture = game->media.platform_textures [0]; // TEMPORARY
+    if (platform->type == PT_CLOUD) platform_texture = game->media.platform_textures [1];
+
+
     SDL_Rect dstrect;
 
     dstrect.x = (int) platform->motion.x - PLATFORM_WIDTH / 2;

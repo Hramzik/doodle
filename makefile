@@ -53,7 +53,7 @@ game:
 	$(ENGINE_FOLDER)/players.cpp \
 	$(ENGINE_FOLDER)/platforms.cpp \
 	$(SINGLEPLAYER_FOLDER)/singleplayer.cpp \
-	$(SINGLEPLAYER_FOLDER)/difficulty_0.cpp \
+	$(SINGLEPLAYER_FOLDER)/c-dtors.cpp \
 	$(LIB_FOLDER)/logs.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

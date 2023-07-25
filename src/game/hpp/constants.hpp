@@ -10,7 +10,7 @@
 // settings
 
 
-const int DEFAULT_WINDOW_WIDTH  = 500; // int because of int field in SDL_rect
+const int DEFAULT_WINDOW_WIDTH  = 600; // int because of int field in SDL_rect
 const int DEFAULT_WINDOW_HEIGHT = 800;
 
 const size_t PICTURE_GENERATIONS_COUNT = 1;
@@ -29,6 +29,10 @@ const size_t CHAR_SIZE   = sizeof (char);
 // skins
 
 
+const int DOODLER_TEXTURE_WIDTH  = 92; // int because of int in SDL_Rect
+const int DOODLER_TEXTURE_HEIGHT = 67;
+
+
 const size_t DOODLER_SKIN_PATHS_START_LINE = __LINE__;
 
 #define DOODLER_SKIN1_PATH  "media/doodler1.png"
@@ -42,6 +46,7 @@ const size_t DEFAULT_DOODLER_TEXTURES_COUNT = __LINE__ - DOODLER_SKIN_PATHS_STAR
 const size_t PLATFORM_SKIN_PATHS_START_LINE = __LINE__;
 
 #define PLATFORM_SKIN1_PATH "media/platform1.png"
+#define PLATFORM_SKIN2_PATH "media/platform2.png"
 
 const size_t DEFAULT_PLATFORM_TEXTURES_COUNT = __LINE__ - PLATFORM_SKIN_PATHS_START_LINE;
 

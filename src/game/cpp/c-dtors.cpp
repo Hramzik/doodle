@@ -162,6 +162,8 @@ Return_code game_data_ctor (Game_Data* data) {
     data->game_mode  = SINGLE_PLAYER;
     data->camera_y   = 0;
 
+    singleplayer_data_ctor (&data->singleplayer);
+
 
     return SUCCESS;
 }

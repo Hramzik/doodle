@@ -4,6 +4,7 @@
 
 #include "includes.hpp"
 #include "constants.hpp"
+#include "structs.hpp"
 #include "functions.hpp"
 #include "global_functions.hpp"
 

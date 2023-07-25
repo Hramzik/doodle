@@ -24,7 +24,7 @@ typedef struct Player {
 
     Object_Motion motion;
 
-    int   score;
+    double score;
     size_t skin;
 
     int platform_hit_ind;
@@ -59,8 +59,8 @@ typedef struct Platforms {
 
     size_t count;
 
-    int min_y;
-    int max_y;
+    double min_y;
+    double max_y;
 
 } Platforms; const size_t PLATFORMS_SIZE = sizeof (Platforms);
 

@@ -3,6 +3,7 @@
 //--------------------------------------------------
 
 #include "../hpp/engine.hpp"
+#include "../hpp/dsl_on.hpp"
 
 //--------------------------------------------------
 
@@ -118,14 +119,16 @@ Return_code engine_check_player_platform_collision (Game_Engine* engine, Player*
     Platform* platform = &engine->platforms.buffer [platform_ind];
 
 
-    if (player  ->motion.x + DOODLER_WIDTH  / 2 < platform->motion.x - PLATFORM_WIDTH / 2 ||
-        platform->motion.x + PLATFORM_WIDTH / 2 < player  ->motion.x - DOODLER_WIDTH  / 2) return SUCCESS;
+    if (PLAYER_X   + DOODLER_HITBOX_RIGHT_WIDTH / 2 < PLATFORM_X - PLATFORM_WIDTH            / 2 ||
+        PLATFORM_X + PLATFORM_WIDTH             / 2 < PLAYER_X   - DOODLER_HITBOX_LEFT_WIDTH / 2) return SUCCESS;
 
-    if (player->motion.y < platform->motion.y ||
-        player->motion.y > platform->motion.y + PLATFORM_HEIGHT) return SUCCESS;
+    if (PLAYER_Y < PLATFORM_Y ||
+        PLAYER_Y > PLATFORM_Y + PLATFORM_HEIGHT) return SUCCESS;
 
 
-    //printf ("debug: passed point COLLISION REGISTERED!\n");
+    if (platform->type == PT_FAKE) return fake_platform_destroyed (engine, platform);
+
+
     player->platform_hit_ind = (int) platform_ind;
 
 
@@ -218,5 +221,4 @@ Return_code player_move_collision (Player* player, Platform* platform, double t)
 
     return SUCCESS;
 }
-
 

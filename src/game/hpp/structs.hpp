@@ -6,6 +6,13 @@
 
 //--------------------------------------------------
 
+// extern structs
+
+#include "../../singleplayer/hpp/structs.hpp"
+
+
+//--------------------------------------------------
+
 
 typedef struct Game_Media {
 
@@ -48,6 +55,8 @@ typedef struct Game_Data {
     int       high_score;
     Game_mode game_mode;
     double    camera_y;
+
+    Singleplayer_Data singleplayer;
 
 } Game_Data; const size_t GAME_DATA_SIZE = sizeof (Game_Data);
 

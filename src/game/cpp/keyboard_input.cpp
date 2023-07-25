@@ -88,6 +88,7 @@ Return_code game_handle_keyup_singleplayer (Game* game, SDL_Event event) {
         case SDLK_RIGHT: game_handle_right_up_singleplayer (game); break;
         case SDLK_a:     game_handle_a_up_singleplayer     (game); break;
         case SDLK_d:     game_handle_d_up_singleplayer     (game); break;
+        case SDLK_KP_0:  game_teleport_up_singleplayer     (game); break;
 
         default: break;
     }
@@ -221,4 +222,5 @@ Return_code game_handle_d_up_singleplayer (Game* game) {
     return SUCCESS;
 }
 
-//--------------------------------------------------
+
+

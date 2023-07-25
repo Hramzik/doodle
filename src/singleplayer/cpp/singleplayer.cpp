@@ -45,7 +45,7 @@ Return_code game_spawn_platforms_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    int difficulty = game_get_difficulty_singleplayer (game);
+    Difficulty difficulty = game_get_difficulty_singleplayer (game);
 
 
     while (game->engine.platforms.max_y < game->data.camera_y + DEFAULT_WINDOW_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
@@ -59,53 +59,68 @@ Return_code game_spawn_platforms_singleplayer (Game* game) {
 }
 
 
-int game_get_difficulty_singleplayer (Game* game) {
+//--------------------------------------------------
+#define DATA game->data.singleplayer
 
-    if (!game) { LOG_ERROR (BAD_ARGS); return 0; }
+Difficulty game_get_difficulty_singleplayer (Game* game) {
 
-
-    int score = game->engine.players.buffer [0].score;
-
-    if (score < MAX_DIFFICULTY_0_SCORE) return 0;
-    if (score < MAX_DIFFICULTY_1_SCORE) return 1;
+    if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
 
 
-    return 2;
+    double score = game->engine.players.buffer [0].score;
+
+    for (size_t i = 0; i < DATA.num_difficulties; i++) {
+
+        if (score < DATA.difficulties [i].max_score) return DATA.difficulties [i];
+    }
+
+
+    return DATA.difficulties [DATA.num_difficulties - 1];
+}
+
+#undef DATA
+//--------------------------------------------------
+
+
+Platform_type generate_platform_type (Difficulty difficulty) {
+
+    double outcome              = random_scale (1);
+    double prev_platform_border = 0;
+
+    if (outcome < difficulty.default_platform_chance + prev_platform_border) return PT_DEFAULT;
+    prev_platform_border += difficulty.default_platform_chance;
+
+    if (outcome < difficulty.fake_platform_chance + prev_platform_border) return PT_FAKE;
+    prev_platform_border += difficulty.fake_platform_chance;
+
+    if (outcome < difficulty.moving_platform_chance + prev_platform_border) return PT_MOVING;
+    prev_platform_border += difficulty.moving_platform_chance;
+
+    if (outcome < difficulty.cloud_platform_chance + prev_platform_border) return PT_CLOUD;
+    prev_platform_border += difficulty.cloud_platform_chance;
+
+
+    return PT_DEFAULT;
 }
 
 
-Return_code spawn_platform (Game* game, int difficulty, Platform_type type) {
+Return_code spawn_platform (Game* game, Difficulty difficulty, Platform_type type) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    switch (difficulty) {
+    switch (type) {
 
-        case 0: return spawn_platform_difficulty_0 (game, type);
-        case 1: //return spawn_platform_difficulty_1 (game, type);
-        case 2: //return spawn_platform_difficulty_2 (game, type);
+        case PT_DEFAULT: return spawn_default_platform (game, difficulty);
+        case PT_MOVING:  return spawn_moving_platform  (game, difficulty);
+        case PT_CLOUD:   return spawn_cloud_platform   (game, difficulty);
+        case PT_FAKE:    return spawn_fake_platform    (game, difficulty);
 
-        default: LOG_ERROR (CRITICAL); return CRITICAL;
+        default: CODE_CRITICAL;
     }
 
 
     return SUCCESS;
-}
-
-
-Platform_type generate_platform_type (int difficulty) {
-
-    switch (difficulty) {
-
-        case 0: return generate_platform_type_difficuly_0 ();
-        case 1: //return generate_platform_type_difficuly_1 ();
-        case 2: //return generate_platform_type_difficuly_2 ();
-
-        default: LOG_ERROR (BAD_ARGS); return PT_DEFAULT;
-    }
-
-
-    return PT_DEFAULT;
 }
 
 
@@ -141,6 +156,80 @@ Return_code spawn_static_platform (Game* game, double min_gap, double max_gap, P
 
     return SUCCESS;
 }
+
+
+Return_code spawn_default_platform (Game* game, Difficulty difficulty) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_DEFAULT);
+
+
+    return SUCCESS;
+}
+
+
+Return_code spawn_fake_platform (Game* game, Difficulty difficulty) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_FAKE);
+
+
+    return SUCCESS;
+}
+
+
+Return_code spawn_moving_platform (Game* game, Difficulty difficulty) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_MOVING);
+
+
+    return SUCCESS;
+}
+
+
+Return_code spawn_cloud_platform (Game* game, Difficulty difficulty) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_CLOUD);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_distance) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    game->engine.players.buffer [0].score += camera_distance * CAMERA_Y_SCORE_COEFFICIENT;
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_teleport_up_singleplayer (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    game->engine.players.buffer [0].motion.x = DEFAULT_WINDOW_WIDTH / 2;
+    game->engine.players.buffer [0].motion.y = game->data.camera_y + DEFAULT_WINDOW_HEIGHT * 3 / 7;
+
+
+    return SUCCESS;
+}
+
 
 /*
 Platform generate_default_platform (Game* game, double min_gap, double max_gap) {

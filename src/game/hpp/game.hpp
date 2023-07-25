@@ -18,17 +18,11 @@
 //--------------------------------------------------
 
 
-#include "toggle_dsl.hpp"
-
-
-//--------------------------------------------------
-
-
+#include "defines.hpp"
 #include "enums.hpp"
 #include "constants.hpp"
 #include "structs.hpp"
 #include "functions.hpp"
-#include "../../singleplayer/hpp/global_functions.hpp"
 
 
 //--------------------------------------------------

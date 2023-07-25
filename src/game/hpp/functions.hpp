@@ -56,6 +56,8 @@ Return_code game_move_camera    (Game* game);
 Return_code game_mirror_players (Game* game);
 Return_code game_mirror_player  (Game* game, Player* player);
 
+Return_code game_update_scores_camera_y (Game* game, double camera_disance);
+
 
 //--------------------------------------------------
 
@@ -92,6 +94,12 @@ Return_code game_handle_d_up_singleplayer     (Game* game);
 // support functions
 
 double random_scale (double input);
+
+//--------------------------------------------------
+
+// extern functions
+
+#include "../../singleplayer/hpp/global_functions.hpp"
 
 
 //--------------------------------------------------

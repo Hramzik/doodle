@@ -68,16 +68,19 @@ Return_code game_work (Game* game) {
     //--------------------------------------------------
 
 
-        game_update      (game);
-        timer_next_frame (timer);
+        game_update (game);
 
 
         SDL_RenderClear   (game->output.renderer);
         game_render       (game);
         SDL_RenderPresent (game->output.renderer);
 
-        while (timer_get_frame_time_ms (timer) < 100);
-        if (timer->frame_number % 10 == 0) {timer_print_fps (timer); timer_print_last_frame_delay_ms (timer); }
+        while (timer_get_frame_time_ms (timer) < 1);
+        timer_next_frame (timer);
+
+
+        game->engine.data.t = DEFAULT_UPDATE_TIME * 4.5 * timer_get_last_frame_delay_ms (timer);
+        if ((size_t) timer_get_total_delay_ms (timer) % 4000 == 0) {printf ("score: %lf\n", game->engine.players.buffer [0].score); }
     }
 
 
@@ -150,12 +153,32 @@ Return_code game_move_camera (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
+    double old_camera_y = game->data.camera_y;
     double min_player_y = players_get_min_player_y (&game->engine.players);
 
 
     if (game->data.camera_y + DEFAULT_WINDOW_HEIGHT / 2 < min_player_y) {
 
         game->data.camera_y = min_player_y - DEFAULT_WINDOW_HEIGHT / 2;
+
+        game_update_scores_camera_y (game, game->data.camera_y - old_camera_y);
+    }
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_update_scores_camera_y (Game* game, double camera_disance) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    switch (game->data.game_mode) {
+
+        case SINGLE_PLAYER: game_update_scores_camera_y_singleplayer (game, camera_disance); break;
+        case DUO:
+        default: CODE_CRITICAL;
     }
 
 
