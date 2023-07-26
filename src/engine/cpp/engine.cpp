@@ -78,24 +78,34 @@ Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy) 
 
 Platform* engine_check_player_collisions (Game_Engine* engine, Player* player) {
 
-    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (!engine) { LOG_ERROR (BAD_ARGS); return nullptr; }
+    if (!player) { LOG_ERROR (BAD_ARGS); return nullptr; }
 
 
-    if (player->motion.dy > 0) return SUCCESS; // летит вверх
+    if (player->motion.dy >= 0) return nullptr;
 
 
-    for (size_t i = 0; i < engine->platforms.count; i++) {
+    for (Node* node = engine->platforms.list.first; node; node = node->next) {
 
-        engine_check_player_platform_collision (engine, player, i);
+        Platform* platform = node_get_platform (node);
+
+
+        if (!check_player_platform_collision (*player, *platform)) continue;
+
+
+        if (platform->type == PT_FAKE)  { platform->dead = true; continue; }
+        if (platform->type == PT_CLOUD)   platform->dead = true;
+
+
+        return platform;
     }
 
 
-    return SUCCESS;
+    return nullptr;
 }
 
 
-bool check_player_platform_collision (Player* player, Platform* platform) {
+bool check_player_platform_collision (Player player, Platform platform) {
 
     if (PLAYER_X   + DOODLER_HITBOX_RIGHT_WIDTH / 2 < PLATFORM_X - PLATFORM_WIDTH            / 2 ||
         PLATFORM_X + PLATFORM_WIDTH             / 2 < PLAYER_X   - DOODLER_HITBOX_LEFT_WIDTH / 2) return false;
@@ -126,7 +136,7 @@ Return_code engine_move_players (Game_Engine* engine) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < engine->players.count; i++) {
+    for (size_t i = 0; i < engine->players.list.len; i++) {
 
         engine_move_player (engine, list_get_player (engine->players.list, i));
     }
@@ -141,33 +151,17 @@ Return_code engine_move_player (Game_Engine* engine, Player* player) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    bool      collision_flag = false;
-    Platform* cur_platform   = nullptr;
-    Platform* hit_platform   = nullptr;
-
-    for (size_t i = 0; i < engine->platforms.count; i++) {
-
-        cur_platform = &engine->platforms.buffer [i];
-        collision_flag = engine_check_player_platform_collision (player, cur_platform);
-
-        if (!collision_flag) continue;
+    Platform* platform = engine_check_player_collisions (engine, player);
 
 
-        if (cur_platform->type == PT_FAKE) { engine_destroy_fake_platform (engine, cur_platform); continue; }
-
-
-        hit_platform = cur_platform;
-    }
-
-
-    if (player->platform_hit_ind == -1) {
+    if (!platform) {
 
         player_move_no_collision (player, engine->data.t);
         return SUCCESS;
     }
 
 
-    player_move_collision (player, &engine->platforms.buffer [player->platform_hit_ind], engine->data.t);
+    player_move_collision (player, platform, engine->data.t);
 
 
     return SUCCESS;
@@ -204,10 +198,7 @@ Return_code player_move_collision (Player* player, Platform* platform, double t)
     motion->dy += motion->ddy * t;
 
 
-    (void) platform; // cloud
-
-
-    player->platform_hit_ind = -1;
+    (void) platform; // было для cloud, теперь хз
 
 
     return SUCCESS;

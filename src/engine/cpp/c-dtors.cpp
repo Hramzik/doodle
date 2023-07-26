@@ -12,10 +12,7 @@ Return_code players_ctor (Players* players) {
     if (!players) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    players->buffer  = (Player*) calloc (MAX_PLAYERS_COUNT, PLAYER_SIZE);
-
-
-    players->count = 0;
+    list_ctor (&players->list, LET_PLAYER);
 
 
     return SUCCESS;
@@ -27,7 +24,7 @@ Return_code players_dtor (Players* players) {
     if (!players) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    free (players->buffer);
+    list_dtor (&players->list);
 
 
     return SUCCESS;
@@ -39,10 +36,9 @@ Return_code platforms_ctor (Platforms* platforms) {
     if (!platforms) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    platforms->list = list_ctor (LET_PLATFORM);
+    list_ctor (&platforms->list, LET_PLATFORM);
 
 
-    platforms->count = 0;
     platforms->max_y = 0;
     platforms->min_y = 0;
 
@@ -56,7 +52,7 @@ Return_code platforms_dtor (Platforms* platforms) {
     if (!platforms) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    list_dtor (platforms->list);
+    list_dtor (&platforms->list);
 
 
     return SUCCESS;

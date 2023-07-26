@@ -46,8 +46,10 @@ Return_code game_load_background_texture (Game* game, const char* path);
 Return_code game_spawn_objects   (Game* game);
 Return_code game_spawn_players   (Game* game);
 Return_code game_spawn_platforms (Game* game);
-Return_code game_add_player      (Game* game, Player player);
-Return_code game_add_platform    (Game* game, Platform platform);
+Return_code game_add_player   (Game* game, Player player);
+Return_code game_add_platform (Game* game, Platform platform);
+Return_code game_despawn_objects   (Game* game);
+Return_code game_despawn_platforms (Game* game);
 
 Return_code game_work (Game* game);
 
@@ -63,9 +65,9 @@ Return_code game_update_scores_camera_y (Game* game, double camera_disance);
 
 // render
 
-Return_code game_render (Game* game);
-Return_code game_render_players   (Game* game);
-Return_code game_render_platforms (Game* game);
+Return_code game_render            (Game* game);
+Return_code game_render_players    (Game* game);
+Return_code game_render_platforms  (Game* game);
 Return_code game_render_player     (Game* game, Player* player);
 Return_code game_render_platform   (Game* game, Platform* platform);
 Return_code game_render_background (Game* game);

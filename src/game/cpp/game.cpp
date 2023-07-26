@@ -31,7 +31,7 @@ Return_code game_add_player (Game* game, Player player) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    players_push (&game->engine.players, player);
+    list_push_back (&game->engine.players.list, player);
 
 
     return SUCCESS;
@@ -43,7 +43,7 @@ Return_code game_add_platform (Game* game, Platform platform) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    platforms_push (&game->engine.platforms, platform);
+    list_push_back (&game->engine.platforms.list, platform);
 
 
     return SUCCESS;
@@ -112,7 +112,7 @@ Return_code game_update (Game* game) {
     game_move_camera    (game);
 
 
-    //game_despawn_object (game);
+    game_despawn_objects (game);
 
 
     return SUCCESS;
@@ -142,6 +142,41 @@ Return_code game_spawn_platforms (Game* game) {
         case SINGLE_PLAYER: game_spawn_platforms_singleplayer (game); break;
         case DUO:
         default: break;
+    }
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_despawn_objects (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    //game_spawn_players   (game);
+    game_despawn_platforms (game);
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_despawn_platforms (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    List* list = &game->engine.platforms.list;
+
+    for (Node* node = list->first; node; ) {
+
+        Node* next_node = node->next;
+
+        if (node_get_platform (node)->dead) list_delete (list, node);
+
+
+        node = next_node;
     }
 
 
@@ -192,7 +227,7 @@ Return_code game_mirror_players (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < game->engine.players.count; i++) {
+    for (size_t i = 0; i < game->engine.players.list.len; i++) {
 
         game_mirror_player (game, list_get_player (game->engine.players.list, i));
     }

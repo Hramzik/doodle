@@ -27,7 +27,7 @@ Return_code game_render_players (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
-    for (size_t i = 0; i < game->engine.players.count; i++) {
+    for (size_t i = 0; i < game->engine.players.list.len; i++) {
 
         game_render_player (game, list_get_player (game->engine.players.list, i));
     }
@@ -42,9 +42,9 @@ Return_code game_render_platforms (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < game->engine.platforms.count; i++) {
+    for (size_t i = 0; i < game->engine.platforms.list.len; i++) {
 
-        game_render_platform (game, &game->engine.platforms.buffer [i]);
+        game_render_platform (game, list_get_platform (game->engine.platforms.list, i));
     }
 
 
@@ -81,7 +81,8 @@ Return_code game_render_platform (Game* game, Platform* platform) {
 
 
     SDL_Texture* platform_texture = game->media.platform_textures [0]; // TEMPORARY
-    if (platform->type == PT_CLOUD) platform_texture = game->media.platform_textures [1];
+    if (platform->type == PT_FAKE)  platform_texture = game->media.platform_textures [1];
+    if (platform->type == PT_CLOUD) platform_texture = game->media.platform_textures [2];
 
 
     SDL_Rect dstrect;

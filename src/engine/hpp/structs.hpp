@@ -3,7 +3,7 @@
 //--------------------------------------------------
 
 
-#include "engine.hpp"
+#include "enums.hpp"
 
 
 //--------------------------------------------------
@@ -36,14 +36,6 @@ typedef struct Player {
 } Player; const size_t PLAYER_SIZE = sizeof (Player);
 
 
-typedef struct Players {
-
-    List list;
-
-    size_t count;
-
-} Players; const size_t PLAYERS_SIZE = sizeof (Players);
-
 
 //--------------------------------------------------
 
@@ -54,19 +46,9 @@ typedef struct Platform {
 
     Platform_type type;
 
+    bool dead;
+
 } Platform; const size_t PLATFORM_SIZE = sizeof (Platform);
-
-
-typedef struct Platforms {
-
-    List list;
-
-    size_t count;
-
-    double min_y;
-    double max_y;
-
-} Platforms; const size_t PLATFORMS_SIZE = sizeof (Platforms);
 
 
 //--------------------------------------------------
@@ -77,18 +59,6 @@ typedef struct Engine_Data {
     double t; // for updating
 
 } Engine_Data; const size_t ENGINE_DATA_SIZE = sizeof (Engine_Data);
-
-
-
-typedef struct Game_Engine {
-
-    Players players;
-
-    Platforms platforms;
-
-    Engine_Data data;
-
-} Game_Engine; const size_t GAME_ENGINE_SIZE = sizeof (Game_Engine);
 
 
 //--------------------------------------------------

@@ -45,8 +45,9 @@ const size_t DEFAULT_DOODLER_TEXTURES_COUNT = __LINE__ - DOODLER_SKIN_PATHS_STAR
 
 const size_t PLATFORM_SKIN_PATHS_START_LINE = __LINE__;
 
-#define PLATFORM_SKIN1_PATH "media/platform1.png"
-#define PLATFORM_SKIN2_PATH "media/platform2.png"
+#define PLATFORM_SKIN1_PATH "media/platform.png"
+#define PLATFORM_SKIN2_PATH "media/platform_fake.png"
+#define PLATFORM_SKIN3_PATH "media/platform_cloud.png"
 
 const size_t DEFAULT_PLATFORM_TEXTURES_COUNT = __LINE__ - PLATFORM_SKIN_PATHS_START_LINE;
 

@@ -12,7 +12,6 @@
 
 Return_code players_ctor (Players* players);
 Return_code players_dtor (Players* players);
-Return_code players_push (Players* players, Player player);
 Return_code player_dump  (Player* player);
 
 Return_code player_move_no_collision (Player* player, double t);
@@ -26,7 +25,6 @@ double players_get_min_player_y (Players* players);
 // platforms
 
 Return_code platforms_ctor (Platforms* platforms);
-Return_code platforms_push (Platforms* platforms, Platform platform);
 Return_code platforms_dtor (Platforms* platforms);
 
 
@@ -38,9 +36,9 @@ Return_code game_engine_ctor (Game_Engine* engine);
 Return_code engine_data_ctor (Engine_Data* data);
 Return_code game_engine_dtor (Game_Engine* engine);
 
-Return_code engine_check_collisions                (Game_Engine* engine);
-Return_code engine_check_player_collisions         (Game_Engine* engine, Player* player);
-Return_code engine_check_player_platform_collision (Game_Engine* engine, Player* player, size_t platform_ind);
+Return_code engine_check_collisions         (Game_Engine* engine);
+Platform*   engine_check_player_collisions  (Game_Engine* engine, Player* player);
+bool        check_player_platform_collision (Player player, Platform platform);
 
 Return_code engine_move_objects (Game_Engine* engine);
 Return_code engine_move_players (Game_Engine* engine);

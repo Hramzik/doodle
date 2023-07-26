@@ -38,11 +38,11 @@ char*       tm_to_str              (struct tm* time_structure);
 //--------------------------------------------------
 
 
-#define CODE_CRITICAL   LOG_ERROR (CRITICAL);   return CRITICAL;
-#define CODE_FILE_ERR   LOG_ERROR (FILE_ERR);   return FILE_ERR;
-#define CODE_MEMORY_ERR LOG_ERROR (MEMORY_ERR); return MEMORY_ERR;
-#define CODE_BAD_ARGS   LOG_ERROR (BAD_ARGS);   return BAD_ARGS;
-#define CODE_LIB_ERR    LOG_ERROR (LIB_ERR);    return LIB_ERR;
+#define CODE_CRITICAL   { LOG_ERROR (CRITICAL);   return CRITICAL;   }
+#define CODE_FILE_ERR   { LOG_ERROR (FILE_ERR);   return FILE_ERR;   }
+#define CODE_MEMORY_ERR { LOG_ERROR (MEMORY_ERR); return MEMORY_ERR; }
+#define CODE_BAD_ARGS   { LOG_ERROR (BAD_ARGS);   return BAD_ARGS;   }
+#define CODE_LIB_ERR    { LOG_ERROR (LIB_ERR);    return LIB_ERR;    }
 
 
 //--------------------------------------------------

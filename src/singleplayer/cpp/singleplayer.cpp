@@ -12,7 +12,7 @@ Return_code game_spawn_players_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (game->engine.players.count >= 1) return SUCCESS;
+    if (game->engine.players.list.len >= 1) return SUCCESS;
 
 
     Player player = generate_default_player (game);
@@ -33,7 +33,7 @@ Player generate_default_player (Game* game) {
                                     .ddx = DEFAULT_PLAYER_DDX, .ddy = DEFAULT_PLAYER_DDY };
 
     Player player = { .motion = player_motion, .score = DEFAULT_PLAYER_SCORE,
-                      .skin = DEFAULT_PLAYER_SKIN - 1, .platform_hit_ind = -1 };
+                      .skin = DEFAULT_PLAYER_SKIN - 1 };
 
 
     return player;
@@ -137,7 +137,7 @@ Platform generate_static_platform (Game* game, double min_gap, double max_gap, P
 
 
     Object_Motion motion   = static_motion (x, y);
-    Platform      platform = { .motion = motion, .type = type };
+    Platform      platform = { .motion = motion, .type = type, .dead = false };
 
 
     return platform;
@@ -273,7 +273,6 @@ Platform spawn_moving_platform (Game* game, double min_gap, double max_gap, Obje
 
     Object_Motion motion = static_motion (x, y);
     Platform platform = { .motion = motion, .type = PT_MOVING };
-    platforms_push (&game->engine.platforms, platform);
 
 
     game->engine.platforms.max_y = (int) y;
