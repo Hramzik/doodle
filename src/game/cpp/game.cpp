@@ -75,12 +75,16 @@ Return_code game_work (Game* game) {
         game_render       (game);
         SDL_RenderPresent (game->output.renderer);
 
-        while (timer_get_frame_time_ms (timer) < 1);
         timer_next_frame (timer);
 
 
         game->engine.data.t = DEFAULT_UPDATE_TIME * 4.5 * timer_get_last_frame_delay_ms (timer);
-        if ((size_t) timer_get_total_delay_ms (timer) % 4000 == 0) {printf ("score: %lf\n", game->engine.players.buffer [0].score); }
+
+
+        if ((size_t) timer_get_total_delay_ms (timer) % 4000 == 0) {
+
+            printf ("score: %lf\n", list_get_player (game->engine.players.list, 0)->score);
+        }
     }
 
 
@@ -101,9 +105,6 @@ Return_code game_update (Game* game) {
 
 
     game_spawn_objects (game);
-
-
-    engine_check_collisions (&game->engine);
 
 
     engine_move_objects (&game->engine);
@@ -193,7 +194,7 @@ Return_code game_mirror_players (Game* game) {
 
     for (size_t i = 0; i < game->engine.players.count; i++) {
 
-        game_mirror_player (game, &game->engine.players.buffer [i]);
+        game_mirror_player (game, list_get_player (game->engine.players.list, i));
     }
 
 

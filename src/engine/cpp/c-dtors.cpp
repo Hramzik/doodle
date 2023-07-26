@@ -39,7 +39,7 @@ Return_code platforms_ctor (Platforms* platforms) {
     if (!platforms) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    platforms->buffer  = (Platform*) calloc (MAX_PLATFORMS_COUNT, PLATFORM_SIZE);
+    platforms->list = list_ctor (LET_PLATFORM);
 
 
     platforms->count = 0;
@@ -56,7 +56,7 @@ Return_code platforms_dtor (Platforms* platforms) {
     if (!platforms) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    free (platforms->buffer);
+    list_dtor (platforms->list);
 
 
     return SUCCESS;

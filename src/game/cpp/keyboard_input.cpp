@@ -108,7 +108,7 @@ Return_code game_handle_left_down_singleplayer (Game* game) {
     game->conditions.pressed_left = true;
 
 
-    game->engine.players.buffer [0].motion.dx -= SMALL_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx -= SMALL_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -124,7 +124,7 @@ Return_code game_handle_right_down_singleplayer (Game* game) {
     game->conditions.pressed_right = true;
 
 
-    game->engine.players.buffer [0].motion.dx += SMALL_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx += SMALL_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -140,7 +140,7 @@ Return_code game_handle_a_down_singleplayer (Game* game) {
     game->conditions.pressed_a = true;
 
 
-    game->engine.players.buffer [0].motion.dx -= BIG_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx -= BIG_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -156,7 +156,7 @@ Return_code game_handle_d_down_singleplayer (Game* game) {
     game->conditions.pressed_d = true;
 
 
-    game->engine.players.buffer [0].motion.dx += BIG_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx += BIG_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -171,7 +171,7 @@ Return_code game_handle_left_up_singleplayer (Game* game) {
     game->conditions.pressed_left = false;
 
 
-    game->engine.players.buffer [0].motion.dx += SMALL_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx += SMALL_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -186,7 +186,7 @@ Return_code game_handle_right_up_singleplayer (Game* game) {
     game->conditions.pressed_right = false;
 
 
-    game->engine.players.buffer [0].motion.dx -= SMALL_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx -= SMALL_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -201,7 +201,7 @@ Return_code game_handle_a_up_singleplayer (Game* game) {
     game->conditions.pressed_a = false;
 
 
-    game->engine.players.buffer [0].motion.dx += BIG_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx += BIG_HORIZONTAL_STEP;
 
 
     return SUCCESS;
@@ -216,7 +216,7 @@ Return_code game_handle_d_up_singleplayer (Game* game) {
     game->conditions.pressed_d = false;
 
 
-    game->engine.players.buffer [0].motion.dx -= BIG_HORIZONTAL_STEP;
+    list_get_player (game->engine.players.list, 0)->motion.dx -= BIG_HORIZONTAL_STEP;
 
 
     return SUCCESS;

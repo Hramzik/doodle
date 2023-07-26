@@ -18,7 +18,6 @@
 //--------------------------------------------------
 
 
-#include "defines.hpp"
 #include "enums.hpp"
 #include "constants.hpp"
 #include "structs.hpp"

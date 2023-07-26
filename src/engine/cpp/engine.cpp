@@ -76,22 +76,7 @@ Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy) 
 }
 
 
-Return_code engine_check_collisions (Game_Engine* engine) {
-
-    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    for (size_t i = 0; i < engine->players.count; i++) {
-
-        engine_check_player_collisions (engine, &engine->players.buffer [i]);
-    }
-
-
-    return SUCCESS;
-}
-
-
-Return_code engine_check_player_collisions (Game_Engine* engine, Player* player) {
+Platform* engine_check_player_collisions (Game_Engine* engine, Player* player) {
 
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -110,29 +95,16 @@ Return_code engine_check_player_collisions (Game_Engine* engine, Player* player)
 }
 
 
-Return_code engine_check_player_platform_collision (Game_Engine* engine, Player* player, size_t platform_ind) {
-
-    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!player)   { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    Platform* platform = &engine->platforms.buffer [platform_ind];
-
+bool check_player_platform_collision (Player* player, Platform* platform) {
 
     if (PLAYER_X   + DOODLER_HITBOX_RIGHT_WIDTH / 2 < PLATFORM_X - PLATFORM_WIDTH            / 2 ||
-        PLATFORM_X + PLATFORM_WIDTH             / 2 < PLAYER_X   - DOODLER_HITBOX_LEFT_WIDTH / 2) return SUCCESS;
+        PLATFORM_X + PLATFORM_WIDTH             / 2 < PLAYER_X   - DOODLER_HITBOX_LEFT_WIDTH / 2) return false;
 
     if (PLAYER_Y < PLATFORM_Y ||
-        PLAYER_Y > PLATFORM_Y + PLATFORM_HEIGHT) return SUCCESS;
+        PLAYER_Y > PLATFORM_Y + PLATFORM_HEIGHT) return false;
 
 
-    if (platform->type == PT_FAKE) return fake_platform_destroyed (engine, platform);
-
-
-    player->platform_hit_ind = (int) platform_ind;
-
-
-    return SUCCESS;
+    return true;
 }
 
 
@@ -156,7 +128,7 @@ Return_code engine_move_players (Game_Engine* engine) {
 
     for (size_t i = 0; i < engine->players.count; i++) {
 
-        engine_move_player (engine, &engine->players.buffer [i]);
+        engine_move_player (engine, list_get_player (engine->players.list, i));
     }
 
 
@@ -167,6 +139,25 @@ Return_code engine_move_players (Game_Engine* engine) {
 Return_code engine_move_player (Game_Engine* engine, Player* player) {
 
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    bool      collision_flag = false;
+    Platform* cur_platform   = nullptr;
+    Platform* hit_platform   = nullptr;
+
+    for (size_t i = 0; i < engine->platforms.count; i++) {
+
+        cur_platform = &engine->platforms.buffer [i];
+        collision_flag = engine_check_player_platform_collision (player, cur_platform);
+
+        if (!collision_flag) continue;
+
+
+        if (cur_platform->type == PT_FAKE) { engine_destroy_fake_platform (engine, cur_platform); continue; }
+
+
+        hit_platform = cur_platform;
+    }
 
 
     if (player->platform_hit_ind == -1) {

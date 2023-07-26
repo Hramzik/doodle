@@ -3,6 +3,12 @@
 //--------------------------------------------------
 
 
+#include "engine.hpp"
+
+
+//--------------------------------------------------
+
+
 typedef struct Object_Motion {
 
     double x;
@@ -27,14 +33,12 @@ typedef struct Player {
     double score;
     size_t skin;
 
-    int platform_hit_ind;
-
 } Player; const size_t PLAYER_SIZE = sizeof (Player);
 
 
 typedef struct Players {
 
-    Player* buffer;
+    List list;
 
     size_t count;
 
@@ -55,7 +59,7 @@ typedef struct Platform {
 
 typedef struct Platforms {
 
-    Platform* buffer;
+    List list;
 
     size_t count;
 

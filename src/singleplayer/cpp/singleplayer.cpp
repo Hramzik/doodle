@@ -67,7 +67,7 @@ Difficulty game_get_difficulty_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
 
 
-    double score = game->engine.players.buffer [0].score;
+    double score = list_get_player (game->engine.players.list, 0)->score;
 
     for (size_t i = 0; i < DATA.num_difficulties; i++) {
 
@@ -211,7 +211,7 @@ Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    game->engine.players.buffer [0].score += camera_distance * CAMERA_Y_SCORE_COEFFICIENT;
+    list_get_player (game->engine.players.list, 0)->score += camera_distance * CAMERA_Y_SCORE_COEFFICIENT;
 
 
     return SUCCESS;
@@ -223,8 +223,8 @@ Return_code game_teleport_up_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    game->engine.players.buffer [0].motion.x = DEFAULT_WINDOW_WIDTH / 2;
-    game->engine.players.buffer [0].motion.y = game->data.camera_y + DEFAULT_WINDOW_HEIGHT * 3 / 7;
+    list_get_player (game->engine.players.list, 0)->motion.x = DEFAULT_WINDOW_WIDTH / 2;
+    list_get_player (game->engine.players.list, 0)->motion.y = game->data.camera_y + DEFAULT_WINDOW_HEIGHT * 3 / 7;
 
 
     return SUCCESS;

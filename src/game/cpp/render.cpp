@@ -29,7 +29,7 @@ Return_code game_render_players (Game* game) {
 
     for (size_t i = 0; i < game->engine.players.count; i++) {
 
-        game_render_player (game, &game->engine.players.buffer [i]);
+        game_render_player (game, list_get_player (game->engine.players.list, i));
     }
 
 
