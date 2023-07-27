@@ -72,6 +72,8 @@ Return_code game_render_player     (Game* game, Player* player);
 Return_code game_render_platform   (Game* game, Platform* platform);
 Return_code game_render_background (Game* game);
 
+SDL_Texture* game_get_platform_texture (Game* game, Platform* platform);
+
 
 //--------------------------------------------------
 

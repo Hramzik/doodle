@@ -18,6 +18,7 @@
 //--------------------------------------------------
 
 
+#include "dsl.hpp"
 #include "enums.hpp"
 #include "constants.hpp"
 #include "structs.hpp"

@@ -80,9 +80,7 @@ Return_code game_render_platform (Game* game, Platform* platform) {
     if (!platform) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Texture* platform_texture = game->media.platform_textures [0]; // TEMPORARY
-    if (platform->type == PT_FAKE)  platform_texture = game->media.platform_textures [1];
-    if (platform->type == PT_CLOUD) platform_texture = game->media.platform_textures [2];
+    SDL_Texture* platform_texture = game_get_platform_texture (game, platform);
 
 
     SDL_Rect dstrect;
@@ -119,4 +117,21 @@ Return_code game_render_background (Game* game) {
     return SUCCESS;
 }
 
+
+SDL_Texture* game_get_platform_texture (Game* game, Platform* platform) {
+
+    if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
+    if (!platform) { LOG_ERROR (BAD_ARGS); return nullptr; }
+
+
+    switch (platform->type) {
+
+        case PT_DEFAULT: return game->media.platform_textures [0];
+        case PT_FAKE:    return game->media.platform_textures [1];
+        case PT_MOVING:  return game->media.platform_textures [0];
+        case PT_CLOUD:   return game->media.platform_textures [2];
+
+        default: LOG_ERROR (CRITICAL); return nullptr;
+    }
+}
 

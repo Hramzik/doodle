@@ -44,6 +44,22 @@ Return_code game_add_platform (Game* game, Platform platform) {
 
 
     list_push_back (&game->engine.platforms.list, platform);
+    update_max_y (game, platform);
+
+
+    return SUCCESS;
+}
+
+
+Return_code update_max_y (Game* game, Platform platform) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (PLATFORM_Y > MAX_Y) MAX_Y = PLATFORM_Y;
+    if (platform.type == PT_FAKE) return SUCCESS;
+
+    if (PLATFORM_Y > MAX_MATERIAL_Y) MAX_MATERIAL_Y = PLATFORM_Y;
 
 
     return SUCCESS;
@@ -81,9 +97,10 @@ Return_code game_work (Game* game) {
         game->engine.data.t = DEFAULT_UPDATE_TIME * 4.5 * timer_get_last_frame_delay_ms (timer);
 
 
-        if ((size_t) timer_get_total_delay_ms (timer) % 4000 == 0) {
+        if ((size_t) timer_get_total_delay_ms (timer) % 10000 == 0) {
 
             printf ("score: %lf\n", list_get_player (game->engine.players.list, 0)->score);
+            //timer_print_fps (timer);
         }
     }
 

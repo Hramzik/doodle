@@ -54,6 +54,8 @@ Object_Motion linear_motion      (double x, double y, double dx, double dy);
 Object_Motion linear_dynamics    (double dx, double dy);
 Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy);
 
+Return_code motion_copy_dynamics (Object_Motion  src, Object_Motion* dst);
+Return_code motion_copy_dynamics (Object_Motion* src, Object_Motion* dst);
 
 //--------------------------------------------------
 #endif

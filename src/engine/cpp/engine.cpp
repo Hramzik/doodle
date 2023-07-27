@@ -76,6 +76,31 @@ Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy) 
 }
 
 
+Return_code motion_copy_dynamics (Object_Motion src, Object_Motion* dst) {
+
+    if (!dst) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    dst->dx  = src.dx;
+    dst->dy  = src.dy;
+    dst->ddx = src.ddx;
+    dst->ddy = src.ddy;
+
+
+    return SUCCESS;
+}
+
+
+Return_code motion_copy_dynamics (Object_Motion* src, Object_Motion* dst) {
+
+    if (!src) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (!dst) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    return motion_copy_dynamics (*src, dst);
+}
+
+
 Platform* engine_check_player_collisions (Game_Engine* engine, Player* player) {
 
     if (!engine) { LOG_ERROR (BAD_ARGS); return nullptr; }

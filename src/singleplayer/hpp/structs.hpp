@@ -3,17 +3,28 @@
 //--------------------------------------------------
 
 
+typedef struct Point {
+
+    double min;
+    double max;
+
+} Point; const size_t POINT_SIZE = sizeof (Point);
+
+
 typedef struct Difficulty {
 
-    int    max_score;
+    int max_score;
 
-    double min_platform_gap;
     double max_platform_gap;
+    double min_platform_gap;
 
     double default_platform_chance;
     double    fake_platform_chance;
     double  moving_platform_chance;
     double   cloud_platform_chance;
+
+    double max_moving_platform_dx;
+    double min_moving_platform_dx;
 
 } Difficulty; const size_t DIFFICULTY_SIZE = sizeof (Difficulty);
 

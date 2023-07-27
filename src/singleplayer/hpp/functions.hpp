@@ -14,6 +14,7 @@ Return_code spawn_platform                   (Game* game, int difficulty, Platfo
 
 Platform    generate_static_platform (Game* game, double min_gap, double max_gap, Platform_type type);
 Return_code spawn_static_platform    (Game* game, double min_gap, double max_gap, Platform_type type);
+Return_code update_max_y             (Game* game, Platform platform);
 /*static Platform    generate_default_platform (Game* game, double min_gap, double max_gap);
 static Platform    generate_cloud_platform   (Game* game, double min_gap, double max_gap);
 static Platform    generate_fake_platform    (Game* game, double min_gap, double max_gap);

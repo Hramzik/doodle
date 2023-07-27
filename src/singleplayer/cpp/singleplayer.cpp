@@ -41,10 +41,6 @@ Player generate_default_player (Game* game) {
 
 
 //--------------------------------------------------
-#define MAX_Y                       game->engine.platforms.max_y
-#define MAX_MATERIAL_Y              game->engine.platforms.max_material_y
-#define ABSOLUTE_MAX_NEW_PLATFORM_Y MAX_MATERIAL_Y + ABSOLUTE_MAX_PLATFORM_GAP
-#define PLATFORM_Y                  platform.motion.y
 
 Return_code game_spawn_platforms_singleplayer (Game* game) {
 
@@ -156,7 +152,7 @@ Return_code spawn_platform (Game* game, Difficulty difficulty, Platform_type typ
 }
 
 
-Platform generate_static_platform (Game* game, double min_gap, double max_gap, Platform_type type) {
+Platform generate_static_platform (Game* game, Point gaps, Platform_type type) {
 
     if (!game) LOG_ERROR (BAD_ARGS);
 
@@ -164,9 +160,9 @@ Platform generate_static_platform (Game* game, double min_gap, double max_gap, P
     double min_x = PLATFORM_WIDTH / 2;
     double     x = min_x + random_scale (DEFAULT_WINDOW_WIDTH - PLATFORM_WIDTH);
 
-    double min_y = min_gap + MAX_Y;
-    max_gap      = fmin (max_gap, ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y);
-    double     y = min_y + random_scale (max_gap - min_gap);
+    double min_y = gaps.min + MAX_Y;
+    gaps.max     = fmin (gaps.max, ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y);
+    double     y = min_y + random_scale (gaps.max - gaps.min);
 
 
     Object_Motion motion   = static_motion (x, y);
@@ -186,14 +182,23 @@ Return_code spawn_static_platform (Game* game, double min_gap, double max_gap, P
     game_add_platform (game, platform);
 
 
-    if (PLATFORM_Y > MAX_Y) MAX_Y = PLATFORM_Y;
-    if (type == PT_FAKE) return SUCCESS;
+    return SUCCESS;
+}
 
-    if (PLATFORM_Y > MAX_MATERIAL_Y) MAX_MATERIAL_Y = PLATFORM_Y;
+
+Return_code spawn_moving_platform (Game* game, Point gaps, Object_Motion dynamics, Platform_type type) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    Platform platform = generate_static_platform (game, gaps, type);
+    motion_copy_dynamics (dynamics, &platform.motion);
+    game_add_platform (game, platform);
 
 
     return SUCCESS;
 }
+
 
 #undef MAX_Y
 #undef MAX_MATERIAL_Y
@@ -303,7 +308,7 @@ Platform generate_fake_platform (Game* game, double min_gap, double max_gap) {
     return generate_static_platform (game, min_gap, max_gap, PT_FAKE);
 }*/
 
-/*
+
 Platform spawn_moving_platform (Game* game, double min_gap, double max_gap, Object_Motion dynamics) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -327,13 +332,6 @@ Platform spawn_moving_platform (Game* game, double min_gap, double max_gap, Obje
 }
 
 
-Return_code spawn_linear_moving_platform (Game* game, double min_gap, double max_gap, double dx, double dy) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    return spawn_moving_platform (game, min_gap, max_gap, linear_dynamics (dx, dy));
-}
 
 
 Return_code spawn_linear_horizontally_moving_platform (Game* game, double min_gap, double max_gap, double dx) {

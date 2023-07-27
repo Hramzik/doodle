@@ -15,7 +15,9 @@
     data->difficulties [n].default_platform_chance = DIFFICULTY_##n##_DEFAULT_PLATFORM_CHANCE; \
     data->difficulties [n].   fake_platform_chance = DIFFICULTY_##n##_FAKE_PLATFORM_CHANCE; \
     data->difficulties [n]. moving_platform_chance = DIFFICULTY_##n##_MOVING_PLATFORM_CHANCE; \
-    data->difficulties [n].  cloud_platform_chance = DIFFICULTY_##n##_CLOUD_PLATFORM_CHANCE;
+    data->difficulties [n].  cloud_platform_chance = DIFFICULTY_##n##_CLOUD_PLATFORM_CHANCE; \
+    data->difficulties [n].max_moving_platform_dx  = DIFFICULTY_##n##_MAX_MOVING_PLATFORM_DX; \
+    data->difficulties [n].min_moving_platform_dx  = DIFFICULTY_##n##_MIN_MOVING_PLATFORM_DX; \
 
 Return_code singleplayer_data_ctor (Singleplayer_Data* data) {
 
