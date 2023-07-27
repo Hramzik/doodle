@@ -31,6 +31,7 @@ Return_code singleplayer_data_ctor (Singleplayer_Data* data) {
     INIT_DIFFICULTY (2);
     INIT_DIFFICULTY (3);
     INIT_DIFFICULTY (4);
+    INIT_DIFFICULTY (5);
 
 
     return SUCCESS;

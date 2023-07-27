@@ -28,6 +28,7 @@ typedef struct Platforms {
 
     double min_y;
     double max_y;
+    double max_material_y;
 
 } Platforms; const size_t PLATFORMS_SIZE = sizeof (Platforms);
 

@@ -41,6 +41,7 @@ Return_code platforms_ctor (Platforms* platforms) {
 
     platforms->max_y = 0;
     platforms->min_y = 0;
+    platforms->max_material_y = 0;
 
 
     return SUCCESS;

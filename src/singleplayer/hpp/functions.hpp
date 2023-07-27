@@ -28,6 +28,8 @@ Return_code spawn_fake_platform    (Game* game, Difficulty difficulty);
 Return_code spawn_moving_platform  (Game* game, Difficulty difficulty);
 Return_code spawn_cloud_platform   (Game* game, Difficulty difficulty);
 
+bool can_spawn_platform_type (Game* game, Difficulty difficulty, Platform_type type);
+bool can_spawn_fake_platform (Game* game, Difficulty difficulty);
 
 //--------------------------------------------------
 #endif

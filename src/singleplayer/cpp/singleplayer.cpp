@@ -40,6 +40,12 @@ Player generate_default_player (Game* game) {
 }
 
 
+//--------------------------------------------------
+#define MAX_Y                       game->engine.platforms.max_y
+#define MAX_MATERIAL_Y              game->engine.platforms.max_material_y
+#define ABSOLUTE_MAX_NEW_PLATFORM_Y MAX_MATERIAL_Y + ABSOLUTE_MAX_PLATFORM_GAP
+#define PLATFORM_Y                  platform.motion.y
+
 Return_code game_spawn_platforms_singleplayer (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -48,14 +54,40 @@ Return_code game_spawn_platforms_singleplayer (Game* game) {
     Difficulty difficulty = game_get_difficulty_singleplayer (game);
 
 
-    while (game->engine.platforms.max_y < game->data.camera_y + DEFAULT_WINDOW_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
+    while (MAX_Y < game->data.camera_y + DEFAULT_WINDOW_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
 
         Platform_type type = generate_platform_type (difficulty);
+        if (!can_spawn_platform_type (game, difficulty, type)) continue;
+
         spawn_platform (game, difficulty, type);
     }
 
 
     return SUCCESS;
+}
+
+
+bool can_spawn_platform_type (Game* game, Difficulty difficulty, Platform_type type) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return false; }
+
+
+    if (type == PT_FAKE && !can_spawn_fake_platform (game, difficulty)) return false;
+
+
+    return true;
+}
+
+
+bool can_spawn_fake_platform (Game* game, Difficulty difficulty) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return false; }
+
+
+    if (ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y < 2 * difficulty.min_platform_gap) return false;
+
+
+    return true;
 }
 
 
@@ -132,7 +164,8 @@ Platform generate_static_platform (Game* game, double min_gap, double max_gap, P
     double min_x = PLATFORM_WIDTH / 2;
     double     x = min_x + random_scale (DEFAULT_WINDOW_WIDTH - PLATFORM_WIDTH);
 
-    double min_y = min_gap + game->engine.platforms.max_y;
+    double min_y = min_gap + MAX_Y;
+    max_gap      = fmin (max_gap, ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y);
     double     y = min_y + random_scale (max_gap - min_gap);
 
 
@@ -151,11 +184,21 @@ Return_code spawn_static_platform (Game* game, double min_gap, double max_gap, P
 
     Platform platform = generate_static_platform (game, min_gap, max_gap, type);
     game_add_platform (game, platform);
-    game->engine.platforms.max_y = platform.motion.y;
+
+
+    if (PLATFORM_Y > MAX_Y) MAX_Y = PLATFORM_Y;
+    if (type == PT_FAKE) return SUCCESS;
+
+    if (PLATFORM_Y > MAX_MATERIAL_Y) MAX_MATERIAL_Y = PLATFORM_Y;
 
 
     return SUCCESS;
 }
+
+#undef MAX_Y
+#undef MAX_MATERIAL_Y
+#undef PLATFORM_Y
+//--------------------------------------------------
 
 
 Return_code spawn_default_platform (Game* game, Difficulty difficulty) {
@@ -225,6 +268,8 @@ Return_code game_teleport_up_singleplayer (Game* game) {
 
     list_get_player (game->engine.players.list, 0)->motion.x = DEFAULT_WINDOW_WIDTH / 2;
     list_get_player (game->engine.players.list, 0)->motion.y = game->data.camera_y + DEFAULT_WINDOW_HEIGHT * 3 / 7;
+
+    list_get_player (game->engine.players.list, 0)->motion.dy = 0;
 
 
     return SUCCESS;
