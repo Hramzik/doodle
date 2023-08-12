@@ -12,5 +12,12 @@ enum Platform_type {
 };
 
 
+enum Player_face_direction {
+
+    PFD_LEFT,
+    PFD_RIGHT,
+};
+
+
 //--------------------------------------------------
 #endif

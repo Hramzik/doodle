@@ -1,0 +1,19 @@
+#ifndef SINGLEPLAYER_CONSTANTS_DIFFICULTY_8_HPP_INCLUDED
+#define SINGLEPLAYER_CONSTANTS_DIFFICULTY_8_HPP_INCLUDED
+//--------------------------------------------------
+
+
+const double DIFFICULTY_8_MIN_PLATFORM_GAP = 120;
+const double DIFFICULTY_8_MAX_PLATFORM_GAP = 200;
+
+const double DIFFICULTY_8_DEFAULT_PLATFORM_CHANCE = 0.05;
+const double DIFFICULTY_8_FAKE_PLATFORM_CHANCE    = 0;
+const double DIFFICULTY_8_MOVING_PLATFORM_CHANCE  = 0.65;
+const double DIFFICULTY_8_CLOUD_PLATFORM_CHANCE   = 0.3;
+
+const double DIFFICULTY_8_MIN_MOVING_PLATFORM_DX = 0.7;
+const double DIFFICULTY_8_MAX_MOVING_PLATFORM_DX = 0.7;
+
+
+//--------------------------------------------------
+#endif

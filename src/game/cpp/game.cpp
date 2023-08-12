@@ -38,34 +38,6 @@ Return_code game_add_player (Game* game, Player player) {
 }
 
 
-Return_code game_add_platform (Game* game, Platform platform) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    list_push_back (&game->engine.platforms.list, platform);
-    update_max_y (game, platform);
-
-
-    return SUCCESS;
-}
-
-
-Return_code update_max_y (Game* game, Platform platform) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    if (PLATFORM_Y > MAX_Y) MAX_Y = PLATFORM_Y;
-    if (platform.type == PT_FAKE) return SUCCESS;
-
-    if (PLATFORM_Y > MAX_MATERIAL_Y) MAX_MATERIAL_Y = PLATFORM_Y;
-
-
-    return SUCCESS;
-}
-
-
 Return_code game_work (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -87,7 +59,7 @@ Return_code game_work (Game* game) {
         game_update (game);
 
 
-        SDL_RenderClear   (game->output.renderer);
+        game_clear_screen (game);
         game_render       (game);
         SDL_RenderPresent (game->output.renderer);
 
@@ -99,7 +71,8 @@ Return_code game_work (Game* game) {
 
         if ((size_t) timer_get_total_delay_ms (timer) % 10000 == 0) {
 
-            printf ("score: %lf\n", list_get_player (game->engine.players.list, 0)->score);
+            printf ("score: %.0lf\n", list_get_player (game->engine.players.list, 0)->score);
+            player_dump (list_get_player (game->engine.players.list, 0));
             //timer_print_fps (timer);
         }
     }
@@ -121,11 +94,38 @@ Return_code game_update (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
+    double updated_time = 0;
+    double needed_update_time = game->engine.data.t;
+
+
+    game->engine.data.t = MAX_UPDATE_TIME;
+
+    for (; updated_time + MAX_UPDATE_TIME <= needed_update_time; updated_time += MAX_UPDATE_TIME) {
+
+        game_update_no_time_control (game);
+    }
+
+
+    game->engine.data.t = needed_update_time - updated_time;
+    game_update_no_time_control (game);
+
+
+    game->engine.data.t = needed_update_time;
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_update_no_time_control (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
     game_spawn_objects (game);
 
 
-    engine_move_objects (&game->engine);
-    game_mirror_players (game);
+    engine_update       (&game->engine);
     game_move_camera    (game);
 
 
@@ -186,14 +186,24 @@ Return_code game_despawn_platforms (Game* game) {
 
     List* list = &game->engine.platforms.list;
 
-    for (Node* node = list->first; node; ) {
 
-        Node* next_node = node->next;
+    Node* next_node = nullptr;
 
-        if (node_get_platform (node)->dead) list_delete (list, node);
+    for (Node* node = list->first; node; node = next_node) {
 
+        next_node = node->next;
 
-        node = next_node;
+        if (node_get_platform (node)->dead) {
+
+            list_delete (list, node);
+            continue;
+        }
+
+        if (node_get_platform (node)->motion.y + PLATFORM_TEXTURE_HEIGHT < game->data.camera_y) {
+
+            list_delete (list, node);
+            continue;
+        }
     }
 
 
@@ -210,9 +220,9 @@ Return_code game_move_camera (Game* game) {
     double min_player_y = players_get_min_player_y (&game->engine.players);
 
 
-    if (game->data.camera_y + DEFAULT_WINDOW_HEIGHT / 2 < min_player_y) {
+    if (game->data.camera_y + DEFAULT_FIELD_HEIGHT * 0.4 < min_player_y) {
 
-        game->data.camera_y = min_player_y - DEFAULT_WINDOW_HEIGHT / 2;
+        game->data.camera_y = min_player_y - DEFAULT_FIELD_HEIGHT * 0.4;
 
         game_update_scores_camera_y (game, game->data.camera_y - old_camera_y);
     }
@@ -233,34 +243,6 @@ Return_code game_update_scores_camera_y (Game* game, double camera_disance) {
         case DUO:
         default: CODE_CRITICAL;
     }
-
-
-    return SUCCESS;
-}
-
-
-Return_code game_mirror_players (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    for (size_t i = 0; i < game->engine.players.list.len; i++) {
-
-        game_mirror_player (game, list_get_player (game->engine.players.list, i));
-    }
-
-
-    return SUCCESS;
-}
-
-
-Return_code game_mirror_player (Game* game, Player* player) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    while (player->motion.x < 0)                    player->motion.x += DEFAULT_WINDOW_WIDTH;
-    while (player->motion.x > DEFAULT_WINDOW_WIDTH) player->motion.x -= DEFAULT_WINDOW_WIDTH;
 
 
     return SUCCESS;

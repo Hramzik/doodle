@@ -9,6 +9,8 @@
 #define PLATFORM_X (platform.motion.x)
 #define PLATFORM_Y (platform.motion.y)
 
+#define FIELD_WIDTH  (engine->data.field_width)
+#define FIELD_HEIGHT (engine->data.field_height)
 
 
 //--------------------------------------------------

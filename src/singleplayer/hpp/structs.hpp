@@ -3,17 +3,9 @@
 //--------------------------------------------------
 
 
-typedef struct Point {
-
-    double min;
-    double max;
-
-} Point; const size_t POINT_SIZE = sizeof (Point);
-
-
 typedef struct Difficulty {
 
-    int max_score;
+    int min_score;
 
     double max_platform_gap;
     double min_platform_gap;
@@ -35,9 +27,6 @@ typedef struct Singleplayer_Data {
     size_t num_difficulties;
 
 } Singleplayer_Data; const size_t SINGLEPLAYER_DATA_SIZE = sizeof (Singleplayer_Data);
-
-
-
 
 
 //--------------------------------------------------

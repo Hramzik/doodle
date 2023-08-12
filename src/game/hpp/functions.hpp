@@ -5,7 +5,6 @@
 #include "game.hpp"
 
 //--------------------------------------------------
-
 // c-dtors
 
 Return_code initialize_sdl (void);
@@ -22,7 +21,6 @@ Return_code game_output_dtor (Game_Output* game);
 Return_code game_media_dtor  (Game_Media* media);
 
 //--------------------------------------------------
-
 // game_media
 
 Return_code game_load_media (Game* game);
@@ -38,9 +36,7 @@ Return_code game_load_doodler_texture    (Game* game, const char* path);
 Return_code game_load_platform_texture   (Game* game, const char* path);
 Return_code game_load_background_texture (Game* game, const char* path);
 
-
 //--------------------------------------------------
-
 // game
 
 Return_code game_spawn_objects   (Game* game);
@@ -53,30 +49,39 @@ Return_code game_despawn_platforms (Game* game);
 
 Return_code game_work (Game* game);
 
-Return_code game_update         (Game* game);
-Return_code game_move_camera    (Game* game);
-Return_code game_mirror_players (Game* game);
-Return_code game_mirror_player  (Game* game, Player* player);
+Return_code game_update                 (Game* game);
+Return_code game_update_no_time_control (Game* game);
 
+Return_code game_move_camera            (Game* game);
 Return_code game_update_scores_camera_y (Game* game, double camera_disance);
 
-
 //--------------------------------------------------
-
 // render
 
-Return_code game_render            (Game* game);
-Return_code game_render_players    (Game* game);
-Return_code game_render_platforms  (Game* game);
-Return_code game_render_player     (Game* game, Player* player);
+Return_code game_clear_screen (Game* game);
+
+Return_code game_render           (Game* game);
+Return_code game_render_players   (Game* game);
+Return_code game_render_platforms (Game* game);
+
+Return_code      game_render_player        (Game* game, Player* player);
+Return_code      game_render_player_hitbox (Game* game, Player* player);
+SDL_RendererFlip player_get_sdl_flip       (Player* player);
+
 Return_code game_render_platform   (Game* game, Platform* platform);
 Return_code game_render_background (Game* game);
 
 SDL_Texture* game_get_platform_texture (Game* game, Platform* platform);
+int          game_get_window_width     (Game* game);
+int          game_get_window_height    (Game* game);
 
+SDL_Rect get_platform_texture_offset (void);
+SDL_Rect get_player_texture_offset   (Player* player);
+SDL_Rect get_player_hitbox_offset (Player* player);
+
+SDL_Rect game_get_render_rect (Game* game, Object_Motion* motion, SDL_Rect texture_offset);
 
 //--------------------------------------------------
-
 // keyboard_input
 
 Return_code game_handle_keyboard_input              (Game* game);
@@ -92,6 +97,15 @@ Return_code game_handle_right_up_singleplayer (Game* game);
 Return_code game_handle_a_up_singleplayer     (Game* game);
 Return_code game_handle_d_up_singleplayer     (Game* game);
 
+//--------------------------------------------------
+// platforms
+
+Return_code game_add_platform (Game* game, Platform platform);
+Return_code update_max_y      (Game* game, Platform platform);
+
+Platform    generate_static_platform (Game* game, Point gaps, Platform_type type);
+Return_code spawn_static_platform    (Game* game, Point gaps, Platform_type type);
+Return_code spawn_moving_platform    (Game* game, Point gaps, Object_Motion dynamics, Platform_type type);
 
 //--------------------------------------------------
 

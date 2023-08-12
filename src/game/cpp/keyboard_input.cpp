@@ -66,6 +66,8 @@ Return_code game_handle_keydown_singleplayer (Game* game, SDL_Event event) {
         case SDLK_RIGHT: game_handle_right_down_singleplayer (game); break;
         case SDLK_a:     game_handle_a_down_singleplayer     (game); break;
         case SDLK_d:     game_handle_d_down_singleplayer     (game); break;
+        case SDLK_KP_8:  game_fly_up_singleplayer_launch     (game); break;
+        case SDLK_KP_5:  game_freeze_singleplayer_launch     (game); break;
 
 
         default: break;
@@ -84,11 +86,14 @@ Return_code game_handle_keyup_singleplayer (Game* game, SDL_Event event) {
 
     switch (event.key.keysym.sym) {
 
-        case SDLK_LEFT:  game_handle_left_up_singleplayer  (game); break;
-        case SDLK_RIGHT: game_handle_right_up_singleplayer (game); break;
-        case SDLK_a:     game_handle_a_up_singleplayer     (game); break;
-        case SDLK_d:     game_handle_d_up_singleplayer     (game); break;
-        case SDLK_KP_0:  game_teleport_up_singleplayer     (game); break;
+        case SDLK_LEFT:  game_handle_left_up_singleplayer   (game); break;
+        case SDLK_RIGHT: game_handle_right_up_singleplayer  (game); break;
+        case SDLK_a:     game_handle_a_up_singleplayer      (game); break;
+        case SDLK_d:     game_handle_d_up_singleplayer      (game); break;
+        case SDLK_KP_0:  game_teleport_mid_singleplayer     (game); break;
+        case SDLK_KP_8:  game_fly_up_singleplayer_terminate (game); break;
+        case SDLK_KP_5:  game_freeze_singleplayer_terminate (game); break;
+        case SDLK_KP_MULTIPLY: game_switch_player_texture_direction_singleplayer (game); break;
 
         default: break;
     }

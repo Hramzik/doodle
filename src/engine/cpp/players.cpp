@@ -3,6 +3,7 @@
 //--------------------------------------------------
 
 #include "../hpp/engine.hpp"
+#include "../hpp/dsl.hpp"
 
 //--------------------------------------------------
 
@@ -47,4 +48,87 @@ double players_get_min_player_y (Players* players) {
     return min_player_y;
 }
 
+
+Return_code engine_move_players (Game_Engine* engine) {
+
+    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    for (size_t i = 0; i < engine->players.list.len; i++) {
+
+        engine_move_player (engine, list_get_player (engine->players.list, i));
+    }
+
+
+    return SUCCESS;
+}
+
+
+Return_code engine_move_player (Game_Engine* engine, Player* player) {
+
+    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    Platform* platform = engine_check_player_collisions (engine, player);
+    if (platform) player->motion.dy = PLAYER_DY_AFTER_COLLISION;
+
+
+    motion_update (&player->motion, engine->data.t);
+
+
+    return ensure_player_on_screen (engine, player);
+}
+
+
+Return_code engine_update_players (Game_Engine* engine) {
+
+    if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    for (size_t i = 0; i < engine->players.list.len; i++) {
+
+        player_update (list_get_player (engine->players.list, i));
+    }
+
+
+    return SUCCESS;
+}
+
+
+Return_code player_update (Player* player) {
+
+    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    player_facing_update (player);
+
+
+    return SUCCESS;
+}
+
+
+Return_code player_facing_update (Player* player) {
+
+    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (player->motion.dx > 0) player->facing = PFD_RIGHT;
+    if (player->motion.dx < 0) player->facing = PFD_LEFT;
+
+
+    return SUCCESS;
+}
+
+
+Return_code ensure_player_on_screen (Game_Engine* engine, Player* player) {
+
+    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    while (player->motion.x < 0)           player->motion.x += FIELD_WIDTH;
+    while (player->motion.x > FIELD_WIDTH) player->motion.x -= FIELD_WIDTH;
+
+
+    return SUCCESS;
+}
 

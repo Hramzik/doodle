@@ -7,29 +7,33 @@
 
 
 //--------------------------------------------------
-
 // players
 
 Return_code players_ctor (Players* players);
 Return_code players_dtor (Players* players);
 Return_code player_dump  (Player* player);
 
-Return_code player_move_no_collision (Player* player, double t);
-Return_code player_move_collision    (Player* player, Platform* platform, double t);
+Return_code engine_move_players     (Game_Engine* engine);
+Return_code engine_move_player      (Game_Engine* engine, Player* player);
+Return_code ensure_player_on_screen (Game_Engine* engine, Player* player);
+
+Return_code engine_update_players (Game_Engine* engine);
+Return_code player_update         (Player* player);
+Return_code player_facing_update  (Player* player);
 
 double players_get_min_player_y (Players* players);
 
-
 //--------------------------------------------------
-
 // platforms
 
 Return_code platforms_ctor (Platforms* platforms);
 Return_code platforms_dtor (Platforms* platforms);
 
+Return_code engine_move_platforms     (Game_Engine* engine);
+Return_code engine_move_platform      (Game_Engine* engine, Platform* platform);
+Return_code ensure_platform_on_screen (Game_Engine* engine, Platform* platform);
 
 //--------------------------------------------------
-
 // engine
 
 Return_code game_engine_ctor (Game_Engine* engine);
@@ -40,13 +44,7 @@ Return_code engine_check_collisions         (Game_Engine* engine);
 Platform*   engine_check_player_collisions  (Game_Engine* engine, Player* player);
 bool        check_player_platform_collision (Player player, Platform platform);
 
-Return_code engine_move_objects (Game_Engine* engine);
-Return_code engine_move_players (Game_Engine* engine);
-Return_code engine_move_player  (Game_Engine* engine, Player* player);
-
-
 //--------------------------------------------------
-
 // motion
 
 Object_Motion static_motion      (double x, double y);
@@ -56,6 +54,12 @@ Object_Motion quadratic_dynamics (double dx, double dy, double ddx, double ddy);
 
 Return_code motion_copy_dynamics (Object_Motion  src, Object_Motion* dst);
 Return_code motion_copy_dynamics (Object_Motion* src, Object_Motion* dst);
+
+Return_code motion_update (Object_Motion* motion, double t);
+
+Return_code motion_ensure_x_le_than (Object_Motion* motion, double value);
+Return_code motion_ensure_x_ge_than (Object_Motion* motion, double value);
+
 
 //--------------------------------------------------
 #endif

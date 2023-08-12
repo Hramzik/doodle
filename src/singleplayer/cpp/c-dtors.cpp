@@ -9,7 +9,7 @@
 
 #define INIT_DIFFICULTY(n) \
     data->num_difficulties += 1; \
-    data->difficulties [n].max_score               = DIFFICULTY_##n##_MAX_SCORE; \
+    data->difficulties [n].min_score               = DIFFICULTY_##n##_MIN_SCORE; \
     data->difficulties [n].min_platform_gap        = DIFFICULTY_##n##_MIN_PLATFORM_GAP; \
     data->difficulties [n].max_platform_gap        = DIFFICULTY_##n##_MAX_PLATFORM_GAP; \
     data->difficulties [n].default_platform_chance = DIFFICULTY_##n##_DEFAULT_PLATFORM_CHANCE; \
@@ -34,6 +34,10 @@ Return_code singleplayer_data_ctor (Singleplayer_Data* data) {
     INIT_DIFFICULTY (3);
     INIT_DIFFICULTY (4);
     INIT_DIFFICULTY (5);
+    INIT_DIFFICULTY (6);
+    INIT_DIFFICULTY (7);
+    INIT_DIFFICULTY (8);
+    INIT_DIFFICULTY (9);
 
 
     return SUCCESS;

@@ -287,6 +287,9 @@ Return_code list_delete (List* list, Node* node) {
     if (!node) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
+    if (list->first == node) list->first = node->next;
+
+
     if (node->prev) node->prev->next = node->next;
     if (node->next) node->next->prev = node->prev;
 

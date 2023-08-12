@@ -14,6 +14,14 @@
 //--------------------------------------------------
 
 
+typedef struct Point {
+
+    double min;
+    double max;
+
+} Point; const size_t POINT_SIZE = sizeof (Point);
+
+
 typedef struct Game_Media {
 
     SDL_Texture** doodler_textures;

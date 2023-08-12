@@ -11,8 +11,8 @@ const double DIFFICULTY_1_FAKE_PLATFORM_CHANCE    = 0;
 const double DIFFICULTY_1_MOVING_PLATFORM_CHANCE  = 0;
 const double DIFFICULTY_1_CLOUD_PLATFORM_CHANCE   = 0;
 
-const double DIFFICULTY_0_MIN_PLATFORM_DX = 0;
-const double DIFFICULTY_0_MAX_PLATFORM_DX = 0;
+const double DIFFICULTY_1_MIN_MOVING_PLATFORM_DX = 0;
+const double DIFFICULTY_1_MAX_MOVING_PLATFORM_DX = 0;
 
 
 //--------------------------------------------------

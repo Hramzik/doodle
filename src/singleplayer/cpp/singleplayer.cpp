@@ -32,8 +32,8 @@ Player generate_default_player (Game* game) {
                                     .dx  = DEFAULT_PLAYER_DX,  .dy  = DEFAULT_PLAYER_DY,
                                     .ddx = DEFAULT_PLAYER_DDX, .ddy = DEFAULT_PLAYER_DDY };
 
-    Player player = { .motion = player_motion, .score = DEFAULT_PLAYER_SCORE,
-                      .skin = DEFAULT_PLAYER_SKIN - 1 };
+    Player player = { .motion = player_motion,         .score  = DEFAULT_PLAYER_SCORE,
+                      .skin = DEFAULT_PLAYER_SKIN - 1, .facing = DEFAULT_PLAYER_FACE_DIRECTION };
 
 
     return player;
@@ -50,7 +50,7 @@ Return_code game_spawn_platforms_singleplayer (Game* game) {
     Difficulty difficulty = game_get_difficulty_singleplayer (game);
 
 
-    while (MAX_Y < game->data.camera_y + DEFAULT_WINDOW_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
+    while (MAX_Y < game->data.camera_y + FIELD_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
 
         Platform_type type = generate_platform_type (difficulty);
         if (!can_spawn_platform_type (game, difficulty, type)) continue;
@@ -97,9 +97,9 @@ Difficulty game_get_difficulty_singleplayer (Game* game) {
 
     double score = list_get_player (game->engine.players.list, 0)->score;
 
-    for (size_t i = 0; i < DATA.num_difficulties; i++) {
+    for (size_t i = 1; i < DATA.num_difficulties; i++) {
 
-        if (score < DATA.difficulties [i].max_score) return DATA.difficulties [i];
+        if (score < DATA.difficulties [i].min_score) return DATA.difficulties [i - 1];
     }
 
 
@@ -152,66 +152,13 @@ Return_code spawn_platform (Game* game, Difficulty difficulty, Platform_type typ
 }
 
 
-Platform generate_static_platform (Game* game, Point gaps, Platform_type type) {
-
-    if (!game) LOG_ERROR (BAD_ARGS);
-
-
-    double min_x = PLATFORM_WIDTH / 2;
-    double     x = min_x + random_scale (DEFAULT_WINDOW_WIDTH - PLATFORM_WIDTH);
-
-    double min_y = gaps.min + MAX_Y;
-    gaps.max     = fmin (gaps.max, ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y);
-    double     y = min_y + random_scale (gaps.max - gaps.min);
-
-
-    Object_Motion motion   = static_motion (x, y);
-    Platform      platform = { .motion = motion, .type = type, .dead = false };
-
-
-    return platform;
-}
-
-
-Return_code spawn_static_platform (Game* game, double min_gap, double max_gap, Platform_type type) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    Platform platform = generate_static_platform (game, min_gap, max_gap, type);
-    game_add_platform (game, platform);
-
-
-    return SUCCESS;
-}
-
-
-Return_code spawn_moving_platform (Game* game, Point gaps, Object_Motion dynamics, Platform_type type) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    Platform platform = generate_static_platform (game, gaps, type);
-    motion_copy_dynamics (dynamics, &platform.motion);
-    game_add_platform (game, platform);
-
-
-    return SUCCESS;
-}
-
-
-#undef MAX_Y
-#undef MAX_MATERIAL_Y
-#undef PLATFORM_Y
-//--------------------------------------------------
-
-
 Return_code spawn_default_platform (Game* game, Difficulty difficulty) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_DEFAULT);
+    Point gaps = generate_gaps (difficulty);
+    spawn_static_platform (game, gaps, PT_DEFAULT);
 
 
     return SUCCESS;
@@ -223,7 +170,8 @@ Return_code spawn_fake_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_FAKE);
+    Point gaps = generate_gaps (difficulty);
+    spawn_static_platform (game, gaps, PT_FAKE);
 
 
     return SUCCESS;
@@ -235,7 +183,9 @@ Return_code spawn_moving_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_MOVING);
+    Point         gaps   = generate_gaps              (difficulty);
+    Object_Motion motion = generate_platform_dynamics (difficulty, PT_MOVING);
+    spawn_moving_platform (game, gaps, motion, PT_MOVING);
 
 
     return SUCCESS;
@@ -247,7 +197,8 @@ Return_code spawn_cloud_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    spawn_static_platform (game, difficulty.min_platform_gap, difficulty.max_platform_gap, PT_CLOUD);
+    Point gaps = generate_gaps (difficulty);
+    spawn_static_platform (game, gaps, PT_CLOUD);
 
 
     return SUCCESS;
@@ -266,92 +217,36 @@ Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_
 }
 
 
-Return_code game_teleport_up_singleplayer (Game* game) {
+Point generate_gaps (Difficulty difficulty) {
 
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    list_get_player (game->engine.players.list, 0)->motion.x = DEFAULT_WINDOW_WIDTH / 2;
-    list_get_player (game->engine.players.list, 0)->motion.y = game->data.camera_y + DEFAULT_WINDOW_HEIGHT * 3 / 7;
-
-    list_get_player (game->engine.players.list, 0)->motion.dy = 0;
+    double min_gap = difficulty.min_platform_gap;
+    double max_gap = difficulty.max_platform_gap;
 
 
-    return SUCCESS;
+    return { .min = min_gap, .max = max_gap };
 }
 
 
-/*
-Platform generate_default_platform (Game* game, double min_gap, double max_gap) {
+Object_Motion generate_platform_dynamics (Difficulty difficulty, Platform_type type) {
 
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    if (type == PT_MOVING) return generate_moving_platform_dynamics (difficulty);
 
 
-    return generate_static_platform (game, min_gap, max_gap, PT_DEFAULT);
+    LOG_ERROR (CRITICAL);
+    return {};
 }
 
 
-Platform generate_cloud_platform (Game* game, double min_gap, double max_gap) {
+Object_Motion generate_moving_platform_dynamics (Difficulty difficulty) {
 
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+    double min_dx   = difficulty.min_moving_platform_dx;
+    double dx_range = difficulty.max_moving_platform_dx - difficulty.min_moving_platform_dx;
+    double dx_value = min_dx + random_scale (dx_range);
 
 
-    return generate_static_platform (game, min_gap, max_gap, PT_CLOUD);
+    if (random_scale (1) >= 0.5) dx_value *= -1;
+
+
+    return linear_dynamics (dx_value, 0);
 }
 
-
-Platform generate_fake_platform (Game* game, double min_gap, double max_gap) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    return generate_static_platform (game, min_gap, max_gap, PT_FAKE);
-}*/
-
-
-Platform spawn_moving_platform (Game* game, double min_gap, double max_gap, Object_Motion dynamics) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    double min_x = PLATFORM_WIDTH / 2;
-    double     x = min_x + random_scale (DEFAULT_WINDOW_WIDTH - PLATFORM_WIDTH);
-
-    double min_y = min_gap + game->engine.platforms.max_y;
-    double     y = min_y + random_scale (max_gap - min_gap);
-
-
-    Object_Motion motion = static_motion (x, y);
-    Platform platform = { .motion = motion, .type = PT_MOVING };
-
-
-    game->engine.platforms.max_y = (int) y;
-
-
-    return SUCCESS;
-}
-
-
-
-
-Return_code spawn_linear_horizontally_moving_platform (Game* game, double min_gap, double max_gap, double dx) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    return spawn_linear_moving_platform (game, min_gap, max_gap, dx, 0);
-}
-
-
-Return_code generate_linear_horizontally_moving_platform (Game* game, double min_gap, double max_gap, double min_dx, double max_dx) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    double dx = min_y + random_scale (max_gap - min_gap);
-
-
-    return spawn_linear_horizontally_moving_platform (game, min_gap, max_gap);
-}
-
-*/

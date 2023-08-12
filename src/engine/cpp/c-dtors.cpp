@@ -67,6 +67,9 @@ Return_code engine_data_ctor (Engine_Data* data) {
 
     data->t = DEFAULT_UPDATE_TIME;
 
+    data->field_width  = DEFAULT_FIELD_WIDTH;
+    data->field_height = DEFAULT_FIELD_HEIGHT;
+
 
     return SUCCESS;
 }

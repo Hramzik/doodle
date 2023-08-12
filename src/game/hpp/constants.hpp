@@ -9,17 +9,16 @@
 //--------------------------------------------------
 // settings
 
-
-const int DEFAULT_WINDOW_WIDTH  = 600; // int because of int field in SDL_rect
+const int DEFAULT_WINDOW_WIDTH  = 800; // int because of int field in SDL_rect
 const int DEFAULT_WINDOW_HEIGHT = 800;
 
 const size_t PICTURE_GENERATIONS_COUNT = 1;
 
+const double MAX_UPDATE_TIME = 0.5;
 
 //--------------------------------------------------
 
-
-const Uint32 GAME_OUTPUT_FLAGS = SDL_WINDOW_SHOWN;
+const Uint32 GAME_OUTPUT_FLAGS = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 
 
 const size_t SIZE_T_SIZE = sizeof (size_t);
@@ -27,10 +26,6 @@ const size_t CHAR_SIZE   = sizeof (char);
 
 //--------------------------------------------------
 // skins
-
-
-const int DOODLER_TEXTURE_WIDTH  = 92; // int because of int in SDL_Rect
-const int DOODLER_TEXTURE_HEIGHT = 67;
 
 
 const size_t DOODLER_SKIN_PATHS_START_LINE = __LINE__;
@@ -69,6 +64,9 @@ const double BIG_HORIZONTAL_STEP   = 2;
 const double SMALL_HORIZONTAL_STEP = 1;
 
 
+const int PLAYER_TEXTURE_WIDTH  = 92;
+const int PLAYER_TEXTURE_HEIGHT = 67;
+
 //--------------------------------------------------
 // platforms
 
@@ -76,6 +74,10 @@ const double SMALL_HORIZONTAL_STEP = 1;
 const size_t PLATFORM_TYPES_COUNT = 1;
 
 const double VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT = 0;
+
+
+const int PLATFORM_TEXTURE_WIDTH  = (int) PLATFORM_HITBOX_WIDTH;
+const int PLATFORM_TEXTURE_HEIGHT = (int) PLATFORM_HITBOX_HEIGHT;
 
 
 //--------------------------------------------------

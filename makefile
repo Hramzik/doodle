@@ -51,11 +51,14 @@ game:
 	$(GAME_FOLDER)/game_media.cpp \
 	$(GAME_FOLDER)/game.cpp \
 	$(GAME_FOLDER)/keyboard_input.cpp \
+	$(GAME_FOLDER)/platforms.cpp \
 	$(ENGINE_FOLDER)/engine.cpp \
 	$(ENGINE_FOLDER)/c-dtors.cpp \
+	$(ENGINE_FOLDER)/motion.cpp \
 	$(ENGINE_FOLDER)/players.cpp \
 	$(ENGINE_FOLDER)/platforms.cpp \
 	$(SINGLEPLAYER_FOLDER)/singleplayer.cpp \
 	$(SINGLEPLAYER_FOLDER)/c-dtors.cpp \
+	$(SINGLEPLAYER_FOLDER)/player_movement.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

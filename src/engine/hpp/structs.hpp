@@ -33,6 +33,8 @@ typedef struct Player {
     double score;
     size_t skin;
 
+    Player_face_direction facing;
+
 } Player; const size_t PLAYER_SIZE = sizeof (Player);
 
 
@@ -57,6 +59,9 @@ typedef struct Platform {
 typedef struct Engine_Data {
 
     double t; // for updating
+
+    double field_width;
+    double field_height;
 
 } Engine_Data; const size_t ENGINE_DATA_SIZE = sizeof (Engine_Data);
 
