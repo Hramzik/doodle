@@ -9,6 +9,7 @@
 // extern structs
 
 #include "../../singleplayer/hpp/structs.hpp"
+#include "../../array/hpp/array.hpp"
 
 
 //--------------------------------------------------
@@ -27,8 +28,7 @@ typedef struct Game_Media {
     SDL_Texture** doodler_textures;
     size_t        doodler_textures_count;
 
-    SDL_Texture** platform_textures;
-    size_t        platform_textures_count;
+    Array platform_textures;
 
     SDL_Texture** background_textures;
     size_t        background_textures_count;

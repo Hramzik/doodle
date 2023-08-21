@@ -8,6 +8,7 @@ ENGINE_FOLDER       = src/engine/cpp
 SINGLEPLAYER_FOLDER = src/singleplayer/cpp
 TIMER_FOLDER        = src/timer/cpp
 LIST_FOLDER         = src/linked_list/cpp
+ARRAY_FOLDER        = src/array/cpp
 LIB_FOLDER          = src/lib
 
 exefolder = exe
@@ -45,6 +46,7 @@ game:
 	$(MAIN_FOLDER)/main.cpp \
 	$(TIMER_FOLDER)/timer.cpp \
 	$(LIST_FOLDER)/list.cpp \
+	$(ARRAY_FOLDER)/array.cpp \
 	$(LIB_FOLDER)/logs.cpp \
 	$(GAME_FOLDER)/c-dtors.cpp \
 	$(GAME_FOLDER)/render.cpp \

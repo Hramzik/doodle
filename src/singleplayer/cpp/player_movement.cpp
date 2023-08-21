@@ -13,8 +13,8 @@ Return_code game_teleport_mid_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    list_get_player (game->engine.players.list, 0)->motion.x = DEFAULT_WINDOW_WIDTH / 2;
-    list_get_player (game->engine.players.list, 0)->motion.y = game->data.camera_y + DEFAULT_FIELD_HEIGHT * 0.4;
+    list_get_player (game->engine.players.list, 0)->motion.x = game->engine.data.field_width / 2;
+    list_get_player (game->engine.players.list, 0)->motion.y = game->data.camera_y + game->engine.data.field_height * 0.4;
 
     list_get_player (game->engine.players.list, 0)->motion.dy = 0;
 

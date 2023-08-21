@@ -23,6 +23,8 @@ Return_code game_media_dtor  (Game_Media* media);
 //--------------------------------------------------
 // game_media
 
+SDL_Texture* game_get_sdl_texture (Game* game, const char* path);
+
 Return_code game_load_media (Game* game);
 Return_code game_media_push_doodler_texture    (Game_Media* media, SDL_Texture* texture);
 Return_code game_media_push_platform_texture   (Game_Media* media, SDL_Texture* texture);

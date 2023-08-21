@@ -80,26 +80,10 @@ Return_code game_load_doodler_texture (Game* game, const char* path) {
     if (!path) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Surface* temp_surface = IMG_Load (path); // unformatted, slow
-
-    if(!temp_surface) {
-
-        LOG_MESSAGE ("Unable to load image!\n");
-        return LIB_ERR;
-    }
+    SDL_Texture* texture = game_get_sdl_texture (game, path);
 
 
-    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
-    SDL_FreeSurface (temp_surface);
-
-    if (!new_texture) {
-
-        LOG_MESSAGE ("Unable to create texture!");
-        return LIB_ERR;
-    }
-
-
-    game_media_push_doodler_texture (&game->media, new_texture);
+    game_media_push_doodler_texture (&game->media, texture);
 
 
     return SUCCESS;
@@ -112,26 +96,10 @@ Return_code game_load_platform_texture (Game* game, const char* path) {
     if (!path) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Surface* temp_surface = IMG_Load (path); // unformatted, slow
-
-    if(!temp_surface) {
-
-        LOG_MESSAGE ("Unable to load image!\n");
-        return LIB_ERR;
-    }
+    SDL_Texture* texture = game_get_sdl_texture (game, path);
 
 
-    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
-    SDL_FreeSurface (temp_surface);
-
-    if (!new_texture) {
-
-        LOG_MESSAGE ("Unable to create texture!");
-        return LIB_ERR;
-    }
-
-
-    game_media_push_platform_texture (&game->media, new_texture);
+    game_media_push_platform_texture (&game->media, texture);
 
 
     return SUCCESS;
@@ -144,29 +112,37 @@ Return_code game_load_background_texture (Game* game, const char* path) {
     if (!path) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Surface* temp_surface = IMG_Load (path); // unformatted, slow
+    SDL_Texture* texture = game_get_sdl_texture (game, path);
+
+
+    game_media_push_background_texture (&game->media, texture);
+
+
+    return SUCCESS;
+}
+
+
+SDL_Texture* game_get_sdl_texture (Game* game, const char* path) {
+
+    if (!path) { LOG_ERROR (BAD_ARGS); return nullptr; }
+
+
+    SDL_Surface* temp_surface = IMG_Load (path);
 
     if(!temp_surface) {
 
         LOG_MESSAGE ("Unable to load image!\n");
-        return LIB_ERR;
+        return nullptr;
     }
 
 
-    SDL_Texture* new_texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface (game->output.renderer, temp_surface);
     SDL_FreeSurface (temp_surface);
 
-    if (!new_texture) {
-
-        LOG_MESSAGE ("Unable to create texture!");
-        return LIB_ERR;
-    }
+    if (!texture) LOG_MESSAGE ("Unable to create texture!");
 
 
-    game_media_push_background_texture (&game->media, new_texture);
-
-
-    return SUCCESS;
+    return texture;
 }
 
 
