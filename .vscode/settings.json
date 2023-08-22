@@ -10,7 +10,7 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".vscode": true,
-        "src\\lib": true,
+        "src\\lib": false,
         "src\\linked_list": true,
         "exe": true,
         ".gitignore": true,

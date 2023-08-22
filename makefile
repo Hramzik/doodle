@@ -48,6 +48,7 @@ game:
 	$(LIST_FOLDER)/list.cpp \
 	$(ARRAY_FOLDER)/array.cpp \
 	$(LIB_FOLDER)/logs.cpp \
+	$(LIB_FOLDER)/my_math.cpp \
 	$(GAME_FOLDER)/c-dtors.cpp \
 	$(GAME_FOLDER)/render.cpp \
 	$(GAME_FOLDER)/game_media.cpp \

@@ -9,7 +9,6 @@
 // extern structs
 
 #include "../../singleplayer/hpp/structs.hpp"
-#include "../../array/hpp/array.hpp"
 
 
 //--------------------------------------------------

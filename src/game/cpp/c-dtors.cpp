@@ -110,12 +110,11 @@ Return_code game_media_ctor (Game_Media* media) {
 
 
     media->doodler_textures    = (SDL_Texture**) calloc (DEFAULT_DOODLER_TEXTURES_COUNT,    sizeof (SDL_Texture*));
-    media->platform_textures   = (SDL_Texture**) calloc (DEFAULT_PLATFORM_TEXTURES_COUNT,   sizeof (SDL_Texture*));
+    array_ctor (&media->platform_textures, AET_SDL_TEXTURE);
     media->background_textures = (SDL_Texture**) calloc (DEFAULT_BACKGROUND_TEXTURES_COUNT, sizeof (SDL_Texture*));
 
 
     media->doodler_textures_count    = 0;
-    media->platform_textures_count   = 0;
     media->background_textures_count = 0;
 
 
@@ -133,9 +132,9 @@ Return_code game_media_dtor (Game_Media* media) {
         SDL_DestroyTexture (media->doodler_textures [i]);
     }
 
-    for (size_t i = 0; i < media->platform_textures_count; i++) {
+    for (size_t i = 0; i < media->platform_textures.size; i++) {
 
-        SDL_DestroyTexture (media->platform_textures [i]);
+        SDL_DestroyTexture (array_get_texture (media->platform_textures, i));
     }
 
     for (size_t i = 0; i < media->background_textures_count; i++) {
@@ -146,7 +145,6 @@ Return_code game_media_dtor (Game_Media* media) {
 
     free (media->background_textures);
     free (media->doodler_textures);
-    free (media->platform_textures);
 
 
     return SUCCESS;

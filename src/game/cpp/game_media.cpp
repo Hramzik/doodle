@@ -39,7 +39,7 @@ Return_code game_media_push_doodler_texture (Game_Media* media, SDL_Texture* tex
     return SUCCESS;
 }
 
-
+/*
 Return_code game_media_push_platform_texture (Game_Media* media, SDL_Texture* texture) {
 
     if (!media)   { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -55,7 +55,7 @@ Return_code game_media_push_platform_texture (Game_Media* media, SDL_Texture* te
 
     return SUCCESS;
 }
-
+*/
 
 Return_code game_media_push_background_texture (Game_Media* media, SDL_Texture* texture) {
 
@@ -98,8 +98,7 @@ Return_code game_load_platform_texture (Game* game, const char* path) {
 
     SDL_Texture* texture = game_get_sdl_texture (game, path);
 
-
-    game_media_push_platform_texture (&game->media, texture);
+    array_push (&game->media.platform_textures, texture);
 
 
     return SUCCESS;

@@ -174,10 +174,10 @@ SDL_Texture* game_get_platform_texture (Game* game, Platform* platform) {
 
     switch (platform->type) {
 
-        case PT_DEFAULT: return game->media.platform_textures [0];
-        case PT_FAKE:    return game->media.platform_textures [1];
-        case PT_MOVING:  return game->media.platform_textures [0];
-        case PT_CLOUD:   return game->media.platform_textures [2];
+        case PT_DEFAULT: return array_get_texture (game->media.platform_textures, 0);
+        case PT_FAKE:    return array_get_texture (game->media.platform_textures, 1);
+        case PT_MOVING:  return array_get_texture (game->media.platform_textures, 0);
+        case PT_CLOUD:   return array_get_texture (game->media.platform_textures, 2);
 
         default: LOG_ERROR (CRITICAL); return nullptr;
     }

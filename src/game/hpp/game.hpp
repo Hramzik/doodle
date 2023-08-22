@@ -5,6 +5,7 @@
 
 #include "../../engine/hpp/engine.hpp"
 #include "../../timer/hpp/timer.hpp"
+#include "../../array/hpp/array.hpp"
 
 
 //--------------------------------------------------

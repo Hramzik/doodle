@@ -16,7 +16,7 @@ Return_code array_dtor (Array* array);
 
 Return_code array_push (Array* array, SDL_Texture* texture);
 Return_code array_push (Array* array, void* value, size_t value_size);
-Return_code array_double_capacity (Array* array);
+Return_code array_resize_up (Array* array);
 
 //--------------------------------------------------
 

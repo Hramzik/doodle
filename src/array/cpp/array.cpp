@@ -76,7 +76,7 @@ SDL_Texture* array_get_texture (Array array, size_t index) {
 
 void* array_get_void_ptr (Array array, size_t index) {
 
-    return (char*) array.buffer + index * get_array_element_size (array.element_type);
+    return *(char**)((char*) array.buffer + index * get_array_element_size (array.element_type));
 }
 
 /*
@@ -129,7 +129,7 @@ Return_code array_push (Array* array, SDL_Texture* texture) {
     if (array->element_type != AET_SDL_TEXTURE) CODE_BAD_ARGS;
 
 
-    array_push (array, texture, sizeof (SDL_Texture*));
+    array_push (array, &texture, sizeof (SDL_Texture*));
 
 
     return SUCCESS;
@@ -141,26 +141,33 @@ Return_code array_push (Array* array, void* value, size_t value_size) {
     if (!array) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (array->size == array->capacity) array_double_capacity (array);
+    if (array->size == array->capacity) array_resize_up (array);
 
-
+printf ("debug: pushing %p\n", * (char**) value);
     void* dst = (char*) array->buffer + array->size * get_array_element_size (array->element_type);
     memcpy (dst, value, value_size);
+
+
+    array->size += 1;
 
 
     return SUCCESS;
 }
 
 
-Return_code array_double_capacity (Array* array) {
+Return_code array_resize_up (Array* array) {
 
     if (!array) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    size_t new_size = 2 * get_array_element_size (array->element_type) * array->capacity;
+    size_t capacity_round_up = my_max (array->capacity, 1);
+    size_t new_capacity = 2 * get_array_element_size (array->element_type) * capacity_round_up;
 
 
-    array->buffer = realloc (array->buffer, new_size);
+    array->buffer = realloc (array->buffer, new_capacity);
+
+
+    array->capacity = new_capacity;
 
 
     return SUCCESS;
