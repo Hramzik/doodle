@@ -27,34 +27,23 @@ const size_t CHAR_SIZE   = sizeof (char);
 //--------------------------------------------------
 // skins
 
-
-const size_t DOODLER_SKIN_PATHS_START_LINE = __LINE__;
-
 #define DOODLER_SKIN1_PATH  "media/doodler1.png"
 #define DOODLER_SKIN2_PATH  "media/doodler2.png"
 #define DOODLER_SKIN3_PATH  "media/doodler3.png"
 
-const size_t DEFAULT_DOODLER_TEXTURES_COUNT = __LINE__ - DOODLER_SKIN_PATHS_START_LINE; // с запасом 3
-
 //--------------------------------------------------
-
-const size_t PLATFORM_SKIN_PATHS_START_LINE = __LINE__;
 
 #define PLATFORM_SKIN1_PATH "media/platform.png"
 #define PLATFORM_SKIN2_PATH "media/platform_fake.png"
 #define PLATFORM_SKIN3_PATH "media/platform_cloud.png"
 
-const size_t DEFAULT_PLATFORM_TEXTURES_COUNT = __LINE__ - PLATFORM_SKIN_PATHS_START_LINE;
-
 //--------------------------------------------------
-
-const size_t BACKGROUND_SKIN_PATHS_START_LINE = __LINE__;
 
 #define BACKGROUND1_PATH "media/background1.png"
 #define BACKGROUND2_PATH "media/background2.jpg"
-
-const size_t DEFAULT_BACKGROUND_TEXTURES_COUNT = __LINE__ - BACKGROUND_SKIN_PATHS_START_LINE;
-
+#define BACKGROUND3_PATH "media/background3.jpg"
+#define BACKGROUND4_PATH "media/background4.jpg"
+#define BACKGROUND5_PATH "media/background5.jpg"
 
 //--------------------------------------------------
 // players

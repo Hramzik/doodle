@@ -44,6 +44,8 @@ Return_code game_work (Game* game) {
 
 
     game_load_media (game);
+
+
     Timer* timer = timer_ctor ();
 
 

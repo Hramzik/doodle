@@ -18,54 +18,6 @@ size_t get_array_element_size (Array_element_type element_type) {
     }
 }
 
-/*
-Return_code copy_array_element (void* src, void* dst, Array_element_type element_type) {
-
-    if (!src) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!dst) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    Player*   src_player   = (Player*)   src;
-    Player*   dst_player   = (Player*)   dst;
-    Platform* src_platform = (Platform*) src;
-    Platform* dst_platform = (Platform*) dst;
-
-
-    switch (element_type) {
-
-        case LET_PLAYER:   return copy_player   (src_player,   dst_player);
-        case LET_PLATFORM: return copy_platform (src_platform, dst_platform);
-
-        default: CODE_CRITICAL;
-    }
-}
-
-
-Return_code copy_player (Player* src, Player* dst) {
-
-    if (!src) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!dst) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    *dst = *src;
-
-
-    return SUCCESS;
-}
-
-
-Return_code copy_platform (Platform* src, Platform* dst) {
-
-    if (!src) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-    if (!dst) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    *dst = *src;
-
-
-    return SUCCESS;
-}
-*/
 
 SDL_Texture* array_get_texture (Array array, size_t index) {
 
@@ -76,24 +28,12 @@ SDL_Texture* array_get_texture (Array array, size_t index) {
 
 void* array_get_void_ptr (Array array, size_t index) {
 
+    if (index >= array.size) { LOG_ERROR (BAD_ARGS); return nullptr; }
+
+
     return *(char**)((char*) array.buffer + index * get_array_element_size (array.element_type));
 }
 
-/*
-Array* create_array (Array_element_type element_type) {
-
-    Array* array = (Array*) calloc (1, ARRAY_SIZE);
-
-
-    array->first = nullptr;
-    array->last  = nullptr;
-
-    array->element_type = element_type;
-    array->len          = 0;
-
-
-    return array;
-}*/
 
 Return_code array_ctor (Array* array, Array_element_type element_type) {
 
@@ -143,7 +83,7 @@ Return_code array_push (Array* array, void* value, size_t value_size) {
 
     if (array->size == array->capacity) array_resize_up (array);
 
-printf ("debug: pushing %p\n", * (char**) value);
+
     void* dst = (char*) array->buffer + array->size * get_array_element_size (array->element_type);
     memcpy (dst, value, value_size);
 
@@ -160,14 +100,32 @@ Return_code array_resize_up (Array* array) {
     if (!array) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    size_t capacity_round_up = my_max (array->capacity, 1);
-    size_t new_capacity = 2 * get_array_element_size (array->element_type) * capacity_round_up;
+    size_t new_capacity = 2 * my_max (array->capacity, 1);
+    size_t new_buffer_size = get_array_element_size (array->element_type) * new_capacity;
 
 
-    array->buffer = realloc (array->buffer, new_capacity);
+    array->buffer = realloc (array->buffer, new_buffer_size);
 
 
     array->capacity = new_capacity;
+
+
+    return SUCCESS;
+}
+
+
+Return_code array_destroy_textures (Array* array) {
+
+    if (!array) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (array->element_type != AET_SDL_TEXTURE) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    for (size_t i = 0; i < array->size; i++) {
+
+        SDL_DestroyTexture (array_get_texture (*array, i));
+    }
 
 
     return SUCCESS;

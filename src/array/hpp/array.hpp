@@ -28,4 +28,8 @@ void*        array_get_void_ptr (Array array, size_t index);
 size_t get_array_element_size (Array_element_type element_type);
 
 //--------------------------------------------------
+
+Return_code array_destroy_textures (Array* array);
+
+//--------------------------------------------------
 #endif

@@ -109,13 +109,9 @@ Return_code game_media_ctor (Game_Media* media) {
     if (!media) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    media->doodler_textures    = (SDL_Texture**) calloc (DEFAULT_DOODLER_TEXTURES_COUNT,    sizeof (SDL_Texture*));
-    array_ctor (&media->platform_textures, AET_SDL_TEXTURE);
-    media->background_textures = (SDL_Texture**) calloc (DEFAULT_BACKGROUND_TEXTURES_COUNT, sizeof (SDL_Texture*));
-
-
-    media->doodler_textures_count    = 0;
-    media->background_textures_count = 0;
+    array_ctor (&media->player_textures,    AET_SDL_TEXTURE);
+    array_ctor (&media->platform_textures,   AET_SDL_TEXTURE);
+    array_ctor (&media->background_textures, AET_SDL_TEXTURE);
 
 
     return SUCCESS;
@@ -127,24 +123,12 @@ Return_code game_media_dtor (Game_Media* media) {
     if (!media) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < media->doodler_textures_count; i++) {
-
-        SDL_DestroyTexture (media->doodler_textures [i]);
-    }
-
-    for (size_t i = 0; i < media->platform_textures.size; i++) {
-
-        SDL_DestroyTexture (array_get_texture (media->platform_textures, i));
-    }
-
-    for (size_t i = 0; i < media->background_textures_count; i++) {
-
-        SDL_DestroyTexture (media->background_textures [i]);
-    }
-
-
-    free (media->background_textures);
-    free (media->doodler_textures);
+    array_destroy_textures (&media->player_textures);
+    array_dtor             (&media->player_textures);
+    array_destroy_textures (&media->platform_textures);
+    array_dtor             (&media->platform_textures);
+    array_destroy_textures (&media->background_textures);
+    array_dtor             (&media->background_textures);
 
 
     return SUCCESS;
@@ -159,6 +143,8 @@ Return_code game_data_ctor (Game_Data* data) {
     data->high_score = 0;
     data->game_mode  = SINGLE_PLAYER;
     data->camera_y   = 0;
+
+    data->background = 0;
 
     singleplayer_data_ctor (&data->singleplayer);
 

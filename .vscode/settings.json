@@ -10,11 +10,11 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".vscode": true,
-        "src\\lib": false,
+        "src\\lib": true,
         "src\\linked_list": true,
         "exe": true,
         ".gitignore": true,
-        "makefile": false,
+        "makefile": true,
         "readme.md": true,
         "src\\timer": true,
         "src\\main.cpp": true

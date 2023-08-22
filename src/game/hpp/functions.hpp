@@ -30,7 +30,7 @@ Return_code game_media_push_doodler_texture    (Game_Media* media, SDL_Texture* 
 Return_code game_media_push_platform_texture   (Game_Media* media, SDL_Texture* texture);
 Return_code game_media_push_background_texture (Game_Media* media, SDL_Texture* texture);
 
-Return_code game_load_doodler_textures    (Game* game);
+Return_code game_load_player_textures    (Game* game);
 Return_code game_load_platform_textures   (Game* game);
 Return_code game_load_background_textures (Game* game);
 
@@ -70,16 +70,23 @@ Return_code      game_render_player        (Game* game, Player* player);
 Return_code      game_render_player_hitbox (Game* game, Player* player);
 SDL_RendererFlip player_get_sdl_flip       (Player* player);
 
-Return_code game_render_platform   (Game* game, Platform* platform);
-Return_code game_render_background (Game* game);
+Return_code game_render_platform        (Game* game, Platform* platform);
+Return_code game_render_platform_hitbox (Game* game, Platform* platform);
 
-SDL_Texture* game_get_platform_texture (Game* game, Platform* platform);
+Return_code   game_render_background     (Game* game);
+Object_Motion game_get_background_motion (Game* game);
+
+SDL_Texture* game_get_platform_texture   (Game* game, Platform* platform);
+SDL_Texture* game_get_background_texture (Game* game);
+
 int          game_get_window_width     (Game* game);
 int          game_get_window_height    (Game* game);
 
+SDL_Rect get_player_texture_offset (Player* player);
+SDL_Rect get_player_hitbox_offset  (void);
 SDL_Rect get_platform_texture_offset (void);
-SDL_Rect get_player_texture_offset   (Player* player);
-SDL_Rect get_player_hitbox_offset (Player* player);
+SDL_Rect get_platform_hitbox_offset  (void);
+SDL_Rect get_background_texture_offset (Game* game);
 
 SDL_Rect game_get_render_rect (Game* game, Object_Motion* motion, SDL_Rect texture_offset);
 
@@ -98,6 +105,9 @@ Return_code game_handle_left_up_singleplayer  (Game* game);
 Return_code game_handle_right_up_singleplayer (Game* game);
 Return_code game_handle_a_up_singleplayer     (Game* game);
 Return_code game_handle_d_up_singleplayer     (Game* game);
+
+Return_code game_handle_comma_up    (Game* game);
+Return_code game_handle_period_up (Game* game);
 
 //--------------------------------------------------
 // platforms

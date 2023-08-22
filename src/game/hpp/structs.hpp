@@ -24,13 +24,9 @@ typedef struct Point {
 
 typedef struct Game_Media {
 
-    SDL_Texture** doodler_textures;
-    size_t        doodler_textures_count;
-
+    Array player_textures;
     Array platform_textures;
-
-    SDL_Texture** background_textures;
-    size_t        background_textures_count;
+    Array background_textures;
 
 } Game_Media; const size_t GAME_MEDIA_SIZE = sizeof (Game_Media);
 
@@ -62,6 +58,9 @@ typedef struct Game_Data {
     int       high_score;
     Game_mode game_mode;
     double    camera_y;
+
+    size_t background;
+
 
     Singleplayer_Data singleplayer;
 

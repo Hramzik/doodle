@@ -95,6 +95,9 @@ Return_code game_handle_keyup_singleplayer (Game* game, SDL_Event event) {
         case SDLK_KP_5:  game_freeze_singleplayer_terminate (game); break;
         case SDLK_KP_MULTIPLY: game_switch_player_texture_direction_singleplayer (game); break;
 
+        case SDLK_COMMA:  game_handle_comma_up    (game); break;
+        case SDLK_PERIOD: game_handle_period_up (game); break;
+
         default: break;
     }
 
@@ -227,5 +230,37 @@ Return_code game_handle_d_up_singleplayer (Game* game) {
     return SUCCESS;
 }
 
+
+//--------------------------------------------------
+
+
+Return_code game_handle_comma_up (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (game->data.background == 0) return SUCCESS;
+
+
+    game->data.background -= 1;
+
+
+    return SUCCESS;
+}
+
+
+Return_code game_handle_period_up (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (game->data.background == game->media.background_textures.size - 1) return SUCCESS;
+
+
+    game->data.background += 1;
+
+
+    return SUCCESS;
+}
 
 
