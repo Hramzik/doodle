@@ -2,13 +2,12 @@
 #define GAME_STRUCTS_HPP_INCLUDED
 //--------------------------------------------------
 
-#include "game.hpp"
 
-//--------------------------------------------------
-
-// extern structs
-
+#include "enums.hpp"
+#include "sdl.hpp"
+#include "../../array/hpp/structs.hpp"
 #include "../../singleplayer/hpp/structs.hpp"
+#include "../../engine/hpp/structs2.hpp"
 
 
 //--------------------------------------------------
@@ -22,9 +21,21 @@ typedef struct Point {
 } Point; const size_t POINT_SIZE = sizeof (Point);
 
 
+typedef struct Player_Skin {
+
+    Player_face_direction default_face_direction;
+    SDL_Texture* texture;
+    SDL_Rect texture_offset;
+
+    Array hitbox;
+
+} Player_Skin; const size_t PLAYER_SKIN_SIZE = sizeof (Player_Skin);
+
+
+
 typedef struct Game_Media {
 
-    Array player_textures;
+    Array player_skins;
     Array platform_textures;
     Array background_textures;
 

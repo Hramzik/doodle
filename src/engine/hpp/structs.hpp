@@ -28,9 +28,23 @@ typedef struct Object_Motion {
 //--------------------------------------------------
 
 
+typedef struct Hitbox_Rect {
+
+    double x; // bottom left
+    double y;
+    double w;
+    double h;
+
+} Hitbox_Rect; const size_t HITBOX_RECT_SIZE = sizeof (Hitbox_Rect);
+
+
+//--------------------------------------------------
+
+
 typedef struct Player {
 
     Object_Motion motion;
+    double max_cur_jump_y;
 
     double score;
     size_t skin;

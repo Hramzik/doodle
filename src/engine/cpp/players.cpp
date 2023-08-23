@@ -100,7 +100,8 @@ Return_code player_update (Player* player) {
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    player_facing_update (player);
+    player_facing_update        (player);
+    player_max_curjump_y_update (player);
 
 
     return SUCCESS;
@@ -114,6 +115,21 @@ Return_code player_facing_update (Player* player) {
 
     if (player->motion.dx > 0) player->facing = PFD_RIGHT;
     if (player->motion.dx < 0) player->facing = PFD_LEFT;
+
+
+    return SUCCESS;
+}
+
+
+Return_code player_max_curjump_y_update (Player* player) {
+
+    if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    if (player->motion.dy < 0) { player->max_cur_jump_y = 0; return SUCCESS; }
+
+
+    if (player->motion.y > player->max_cur_jump_y) player->max_cur_jump_y = player->motion.y;
 
 
     return SUCCESS;

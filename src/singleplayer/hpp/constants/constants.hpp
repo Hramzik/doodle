@@ -26,7 +26,7 @@ const double DEFAULT_PLAYER_DY  = 2.2;
 const double DEFAULT_PLAYER_DDX = 0;
 const double DEFAULT_PLAYER_DDY = -0.007;
 
-const size_t DEFAULT_PLAYER_SKIN  = 2;
+const size_t DEFAULT_PLAYER_SKIN  = 1;
 const size_t DEFAULT_PLAYER_SCORE = 0;
 
 const Player_face_direction DEFAULT_PLAYER_FACE_DIRECTION = PFD_RIGHT;

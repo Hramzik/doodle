@@ -33,7 +33,8 @@ Player generate_default_player (Game* game) {
                                     .ddx = DEFAULT_PLAYER_DDX, .ddy = DEFAULT_PLAYER_DDY };
 
     Player player = { .motion = player_motion,         .score  = DEFAULT_PLAYER_SCORE,
-                      .skin = DEFAULT_PLAYER_SKIN - 1, .facing = DEFAULT_PLAYER_FACE_DIRECTION };
+                      .skin = DEFAULT_PLAYER_SKIN, .facing = DEFAULT_PLAYER_FACE_DIRECTION,
+                      .max_cur_jump_y = 0 };
 
 
     return player;

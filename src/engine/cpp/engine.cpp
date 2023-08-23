@@ -39,11 +39,10 @@ Platform* engine_check_player_collisions (Game_Engine* engine, Player* player) {
 
 bool check_player_platform_collision (Player player, Platform platform) {
 
-    if (PLAYER_X   + PLAYER_HITBOX_RIGHT_WIDTH / 2 < PLATFORM_X - PLATFORM_HITBOX_WIDTH            / 2 ||
-        PLATFORM_X + PLATFORM_HITBOX_WIDTH      / 2 < PLAYER_X   - PLAYER_HITBOX_LEFT_WIDTH / 2) return false;
+    if (player.max_cur_jump_y < platform.motion.y + PLATFORM_HITBOX_HEIGHT) return false;
+    // не был выше платформы
 
-    if (PLAYER_Y < PLATFORM_Y ||
-        PLAYER_Y > PLATFORM_Y + PLATFORM_HITBOX_HEIGHT) return false;
+    return do_hitboxes_overlap (get_skin_hitbox)
 
 
     return true;

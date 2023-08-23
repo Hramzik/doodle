@@ -2,10 +2,17 @@
 
 //--------------------------------------------------
 
+
 #include "../hpp/array.hpp"
+
 
 //--------------------------------------------------
 
+
+static Return_code array_push_notypecontrol (Array* array, void* value);
+
+
+//--------------------------------------------------
 
 
 size_t get_array_element_size (Array_element_type element_type) {
@@ -13,6 +20,8 @@ size_t get_array_element_size (Array_element_type element_type) {
     switch (element_type) {
 
         case AET_SDL_TEXTURE: return sizeof (SDL_Texture*);
+        case AET_HITBOX_RECT: return HITBOX_RECT_SIZE;
+        case AET_PLAYER_SKIN: return PLAYER_SKIN_SIZE;
 
         default: LOG_ERROR (CRITICAL); return 0;
     }
@@ -22,7 +31,21 @@ size_t get_array_element_size (Array_element_type element_type) {
 SDL_Texture* array_get_texture (Array array, size_t index) {
 
 
-    return (SDL_Texture*) array_get_void_ptr (array, index);
+    return *(SDL_Texture**) array_get_void_ptr (array, index);
+}
+
+
+Hitbox_Rect array_get_hitbox_rect (Array array, size_t index) {
+
+
+    return *(Hitbox_Rect*) array_get_void_ptr (array, index);
+}
+
+
+Player_Skin array_get_player_skin (Array array, size_t index) {
+
+
+    return *(Player_Skin*) array_get_void_ptr (array, index);
 }
 
 
@@ -31,7 +54,7 @@ void* array_get_void_ptr (Array array, size_t index) {
     if (index >= array.size) { LOG_ERROR (BAD_ARGS); return nullptr; }
 
 
-    return *(char**)((char*) array.buffer + index * get_array_element_size (array.element_type));
+    return (char*) array.buffer + index * get_array_element_size (array.element_type);
 }
 
 
@@ -69,14 +92,40 @@ Return_code array_push (Array* array, SDL_Texture* texture) {
     if (array->element_type != AET_SDL_TEXTURE) CODE_BAD_ARGS;
 
 
-    array_push (array, &texture, sizeof (SDL_Texture*));
+    array_push_notypecontrol (array, &texture);
 
 
     return SUCCESS;
 }
 
 
-Return_code array_push (Array* array, void* value, size_t value_size) {
+Return_code array_push (Array* array, Hitbox_Rect rect) {
+
+    if (!array)                                 CODE_BAD_ARGS;
+    if (array->element_type != AET_HITBOX_RECT) CODE_BAD_ARGS;
+
+
+    array_push_notypecontrol (array, &rect);
+
+
+    return SUCCESS;
+}
+
+
+Return_code array_push (Array* array, Player_Skin skin) {
+
+    if (!array)                                 CODE_BAD_ARGS;
+    if (array->element_type != AET_PLAYER_SKIN) CODE_BAD_ARGS;
+
+
+    array_push_notypecontrol (array, &skin);
+
+
+    return SUCCESS;
+}
+
+
+static Return_code array_push_notypecontrol (Array* array, void* value) {
 
     if (!array) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -85,7 +134,7 @@ Return_code array_push (Array* array, void* value, size_t value_size) {
 
 
     void* dst = (char*) array->buffer + array->size * get_array_element_size (array->element_type);
-    memcpy (dst, value, value_size);
+    memcpy (dst, value, get_array_element_size (array->element_type));
 
 
     array->size += 1;

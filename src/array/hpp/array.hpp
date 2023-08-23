@@ -3,9 +3,9 @@
 //--------------------------------------------------
 
 
-#include "includes.hpp"
 #include "enums.hpp"
 #include "structs.hpp"
+#include "includes.hpp"
 
 
 //--------------------------------------------------
@@ -15,13 +15,17 @@ Return_code array_ctor (Array* array, Array_element_type element_type);
 Return_code array_dtor (Array* array);
 
 Return_code array_push (Array* array, SDL_Texture* texture);
-Return_code array_push (Array* array, void* value, size_t value_size);
-Return_code array_resize_up (Array* array);
+Return_code array_push (Array* array, Hitbox_Rect rect);
+Return_code array_push (Array* array, Player_Skin skin);
+
+Return_code array_resize_up          (Array* array);
 
 //--------------------------------------------------
 
-SDL_Texture* array_get_texture  (Array array, size_t index);
-void*        array_get_void_ptr (Array array, size_t index);
+SDL_Texture* array_get_texture     (Array array, size_t index);
+Hitbox_Rect  array_get_hitbox_rect (Array array, size_t index);
+Player_Skin  array_get_player_skin (Array array, size_t index);
+void*        array_get_void_ptr    (Array array, size_t index);
 
 //--------------------------------------------------
 

@@ -109,7 +109,7 @@ Return_code game_media_ctor (Game_Media* media) {
     if (!media) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    array_ctor (&media->player_textures,    AET_SDL_TEXTURE);
+    array_ctor (&media->player_skins,        AET_PLAYER_SKIN);
     array_ctor (&media->platform_textures,   AET_SDL_TEXTURE);
     array_ctor (&media->background_textures, AET_SDL_TEXTURE);
 
@@ -123,8 +123,7 @@ Return_code game_media_dtor (Game_Media* media) {
     if (!media) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    array_destroy_textures (&media->player_textures);
-    array_dtor             (&media->player_textures);
+    array_dtor             (&media->player_skins);
     array_destroy_textures (&media->platform_textures);
     array_dtor             (&media->platform_textures);
     array_destroy_textures (&media->background_textures);

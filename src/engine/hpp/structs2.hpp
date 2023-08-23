@@ -9,7 +9,8 @@
 //--------------------------------------------------
 
 
-#include "engine.hpp"
+#include "../../linked_list/hpp/structs.hpp"
+#include "../../array/hpp/structs.hpp"
 
 
 //--------------------------------------------------
@@ -17,7 +18,8 @@
 
 typedef struct Players {
 
-    List list;
+    List  player_list;
+    Array skins;
 
 } Players; const size_t PLAYERS_SIZE = sizeof (Players);
 

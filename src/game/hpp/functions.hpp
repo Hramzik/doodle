@@ -30,7 +30,7 @@ Return_code game_media_push_doodler_texture    (Game_Media* media, SDL_Texture* 
 Return_code game_media_push_platform_texture   (Game_Media* media, SDL_Texture* texture);
 Return_code game_media_push_background_texture (Game_Media* media, SDL_Texture* texture);
 
-Return_code game_load_player_textures    (Game* game);
+Return_code game_load_player_skins        (Game* game);
 Return_code game_load_platform_textures   (Game* game);
 Return_code game_load_background_textures (Game* game);
 
@@ -60,7 +60,9 @@ Return_code game_update_scores_camera_y (Game* game, double camera_disance);
 //--------------------------------------------------
 // render
 
-Return_code game_clear_screen (Game* game);
+Return_code game_clear_screen  (Game* game);
+Return_code game_set_drawcolor (Game* game, Uint8 r, Uint8 g, Uint8 b);
+Return_code game_draw_rect     (Game* game, SDL_Rect rect);
 
 Return_code game_render           (Game* game);
 Return_code game_render_players   (Game* game);
@@ -76,6 +78,9 @@ Return_code game_render_platform_hitbox (Game* game, Platform* platform);
 Return_code   game_render_background     (Game* game);
 Object_Motion game_get_background_motion (Game* game);
 
+Return_code game_render_object_hitbox_rect
+(Game* game, Object_Motion coords, Hitbox_Rect hitbox_rect);
+
 SDL_Texture* game_get_platform_texture   (Game* game, Platform* platform);
 SDL_Texture* game_get_background_texture (Game* game);
 
@@ -83,7 +88,7 @@ int          game_get_window_width     (Game* game);
 int          game_get_window_height    (Game* game);
 
 SDL_Rect get_player_texture_offset (Player* player);
-SDL_Rect get_player_hitbox_offset  (void);
+SDL_Rect get_hitbox_rect_offset  (Hitbox_Rect rect);
 SDL_Rect get_platform_texture_offset (void);
 SDL_Rect get_platform_hitbox_offset  (void);
 SDL_Rect get_background_texture_offset (Game* game);
@@ -121,9 +126,10 @@ Return_code spawn_moving_platform    (Game* game, Point gaps, Object_Motion dyna
 
 //--------------------------------------------------
 
-// support functions
+// other functions
 
 double random_scale (double input);
+Return_code hitbox_rect_mirror_horizontally (Hitbox_Rect* rect);
 
 //--------------------------------------------------
 

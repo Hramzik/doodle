@@ -11,7 +11,7 @@
         "**/Thumbs.db": true,
         ".vscode": true,
         "src\\lib": true,
-        "src\\linked_list": true,
+        "src\\linked_list": false,
         "exe": true,
         ".gitignore": true,
         "makefile": true,

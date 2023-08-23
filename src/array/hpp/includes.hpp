@@ -11,6 +11,8 @@
 
 
 #include "../../game/hpp/sdl.hpp"
+#include "../../engine/hpp/structs.hpp"
+#include "../../game/hpp/structs.hpp"
 
 
 //--------------------------------------------------
