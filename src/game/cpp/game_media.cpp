@@ -143,7 +143,7 @@ Return_code game_load_background_textures (Game* game) {
     skin.texture_offset = def_texture_offset                     \
     def_hitboxes                                                 \
                                                                  \
-    array_push (&game->media.player_skins, skin);                \
+    array_push (&game->engine.players.skins, skin);                \
 }
 
 #define DEF_TEXTURE_OFFSET(x, y, w, h) {x, y, w, h};

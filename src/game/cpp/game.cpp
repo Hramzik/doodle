@@ -31,7 +31,7 @@ Return_code game_add_player (Game* game, Player player) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    list_push_back (&game->engine.players.list, player);
+    list_push_back (&game->engine.players.player_list, player);
 
 
     return SUCCESS;
@@ -73,8 +73,8 @@ Return_code game_work (Game* game) {
 
         if ((size_t) timer_get_total_delay_ms (timer) % 10000 == 0) {
 
-            printf ("score: %.0lf\n", list_get_player (game->engine.players.list, 0)->score);
-            player_dump (list_get_player (game->engine.players.list, 0));
+            printf ("score: %.0lf\n", list_get_player (game->engine.players.player_list, 0)->score);
+            player_dump (list_get_player (game->engine.players.player_list, 0));
             //timer_print_fps (timer);
         }
     }

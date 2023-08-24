@@ -8,6 +8,33 @@
 //--------------------------------------------------
 
 
+Hitbox_Rect platform_get_true_hitbox_rect (Platform platform) {
+
+    Hitbox_Rect rect = {};
+
+    rect.x = platform.motion.x - PLATFORM_HITBOX_WIDTH / 2;
+    rect.y = platform.motion.y + PLATFORM_HITBOX_HEIGHT;
+    rect.w = PLATFORM_HITBOX_WIDTH;
+    rect.h = PLATFORM_HITBOX_HEIGHT;
+
+
+    return rect;
+}
+
+
+Hitbox_Rect get_platform_hitbox_rect (void) {
+
+    Hitbox_Rect rect = {};
+
+    rect.x = - PLATFORM_HITBOX_WIDTH / 2;
+    rect.y =   PLATFORM_HITBOX_HEIGHT;
+    rect.w = PLATFORM_HITBOX_WIDTH;
+    rect.h = PLATFORM_HITBOX_HEIGHT;
+
+
+    return rect;
+}
+
 
 Return_code engine_move_platforms (Game_Engine* engine) {
 

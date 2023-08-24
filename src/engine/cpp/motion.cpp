@@ -105,9 +105,33 @@ Return_code motion_update (Object_Motion* motion, double t) {
     if (!motion) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
+    motion_update_x_part (motion, t);
+    motion_update_y_part (motion, t);
+
+
+    return SUCCESS;
+}
+
+
+Return_code motion_update_x_part (Object_Motion* motion, double t) {
+
+    if (!motion) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
     motion->x  += motion->dx  * t + motion->ddx * t * t / 2;
-    motion->y  += motion->dy  * t + motion->ddy * t * t / 2;
     motion->dx += motion->ddx * t;
+
+
+    return SUCCESS;
+}
+
+
+Return_code motion_update_y_part (Object_Motion* motion, double t) {
+
+    if (!motion) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    motion->y  += motion->dy  * t + motion->ddy * t * t / 2;
     motion->dy += motion->ddy * t;
 
 
@@ -150,5 +174,20 @@ Return_code motion_ensure_x_ge_than (Object_Motion* motion, double value) {
 
 
     return SUCCESS;
+}
+
+
+Hitbox_Rect motion_get_true_hitbox_rect (Object_Motion motion, Hitbox_Rect rect) {
+
+    Hitbox_Rect true_rect = {};
+
+    true_rect.x = motion.x + rect.x;
+    true_rect.y = motion.y + rect.y;
+
+    true_rect.w = rect.w;
+    true_rect.h = rect.h;
+
+
+    return true_rect;
 }
 

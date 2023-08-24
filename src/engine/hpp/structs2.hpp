@@ -9,7 +9,7 @@
 //--------------------------------------------------
 
 
-#include "../../linked_list/hpp/structs.hpp"
+#include "../../list/hpp/structs.hpp"
 #include "../../array/hpp/structs.hpp"
 
 

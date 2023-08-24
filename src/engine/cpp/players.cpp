@@ -34,7 +34,7 @@ double players_get_min_player_y (Players* players) {
     double min_player_y = 0;
 
 
-    for (Node* node = players->list.first; node; node = node->next) {
+    for (Node* node = players->player_list.first; node; node = node->next) {
 
         Player* player = node_get_player (node);
 
@@ -54,9 +54,9 @@ Return_code engine_move_players (Game_Engine* engine) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < engine->players.list.len; i++) {
+    for (size_t i = 0; i < engine->players.player_list.len; i++) {
 
-        engine_move_player (engine, list_get_player (engine->players.list, i));
+        engine_move_player (engine, list_get_player (engine->players.player_list, i));
     }
 
 
@@ -73,7 +73,8 @@ Return_code engine_move_player (Game_Engine* engine, Player* player) {
     if (platform) player->motion.dy = PLAYER_DY_AFTER_COLLISION;
 
 
-    motion_update (&player->motion, engine->data.t);
+    if (player->vertically_frozen) motion_update_x_part (&player->motion, engine->data.t);
+    else                           motion_update        (&player->motion, engine->data.t);
 
 
     return ensure_player_on_screen (engine, player);
@@ -85,9 +86,9 @@ Return_code engine_update_players (Game_Engine* engine) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < engine->players.list.len; i++) {
+    for (size_t i = 0; i < engine->players.player_list.len; i++) {
 
-        player_update (list_get_player (engine->players.list, i));
+        player_update (list_get_player (engine->players.player_list, i));
     }
 
 
@@ -126,10 +127,10 @@ Return_code player_max_curjump_y_update (Player* player) {
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (player->motion.dy < 0) { player->max_cur_jump_y = 0; return SUCCESS; }
+    if (player->motion.dy <= 0) return SUCCESS;
 
 
-    if (player->motion.y > player->max_cur_jump_y) player->max_cur_jump_y = player->motion.y;
+    player->max_cur_jump_y = player->motion.y;
 
 
     return SUCCESS;

@@ -88,7 +88,7 @@ int          game_get_window_width     (Game* game);
 int          game_get_window_height    (Game* game);
 
 SDL_Rect get_player_texture_offset (Player* player);
-SDL_Rect get_hitbox_rect_offset  (Hitbox_Rect rect);
+SDL_Rect hitbox_rect_to_sdl_rect  (Hitbox_Rect rect);
 SDL_Rect get_platform_texture_offset (void);
 SDL_Rect get_platform_hitbox_offset  (void);
 SDL_Rect get_background_texture_offset (Game* game);
@@ -129,13 +129,13 @@ Return_code spawn_moving_platform    (Game* game, Point gaps, Object_Motion dyna
 // other functions
 
 double random_scale (double input);
-Return_code hitbox_rect_mirror_horizontally (Hitbox_Rect* rect);
 
 //--------------------------------------------------
 
 // extern functions
 
 #include "../../singleplayer/hpp/global_functions.hpp"
+#include "../../list/hpp/list.hpp"
 
 
 //--------------------------------------------------

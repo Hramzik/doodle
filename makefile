@@ -7,7 +7,7 @@ GAME_FOLDER         = src/game/cpp
 ENGINE_FOLDER       = src/engine/cpp
 SINGLEPLAYER_FOLDER = src/singleplayer/cpp
 TIMER_FOLDER        = src/timer/cpp
-LIST_FOLDER         = src/linked_list/cpp
+LIST_FOLDER         = src/list/cpp
 ARRAY_FOLDER        = src/array/cpp
 LIB_FOLDER          = src/lib
 

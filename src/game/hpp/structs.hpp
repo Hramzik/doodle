@@ -21,21 +21,8 @@ typedef struct Point {
 } Point; const size_t POINT_SIZE = sizeof (Point);
 
 
-typedef struct Player_Skin {
-
-    Player_face_direction default_face_direction;
-    SDL_Texture* texture;
-    SDL_Rect texture_offset;
-
-    Array hitbox;
-
-} Player_Skin; const size_t PLAYER_SKIN_SIZE = sizeof (Player_Skin);
-
-
-
 typedef struct Game_Media {
 
-    Array player_skins;
     Array platform_textures;
     Array background_textures;
 

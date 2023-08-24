@@ -63,9 +63,9 @@ Return_code game_render_players (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
-    for (size_t i = 0; i < game->engine.players.list.len; i++) {
+    for (size_t i = 0; i < game->engine.players.player_list.len; i++) {
 
-        game_render_player (game, list_get_player (game->engine.players.list, i));
+        game_render_player (game, list_get_player (game->engine.players.player_list, i));
     }
 
 
@@ -94,7 +94,7 @@ Return_code game_render_player (Game* game, Player* player) {
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Texture* player_texture = array_get_player_skin (game->media.player_skins, player->skin).texture;
+    SDL_Texture* player_texture = array_get_player_skin (game->engine.players.skins, player->skin).texture;
 
 
     SDL_Rect texture_offset = get_player_texture_offset (player);
@@ -118,7 +118,7 @@ Return_code game_render_player_hitbox (Game* game, Player* player) {
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Player_Skin skin = array_get_player_skin (game->media.player_skins, player->skin);
+    Player_Skin skin = array_get_player_skin (game->engine.players.skins, player->skin);
     game_set_drawcolor (game, 255, 0, 255);
 
 
@@ -143,7 +143,7 @@ Return_code game_render_object_hitbox_rect
     if (!game)   { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Rect texture_offset = get_hitbox_rect_offset (hitbox_rect);
+    SDL_Rect texture_offset = hitbox_rect_to_sdl_rect (hitbox_rect);
     SDL_Rect render_rect    = game_get_render_rect   (game, &coords, texture_offset);
 
 
@@ -195,12 +195,10 @@ Return_code game_render_platform_hitbox (Game* game, Platform* platform) {
     if (!platform) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    SDL_Rect texture_offset = get_platform_hitbox_offset ();
-    SDL_Rect hitbox_rect    = game_get_render_rect (game, &platform->motion, texture_offset);
+    game_set_drawcolor (game, 0, 0, 255);
 
-
-    SDL_SetRenderDrawColor (game->output.renderer, 0, 0, 255, 0);
-    SDL_RenderDrawRect     (game->output.renderer, &hitbox_rect);
+    Hitbox_Rect hitbox_rect = get_platform_hitbox_rect ();
+    game_render_object_hitbox_rect (game, platform->motion, hitbox_rect);
 
 
     return SUCCESS;
@@ -348,7 +346,7 @@ SDL_Rect get_player_texture_offset (Player* player) {
 }
 
 
-SDL_Rect get_hitbox_rect_offset (Hitbox_Rect hitbox) {
+SDL_Rect hitbox_rect_to_sdl_rect (Hitbox_Rect hitbox) {
 
     SDL_Rect rect;
 
@@ -403,19 +401,4 @@ Object_Motion game_get_background_motion (Game* game) {
     return static_motion (game->engine.data.field_width / 2, game->data.camera_y);
 }
 
-
-Return_code hitbox_rect_mirror_horizontally (Hitbox_Rect* rect) {
-
-    if (!rect) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    if (rect->x >= 0) rect->x -= rect->w;
-    else              rect->x += rect->w;
-
-
-    rect->x *= -1;
-
-
-    return SUCCESS;
-}
 

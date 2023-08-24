@@ -4,8 +4,8 @@
 
 
 #include "enums.hpp"
-
 #include "../../game/hpp/sdl.hpp"
+#include "../../array/hpp/structs.hpp"
 
 
 //--------------------------------------------------
@@ -41,10 +41,25 @@ typedef struct Hitbox_Rect {
 //--------------------------------------------------
 
 
+typedef struct Player_Skin {
+
+    Player_face_direction default_face_direction;
+    SDL_Texture* texture;
+    SDL_Rect texture_offset;
+
+    Array hitbox;
+
+} Player_Skin; const size_t PLAYER_SKIN_SIZE = sizeof (Player_Skin);
+
+
+//--------------------------------------------------
+
+
 typedef struct Player {
 
     Object_Motion motion;
     double max_cur_jump_y;
+    bool vertically_frozen;
 
     double score;
     size_t skin;

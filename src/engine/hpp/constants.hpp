@@ -3,7 +3,7 @@
 //--------------------------------------------------
 
 
-#include "engine.hpp"
+#include <stdio.h>
 
 
 //------------------ settings ----------------------
@@ -31,8 +31,8 @@ const double PLAYER_HITBOX_RIGHT_WIDTH = 15;
 const double PLAYER_HITBOX_HEIGHT      = 67;
 
 
-const double PLATFORM_HITBOX_WIDTH = 115;
-const double PLATFORM_HITBOX_HEIGHT = 30;
+const double PLATFORM_HITBOX_WIDTH = 110;
+const double PLATFORM_HITBOX_HEIGHT = 28;
 
 
 //--------------------------------------------------

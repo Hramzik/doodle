@@ -3,7 +3,7 @@
 //--------------------------------------------------
 
 
-#define PLAYER list_get_player (game->engine.players.list, 0)
+#define PLAYER list_get_player (game->engine.players.player_list, 0)
 
 
 //--------------------------------------------------

@@ -65,8 +65,8 @@ const size_t PLATFORM_TYPES_COUNT = 1;
 const double VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT = 0;
 
 
-const int PLATFORM_TEXTURE_WIDTH  = (int) PLATFORM_HITBOX_WIDTH;
-const int PLATFORM_TEXTURE_HEIGHT = (int) PLATFORM_HITBOX_HEIGHT;
+const int PLATFORM_TEXTURE_WIDTH  = 115;
+const int PLATFORM_TEXTURE_HEIGHT = 30;
 
 
 //--------------------------------------------------

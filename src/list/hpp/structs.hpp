@@ -1,5 +1,5 @@
-#ifndef LINKED_LIST_STRUCTS_HPP_INCLUDED
-#define LINKED_LIST_STRUCTS_HPP_INCLUDED
+#ifndef LIST_STRUCTS_HPP_INCLUDED
+#define LIST_STRUCTS_HPP_INCLUDED
 //--------------------------------------------------
 
 
