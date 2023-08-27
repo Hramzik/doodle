@@ -68,7 +68,7 @@ Return_code game_work (Game* game) {
         timer_next_frame (timer);
 
 
-        game->engine.data.t = DEFAULT_UPDATE_TIME * 4.5 * timer_get_last_frame_delay_ms (timer);
+        game->engine.data.t = DEFAULT_UPDATE_TIME * (double) timer_get_last_frame_delay_ms (timer);
 
 
         if ((size_t) timer_get_total_delay_ms (timer) % 10000 == 0) {

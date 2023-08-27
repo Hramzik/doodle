@@ -71,7 +71,7 @@ Return_code ensure_platform_on_screen (Game_Engine* engine, Platform* platform) 
 
 
     motion_ensure_x_ge_than (&platform->motion, PLATFORM_HITBOX_WIDTH / 2);
-    motion_ensure_x_le_than (&platform->motion, FIELD_WIDTH - PLATFORM_HITBOX_WIDTH / 2);
+    motion_ensure_x_le_than (&platform->motion, ENGINE_FIELD_WIDTH - PLATFORM_HITBOX_WIDTH / 2);
 
 
     return SUCCESS;

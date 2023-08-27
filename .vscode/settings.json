@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "type_traits": "cpp"
     },
     "files.exclude": {
         "**/.git": true,
@@ -11,13 +12,15 @@
         "**/Thumbs.db": true,
         ".vscode": true,
         "src\\lib": true,
-        "src\\linked_list": false,
+        "src\\linked_list": true,
         "exe": true,
         ".gitignore": true,
         "makefile": true,
         "readme.md": true,
         "src\\timer": true,
-        "src\\main.cpp": true
+        "src\\main.cpp": true,
+        "src\\array": true,
+        "src\\list": true
     },
     "explorerExclude.backup": {}
 }

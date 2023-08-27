@@ -10,12 +10,14 @@
 #define PLATFORM_Y                  platform.motion.y
 
 
-#define WINDOW_WIDTH  game_get_window_width  (game)
-#define WINDOW_HEIGHT game_get_window_height (game)
-#define FIELD_WIDTH  game->engine.data.field_width
-#define FIELD_HEIGHT game->engine.data.field_height
-#define FIELD_WIDTH_INT  (int) (game->engine.data.field_width)
-#define FIELD_HEIGHT_INT (int) (game->engine.data.field_height)
+#define GAME_WINDOW_WIDTH            game_get_window_width  (game)
+#define GAME_WINDOW_HEIGHT           game_get_window_height (game)
+#define GAME_FIELD_WIDTH             game->engine.data.field_width
+#define GAME_FIELD_HEIGHT            game->engine.data.field_height
+#define GAME_FIELD_WIDTH_INT  (int) (game->engine.data.field_width)
+#define GAME_FIELD_HEIGHT_INT (int) (game->engine.data.field_height)
+
+#define RENDER_HITBOXES game->conditions.render_hitboxes
 
 
 //--------------------------------------------------

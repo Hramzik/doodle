@@ -71,7 +71,7 @@ Return_code game_load_background_texture (Game* game, const char* path) {
 }
 
 
-SDL_Texture* game_get_sdl_texture (Game* game, const char* path) {
+SDL_Texture* game_get_sdl_texture (Game* game, const char* path, bool transparent_flag, My_RGB clr) {
 
     if (!path) { LOG_ERROR (BAD_ARGS); return nullptr; }
 
@@ -82,6 +82,12 @@ SDL_Texture* game_get_sdl_texture (Game* game, const char* path) {
 
         LOG_MESSAGE ("Unable to load image!\n");
         return nullptr;
+    }
+
+    if (transparent_flag) {
+
+        Uint32 sdl_clr = SDL_MapRGB (temp_surface->format, clr.r, clr.g, clr.b);
+        SDL_SetColorKey (temp_surface, SDL_TRUE, sdl_clr);
     }
 
 
@@ -114,52 +120,64 @@ Return_code game_load_platform_textures (Game* game) {
 }
 
 
+//--------------------------------------------------
+#define DEF_BACKGROUND(number, path, flag, ...)                                      \
+{                                                                                    \
+    SDL_Texture* texture = game_get_sdl_texture (game, path, flag, { __VA_ARGS__ }); \
+    array_push (&game->media.background_textures, texture);                          \
+}
+
 Return_code game_load_background_textures (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    LOAD_BACKGROUND (BACKGROUND1_PATH);
-    LOAD_BACKGROUND (BACKGROUND2_PATH);
-    LOAD_BACKGROUND (BACKGROUND3_PATH);
-    LOAD_BACKGROUND (BACKGROUND4_PATH);
-    LOAD_BACKGROUND (BACKGROUND5_PATH);
+    #include "../../common/backgrounds.hpp"
 
 
     return SUCCESS;
 }
-
-#undef LOAD_DOODLER
-#undef LOAD_PLATFORM
 //--------------------------------------------------
 
 
 //--------------------------------------------------
-#define DEF_SKIN(number, path, def_texture_offset, def_hitboxes) \
+#define DEF_SKIN(number, path, def_texture_offset, def_platform_hitboxes, def_good_hitboxes) \
 {                                                                \
     Player_Skin skin = {};                                       \
-    array_ctor (&skin.hitbox, AET_HITBOX_RECT);                  \
+    array_ctor (&skin.legs_hitbox, AET_HITBOX_RECT);             \
+    array_ctor (&skin.good_hitbox, AET_HITBOX_RECT);             \
     skin.texture = game_get_sdl_texture (game, path);            \
-    skin.texture_offset = def_texture_offset                     \
-    def_hitboxes                                                 \
+    def_texture_offset                                           \
+    def_platform_hitboxes                                        \
+    def_good_hitboxes                                            \
                                                                  \
-    array_push (&game->engine.players.skins, skin);                \
+    array_push (&game->engine.players.skins, skin);              \
 }
 
-#define DEF_TEXTURE_OFFSET(x, y, w, h) {x, y, w, h};
+#define DEF_TEXTURE_OFFSET(x, y, w, h)  \
+{                                       \
+    skin.texture_offset = {x, y, w, h}; \
+} \
 
-#define DEF_HITBOX_RECT(x, y, w, h)  \
-{                                    \
-    Hitbox_Rect rect = {x, y, w, h}; \
-    array_push (&skin.hitbox, rect); \
+#define DEF_LEGS_HITBOX_RECT(x, y, w, h)   \
+{                                             \
+    Hitbox_Rect rect = {x, y, w, h};          \
+    array_push (&skin.legs_hitbox, rect); \
 }
+
+#define DEF_GOOD_HITBOX_RECT(x, y, w, h)  \
+{                                         \
+    Hitbox_Rect rect = {x, y, w, h};      \
+    array_push (&skin.good_hitbox, rect); \
+}
+
 
 Return_code game_load_player_skins (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    #include "../../common/skins.hpp"
+    #include "../../common/player_skins.hpp"
 
 
     return SUCCESS;

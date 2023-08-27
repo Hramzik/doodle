@@ -51,7 +51,7 @@ Return_code game_spawn_platforms_singleplayer (Game* game) {
     Difficulty difficulty = game_get_difficulty_singleplayer (game);
 
 
-    while (MAX_Y < game->data.camera_y + FIELD_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
+    while (MAX_Y < game->data.camera_y + GAME_FIELD_HEIGHT * (1 + VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT)) {
 
         Platform_type type = generate_platform_type (difficulty);
         if (!can_spawn_platform_type (game, difficulty, type)) continue;

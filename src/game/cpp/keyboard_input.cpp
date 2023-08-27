@@ -9,6 +9,33 @@
 //--------------------------------------------------
 
 
+void bool_reverse            (bool*            value);
+void game_background_reverse (Game_background* value);
+
+
+//--------------------------------------------------
+
+
+void bool_reverse (bool* value) {
+
+    if (*value) *value = false;
+    else        *value = true;
+
+
+    return;
+}
+
+
+void game_background_reverse (Game_background* value) {
+
+    if (*value == GB_FIELD) *value = GB_TRUE;
+    else                    *value = GB_FIELD;
+
+
+    return;
+}
+
+
 Return_code game_handle_keyboard_input (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -97,6 +124,9 @@ Return_code game_handle_keyup_singleplayer (Game* game, SDL_Event event) {
 
         case SDLK_COMMA:  game_handle_comma_up    (game); break;
         case SDLK_PERIOD: game_handle_period_up (game); break;
+
+        case SDLK_h:            bool_reverse (&game->conditions.render_hitboxes);      break;
+        case SDLK_b: game_background_reverse (&game->conditions.switching_background); break;
 
         default: break;
     }
@@ -233,16 +263,35 @@ Return_code game_handle_d_up_singleplayer (Game* game) {
 
 //--------------------------------------------------
 
+static size_t* game_get_changing_background (Game* game);
+
+//--------------------------------------------------
+
+
+static size_t* game_get_changing_background (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return nullptr; }
+
+
+    if (game->conditions.switching_background == GB_FIELD) return &game->data.background;
+
+
+    return &game->data.true_background;
+}
+
 
 Return_code game_handle_comma_up (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (game->data.background == 0) return SUCCESS;
+    size_t* background = game_get_changing_background (game);
 
 
-    game->data.background -= 1;
+    if (*background == 0) return SUCCESS;
+
+
+    *background -= 1;
 
 
     return SUCCESS;
@@ -254,10 +303,13 @@ Return_code game_handle_period_up (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (game->data.background == game->media.background_textures.size - 1) return SUCCESS;
+    size_t* background = game_get_changing_background (game);
 
 
-    game->data.background += 1;
+    if (*background == game->media.background_textures.size - 1) return SUCCESS;
+
+
+    *background += 1;
 
 
     return SUCCESS;

@@ -10,5 +10,12 @@ enum Game_mode {
 };
 
 
+enum Game_background {
+
+    GB_FIELD,
+    GB_TRUE,
+};
+
+
 //--------------------------------------------------
 #endif

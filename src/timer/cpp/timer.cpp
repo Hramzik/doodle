@@ -70,9 +70,9 @@ Return_code timer_next_frame (Timer* timer) {
 }
 
 
-double timer_get_fps (Timer* timer) {
+size_t timer_get_fps (Timer* timer) {
 
-    return 1 / timer_get_last_frame_delay_s (timer);
+    return (size_t) (1 / (double) timer_get_last_frame_delay_s (timer));
 }
 
 
@@ -81,7 +81,7 @@ Return_code timer_print_fps (Timer* timer) {
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    printf ("fps: %lf\n", timer_get_fps (timer));
+    printf ("fps: %zd\n", timer_get_fps (timer));
 
 
     return SUCCESS;
@@ -93,32 +93,32 @@ Return_code timer_print_last_frame_delay_ms (Timer* timer) {
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    printf ("last frame delay: %lf %ld ms\n", timer_get_last_frame_delay_ms (timer), timer->last_frame_delay);
+    printf ("last frame delay: %zd ms\n", timer_get_last_frame_delay_ms (timer));
 
 
     return SUCCESS;
 }
 
 
-double timer_get_total_delay_h (Timer* timer) {
+size_t timer_get_total_delay_h (Timer* timer) {
 
     return timer_get_total_delay_m (timer) / 60;
 }
 
 
-double timer_get_total_delay_m (Timer* timer) {
+size_t timer_get_total_delay_m (Timer* timer) {
 
     return timer_get_total_delay_s (timer) / 60;
 }
 
 
-double timer_get_total_delay_s (Timer* timer) {
+size_t timer_get_total_delay_s (Timer* timer) {
 
     return timer_get_total_delay_ms (timer) / 1000;
 }
 
 
-double timer_get_total_delay_ms  (Timer* timer) {
+size_t timer_get_total_delay_ms  (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return 0; }
 
@@ -127,7 +127,7 @@ double timer_get_total_delay_ms  (Timer* timer) {
 }
 
 
-double timer_get_last_frame_delay_h  (Timer* timer) {
+size_t timer_get_last_frame_delay_h  (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -136,7 +136,7 @@ double timer_get_last_frame_delay_h  (Timer* timer) {
 }
 
 
-double timer_get_last_frame_delay_m  (Timer* timer) {
+size_t timer_get_last_frame_delay_m  (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -145,7 +145,7 @@ double timer_get_last_frame_delay_m  (Timer* timer) {
 }
 
 
-double timer_get_last_frame_delay_s  (Timer* timer) {
+size_t timer_get_last_frame_delay_s  (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -154,7 +154,7 @@ double timer_get_last_frame_delay_s  (Timer* timer) {
 }
 
 
-double timer_get_last_frame_delay_ms (Timer* timer) {
+size_t timer_get_last_frame_delay_ms (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -163,25 +163,25 @@ double timer_get_last_frame_delay_ms (Timer* timer) {
 }
 
 
-double timer_get_frame_time_h (Timer* timer) {
+size_t timer_get_frame_time_h (Timer* timer) {
 
     return timer_get_frame_time_m (timer) / 60;
 }
 
 
-double timer_get_frame_time_m (Timer* timer) {
+size_t timer_get_frame_time_m (Timer* timer) {
 
     return timer_get_frame_time_s (timer) / 60;
 }
 
 
-double timer_get_frame_time_s (Timer* timer) {
+size_t timer_get_frame_time_s (Timer* timer) {
 
     return timer_get_frame_time_ms (timer) / 1000;
 }
 
 
-double timer_get_frame_time_ms (Timer* timer) {
+size_t timer_get_frame_time_ms (Timer* timer) {
 
     if (!timer) { LOG_ERROR (BAD_ARGS); return 0; }
 

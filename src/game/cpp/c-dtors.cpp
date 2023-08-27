@@ -97,7 +97,17 @@ Return_code game_conditions_ctor (Game_Conditions* conditions) {
     if (!conditions) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    conditions->exit = false;
+    conditions->exit            = false;
+    conditions->render_hitboxes = false;
+
+
+    conditions->switching_background = GB_TRUE;
+
+
+    conditions->pressed_a     = false;
+    conditions->pressed_d     = false;
+    conditions->pressed_left  = false;
+    conditions->pressed_right = false;
 
 
     return SUCCESS;
@@ -141,7 +151,8 @@ Return_code game_data_ctor (Game_Data* data) {
     data->game_mode  = SINGLE_PLAYER;
     data->camera_y   = 0;
 
-    data->background = 0;
+    data->background      = 0;
+    data->true_background = 2;
 
     singleplayer_data_ctor (&data->singleplayer);
 

@@ -33,21 +33,21 @@ Timer*      timer_ctor  (void);
 Return_code timer_dtor  (Timer* timer);
 Return_code timer_reset (Timer* timer);
 
-double timer_get_total_delay_h  (Timer* timer);
-double timer_get_total_delay_m  (Timer* timer);
-double timer_get_total_delay_s  (Timer* timer);
-double timer_get_total_delay_ms (Timer* timer);
+size_t timer_get_total_delay_h  (Timer* timer);
+size_t timer_get_total_delay_m  (Timer* timer);
+size_t timer_get_total_delay_s  (Timer* timer);
+size_t timer_get_total_delay_ms (Timer* timer);
 
-double timer_get_last_frame_delay_h  (Timer* timer);
-double timer_get_last_frame_delay_m  (Timer* timer);
-double timer_get_last_frame_delay_s  (Timer* timer);
-double timer_get_last_frame_delay_ms (Timer* timer);
-double timer_get_fps                 (Timer* timer);
+size_t timer_get_last_frame_delay_h  (Timer* timer);
+size_t timer_get_last_frame_delay_m  (Timer* timer);
+size_t timer_get_last_frame_delay_s  (Timer* timer);
+size_t timer_get_last_frame_delay_ms (Timer* timer);
+size_t timer_get_fps                 (Timer* timer);
 
-double timer_get_frame_time_h  (Timer* timer);
-double timer_get_frame_time_m  (Timer* timer);
-double timer_get_frame_time_s  (Timer* timer);
-double timer_get_frame_time_ms (Timer* timer);
+size_t timer_get_frame_time_h  (Timer* timer);
+size_t timer_get_frame_time_m  (Timer* timer);
+size_t timer_get_frame_time_s  (Timer* timer);
+size_t timer_get_frame_time_ms (Timer* timer);
 
 
 Return_code timer_next_frame (Timer* timer);

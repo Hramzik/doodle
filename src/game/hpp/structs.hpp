@@ -21,6 +21,15 @@ typedef struct Point {
 } Point; const size_t POINT_SIZE = sizeof (Point);
 
 
+typedef struct My_RGB {
+
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+
+} My_RGB; const size_t MY_RGB_SIZE = sizeof (My_RGB);
+
+
 typedef struct Game_Media {
 
     Array platform_textures;
@@ -48,6 +57,9 @@ typedef struct Game_Conditions {
     bool pressed_left;
     bool pressed_right;
 
+    bool render_hitboxes;
+    Game_background switching_background;
+
 } Game_Conditions; const size_t GAME_CONDITIONS_SIZE = sizeof (Game_Conditions);
 
 
@@ -58,6 +70,7 @@ typedef struct Game_Data {
     double    camera_y;
 
     size_t background;
+    size_t true_background;
 
 
     Singleplayer_Data singleplayer;

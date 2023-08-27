@@ -47,7 +47,8 @@ typedef struct Player_Skin {
     SDL_Texture* texture;
     SDL_Rect texture_offset;
 
-    Array hitbox;
+    Array legs_hitbox;
+    Array good_hitbox;
 
 } Player_Skin; const size_t PLAYER_SKIN_SIZE = sizeof (Player_Skin);
 

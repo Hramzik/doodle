@@ -142,8 +142,8 @@ Return_code ensure_player_on_screen (Game_Engine* engine, Player* player) {
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    while (player->motion.x < 0)           player->motion.x += FIELD_WIDTH;
-    while (player->motion.x > FIELD_WIDTH) player->motion.x -= FIELD_WIDTH;
+    while (player->motion.x < 0)           player->motion.x += ENGINE_FIELD_WIDTH;
+    while (player->motion.x > ENGINE_FIELD_WIDTH) player->motion.x -= ENGINE_FIELD_WIDTH;
 
 
     return SUCCESS;

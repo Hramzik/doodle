@@ -23,7 +23,8 @@ Return_code game_media_dtor  (Game_Media* media);
 //--------------------------------------------------
 // game_media
 
-SDL_Texture* game_get_sdl_texture (Game* game, const char* path);
+SDL_Texture* game_get_sdl_texture
+(Game* game, const char* path, bool transparent_flag = false, My_RGB clr = {});
 
 Return_code game_load_media (Game* game);
 Return_code game_media_push_doodler_texture    (Game_Media* media, SDL_Texture* texture);
@@ -69,30 +70,37 @@ Return_code game_render_players   (Game* game);
 Return_code game_render_platforms (Game* game);
 
 Return_code      game_render_player        (Game* game, Player* player);
-Return_code      game_render_player_hitbox (Game* game, Player* player);
+Return_code      game_render_player_hitboxes (Game* game, Player* player);
 SDL_RendererFlip player_get_sdl_flip       (Player* player);
 
 Return_code game_render_platform        (Game* game, Platform* platform);
 Return_code game_render_platform_hitbox (Game* game, Platform* platform);
 
-Return_code   game_render_background     (Game* game);
-Object_Motion game_get_background_motion (Game* game);
+Return_code   game_render_background          (Game* game);
+Return_code   game_render_true_background     (Game* game);
+Object_Motion game_get_background_motion      (Game* game);
+Object_Motion game_get_true_background_motion (Game* game);
 
-Return_code game_render_object_hitbox_rect
+Return_code game_draw_object_hitbox
+(Game* game, Object_Motion coords, Array hitbox, bool flip_horizontally = false);
+
+Return_code game_draw_object_hitbox_rect
 (Game* game, Object_Motion coords, Hitbox_Rect hitbox_rect);
 
-SDL_Texture* game_get_platform_texture   (Game* game, Platform* platform);
-SDL_Texture* game_get_background_texture (Game* game);
+SDL_Texture* game_get_platform_texture        (Game* game, Platform* platform);
+SDL_Texture* game_get_background_texture      (Game* game);
+SDL_Texture* game_get_true_background_texture (Game* game);
 
 int          game_get_window_width     (Game* game);
 int          game_get_window_height    (Game* game);
 
-SDL_Rect get_player_texture_offset (Player* player);
-SDL_Rect hitbox_rect_to_sdl_rect  (Hitbox_Rect rect);
-SDL_Rect get_platform_texture_offset (void);
-SDL_Rect get_platform_hitbox_offset  (void);
-SDL_Rect get_background_texture_offset (Game* game);
+SDL_Rect game_get_player_texture_offset     (Game* game, Player* player);
+SDL_Rect get_platform_texture_offset        (void);
+SDL_Rect get_platform_hitbox_offset         (void);
+SDL_Rect game_get_background_texture_offset (Game* game);
+SDL_Rect game_get_true_background_texture_offset (Game* game);
 
+SDL_Rect hitbox_rect_to_sdl_rect  (Hitbox_Rect rect);
 SDL_Rect game_get_render_rect (Game* game, Object_Motion* motion, SDL_Rect texture_offset);
 
 //--------------------------------------------------

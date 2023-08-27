@@ -59,9 +59,9 @@ bool does_player_overlap_platform (Player player, Player_Skin skin, Platform pla
     Hitbox_Rect true_player_rect     = {};
 
 
-    for (size_t i = 0; i < skin.hitbox.size; i++) {
+    for (size_t i = 0; i < skin.legs_hitbox.size; i++) {
 
-        relative_player_rect = array_get_hitbox_rect (skin.hitbox, i);
+        relative_player_rect = array_get_hitbox_rect (skin.legs_hitbox, i);
 
         if (player.facing != skin.default_face_direction) {
 
