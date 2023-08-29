@@ -19,6 +19,7 @@
 
 bool double_equal (double first, double second);
 size_t my_max (size_t value1, size_t value2);
+double my_min (double value1, double value2);
 
 
 //--------------------------------------------------

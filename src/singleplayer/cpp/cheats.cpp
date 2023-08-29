@@ -8,7 +8,7 @@
 //--------------------------------------------------
 
 
-Return_code game_teleport_mid_singleplayer (Game* game) {
+Return_code player_teleport_mid (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -23,7 +23,7 @@ Return_code game_teleport_mid_singleplayer (Game* game) {
 }
 
 
-Return_code game_fly_up_singleplayer_launch (Game* game) {
+Return_code player_fly_up_launch (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -36,7 +36,7 @@ Return_code game_fly_up_singleplayer_launch (Game* game) {
 }
 
 
-Return_code game_fly_up_singleplayer_terminate (Game* game) {
+Return_code player_fly_up_terminate (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -49,7 +49,7 @@ Return_code game_fly_up_singleplayer_terminate (Game* game) {
 }
 
 
-Return_code game_freeze_singleplayer_launch (Game* game) {
+Return_code player_freeze_launch (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -61,7 +61,7 @@ Return_code game_freeze_singleplayer_launch (Game* game) {
 }
 
 
-Return_code game_freeze_singleplayer_terminate (Game* game) {
+Return_code player_freeze_terminate (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -73,7 +73,7 @@ Return_code game_freeze_singleplayer_terminate (Game* game) {
 }
 
 
-Return_code game_switch_player_texture_direction_singleplayer (Game* game) {
+Return_code player_switch_texture_direction (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 

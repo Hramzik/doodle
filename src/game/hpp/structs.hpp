@@ -58,6 +58,7 @@ typedef struct Game_Conditions {
     bool pressed_right;
 
     bool render_hitboxes;
+    bool fullscreen;
     Game_background switching_background;
 
 } Game_Conditions; const size_t GAME_CONDITIONS_SIZE = sizeof (Game_Conditions);

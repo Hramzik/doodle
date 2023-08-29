@@ -17,7 +17,7 @@ const size_t MAX_PLATFORMS_COUNT = 10000;
 
 
 const double DEFAULT_FIELD_WIDTH  = 600;
-const double DEFAULT_FIELD_HEIGHT = 800;
+const double DEFAULT_FIELD_HEIGHT = 790;
 
 
 const double DEFAULT_UPDATE_TIME = 0.45;

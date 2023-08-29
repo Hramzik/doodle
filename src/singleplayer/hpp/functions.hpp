@@ -23,9 +23,19 @@ bool can_spawn_fake_platform (Game* game, Difficulty difficulty);
 
 Player        generate_default_player           (Game* game);
 Platform_type generate_platform_type            (Difficulty difficulty);
-Point         generate_gaps                     (Difficulty difficulty);
+Point         game_generate_gaps    (Game* game, Difficulty difficulty);
 Object_Motion generate_platform_dynamics        (Difficulty difficulty, Platform_type type);
 Object_Motion generate_moving_platform_dynamics (Difficulty difficulty);
+
+//--------------------------------------------------
+// cheats
+
+Return_code player_teleport_mid     (Game* game);
+Return_code player_fly_up_launch    (Game* game);
+Return_code player_fly_up_terminate (Game* game);
+Return_code player_freeze_launch    (Game* game);
+Return_code player_freeze_terminate (Game* game);
+Return_code player_switch_texture_direction (Game* game);
 
 //--------------------------------------------------
 // other

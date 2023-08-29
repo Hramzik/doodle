@@ -224,61 +224,6 @@ Return_code game_render_platform_hitbox (Game* game, Platform* platform) {
 }
 
 
-// переписать ьв новом стиле!
-Return_code game_render_background (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    SDL_Texture* background_texture = game_get_background_texture (game);
-
-
-    SDL_Rect srcrect;
-    srcrect.x = 0;
-    srcrect.y = 0;
-    srcrect.w = GAME_FIELD_WIDTH_INT;
-    srcrect.h = GAME_FIELD_HEIGHT_INT;
-
-
-    Object_Motion motion    = game_get_background_motion (game);
-    SDL_Rect texture_offset = game_get_background_texture_offset (game);
-    SDL_Rect dstrect = game_get_render_rect (game, &motion, texture_offset);
-
-
-    SDL_RenderCopy (game->output.renderer, background_texture, &srcrect, &dstrect);
-
-
-    return SUCCESS;
-}
-
-
-Return_code game_render_true_background (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    SDL_Texture* background_texture = game_get_true_background_texture (game);
-
-
-    SDL_Rect srcrect;
-    srcrect.x = 0;
-    srcrect.y = 0;
-    srcrect.w = GAME_WINDOW_WIDTH;
-    srcrect.h = GAME_WINDOW_HEIGHT;
-
-
-    Object_Motion motion    = game_get_true_background_motion (game);
-    SDL_Rect texture_offset = game_get_true_background_texture_offset (game);
-    SDL_Rect dstrect = game_get_render_rect (game, &motion, texture_offset);
-
-
-    SDL_RenderCopy (game->output.renderer, background_texture, &srcrect, &dstrect);
-
-
-    return SUCCESS;
-}
-
-
 SDL_Texture* game_get_platform_texture (Game* game, Platform* platform) {
 
     if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
@@ -294,24 +239,6 @@ SDL_Texture* game_get_platform_texture (Game* game, Platform* platform) {
 
         default: LOG_ERROR (CRITICAL); return nullptr;
     }
-}
-
-
-SDL_Texture* game_get_background_texture (Game* game) {
-
-    if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
-
-
-    return array_get_texture (game->media.background_textures, game->data.background);
-}
-
-
-SDL_Texture* game_get_true_background_texture (Game* game) {
-
-    if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
-
-
-    return array_get_texture (game->media.background_textures, game->data.true_background);
 }
 
 
@@ -417,53 +344,5 @@ SDL_Rect get_platform_hitbox_offset (void) {
 
 
     return rect;
-}
-
-
-SDL_Rect game_get_background_texture_offset (Game* game) {
-
-    SDL_Rect rect;
-
-
-    rect.x = - GAME_FIELD_WIDTH_INT / 2;
-    rect.y =   GAME_FIELD_HEIGHT_INT;
-    rect.w =   GAME_FIELD_WIDTH_INT;
-    rect.h =   GAME_FIELD_HEIGHT_INT;
-
-
-    return rect;
-}
-
-
-SDL_Rect game_get_true_background_texture_offset (Game* game) {
-
-    SDL_Rect rect;
-
-
-    rect.x = - GAME_WINDOW_WIDTH / 2;
-    rect.y =   GAME_WINDOW_HEIGHT;
-    rect.w =   GAME_WINDOW_WIDTH;
-    rect.h =   GAME_WINDOW_HEIGHT;
-
-
-    return rect;
-}
-
-
-Object_Motion game_get_background_motion (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
-
-
-    return static_motion (game->engine.data.field_width / 2, game->data.camera_y);
-}
-
-
-Object_Motion game_get_true_background_motion (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
-
-
-    return game_get_background_motion (game);
 }
 

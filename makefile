@@ -53,8 +53,9 @@ game:
 	$(GAME_FOLDER)/render.cpp \
 	$(GAME_FOLDER)/game_media.cpp \
 	$(GAME_FOLDER)/game.cpp \
-	$(GAME_FOLDER)/keyboard_input.cpp \
+	$(GAME_FOLDER)/keyboard.cpp \
 	$(GAME_FOLDER)/platforms.cpp \
+	$(GAME_FOLDER)/background_render.cpp \
 	$(ENGINE_FOLDER)/engine.cpp \
 	$(ENGINE_FOLDER)/c-dtors.cpp \
 	$(ENGINE_FOLDER)/motion.cpp \
@@ -62,6 +63,7 @@ game:
 	$(ENGINE_FOLDER)/platforms.cpp \
 	$(SINGLEPLAYER_FOLDER)/singleplayer.cpp \
 	$(SINGLEPLAYER_FOLDER)/c-dtors.cpp \
-	$(SINGLEPLAYER_FOLDER)/player_movement.cpp \
+	$(SINGLEPLAYER_FOLDER)/cheats.cpp \
+	$(SINGLEPLAYER_FOLDER)/keyboard.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

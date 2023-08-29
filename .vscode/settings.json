@@ -15,7 +15,7 @@
         "src\\linked_list": true,
         "exe": true,
         ".gitignore": true,
-        "makefile": true,
+        "makefile": false,
         "readme.md": true,
         "src\\timer": true,
         "src\\main.cpp": true,

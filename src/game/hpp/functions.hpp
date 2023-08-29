@@ -107,7 +107,6 @@ SDL_Rect game_get_render_rect (Game* game, Object_Motion* motion, SDL_Rect textu
 // keyboard_input
 
 Return_code game_handle_keyboard_input              (Game* game);
-Return_code game_handle_keyboard_input_singleplayer (Game* game);
 Return_code game_handle_keydown_singleplayer (Game* game, SDL_Event event);
 Return_code game_handle_keyup_singleplayer   (Game* game, SDL_Event event);
 Return_code game_handle_left_down_singleplayer  (Game* game);
@@ -121,6 +120,8 @@ Return_code game_handle_d_up_singleplayer     (Game* game);
 
 Return_code game_handle_comma_up    (Game* game);
 Return_code game_handle_period_up (Game* game);
+
+Return_code game_toggle_fullscreen (Game* game);
 
 //--------------------------------------------------
 // platforms

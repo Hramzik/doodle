@@ -158,7 +158,7 @@ Return_code spawn_default_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Point gaps = generate_gaps (difficulty);
+    Point gaps = game_generate_gaps (game, difficulty);
     spawn_static_platform (game, gaps, PT_DEFAULT);
 
 
@@ -171,7 +171,7 @@ Return_code spawn_fake_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Point gaps = generate_gaps (difficulty);
+    Point gaps = game_generate_gaps (game, difficulty);
     spawn_static_platform (game, gaps, PT_FAKE);
 
 
@@ -184,7 +184,7 @@ Return_code spawn_moving_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Point         gaps   = generate_gaps              (difficulty);
+    Point         gaps   = game_generate_gaps   (game, difficulty);
     Object_Motion motion = generate_platform_dynamics (difficulty, PT_MOVING);
     spawn_moving_platform (game, gaps, motion, PT_MOVING);
 
@@ -198,7 +198,7 @@ Return_code spawn_cloud_platform (Game* game, Difficulty difficulty) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    Point gaps = generate_gaps (difficulty);
+    Point gaps = game_generate_gaps (game, difficulty);
     spawn_static_platform (game, gaps, PT_CLOUD);
 
 
@@ -218,10 +218,13 @@ Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_
 }
 
 
-Point generate_gaps (Difficulty difficulty) {
+Point game_generate_gaps (Game* game, Difficulty difficulty) {
 
     double min_gap = difficulty.min_platform_gap;
     double max_gap = difficulty.max_platform_gap;
+
+
+    max_gap = my_min (max_gap, ABSOLUTE_MAX_NEW_PLATFORM_Y - MAX_Y);
 
 
     return { .min = min_gap, .max = max_gap };

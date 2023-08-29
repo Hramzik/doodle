@@ -18,16 +18,14 @@ Return_code game_spawn_players_singleplayer   (Game* game);
 Return_code game_spawn_platforms_singleplayer (Game* game);
 
 //--------------------------------------------------
-// other
+// keyboard input
+
+Return_code game_handle_keyboard_input_singleplayer (Game* game);
+
+//--------------------------------------------------
+// score
 
 Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_distance);
-Return_code game_teleport_mid_singleplayer     (Game* game);
-Return_code game_fly_up_singleplayer_launch    (Game* game);
-Return_code game_fly_up_singleplayer_terminate (Game* game);
-Return_code game_freeze_singleplayer_launch    (Game* game);
-Return_code game_freeze_singleplayer_terminate (Game* game);
-Return_code game_switch_player_texture_direction_singleplayer (Game* game);
-
 
 //--------------------------------------------------
 #endif

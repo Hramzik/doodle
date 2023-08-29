@@ -10,7 +10,7 @@
 // settings
 
 const int DEFAULT_WINDOW_WIDTH  = 800; // int because of int field in SDL_rect
-const int DEFAULT_WINDOW_HEIGHT = 800;
+const int DEFAULT_WINDOW_HEIGHT = DEFAULT_FIELD_HEIGHT;
 
 const size_t PICTURE_GENERATIONS_COUNT = 1;
 
@@ -25,25 +25,10 @@ const size_t SIZE_T_SIZE = sizeof (size_t);
 const size_t CHAR_SIZE   = sizeof (char);
 
 //--------------------------------------------------
-// skins
-
-#define DOODLER_SKIN1_PATH  "media/doodler1.png"
-#define DOODLER_SKIN2_PATH  "media/doodler2.png"
-#define DOODLER_SKIN3_PATH  "media/doodler3.png"
-
-//--------------------------------------------------
 
 #define PLATFORM_SKIN1_PATH "media/platform.png"
 #define PLATFORM_SKIN2_PATH "media/platform_fake.png"
 #define PLATFORM_SKIN3_PATH "media/platform_cloud.png"
-
-//--------------------------------------------------
-
-#define BACKGROUND1_PATH "media/background1.png"
-#define BACKGROUND2_PATH "media/background2.jpg"
-#define BACKGROUND3_PATH "media/background3.jpg"
-#define BACKGROUND4_PATH "media/background4.jpg"
-#define BACKGROUND5_PATH "media/background5.jpg"
 
 //--------------------------------------------------
 // players

@@ -121,10 +121,10 @@ Return_code game_load_platform_textures (Game* game) {
 
 
 //--------------------------------------------------
-#define DEF_BACKGROUND(number, path, flag, ...)                                      \
-{                                                                                    \
-    SDL_Texture* texture = game_get_sdl_texture (game, path, flag, { __VA_ARGS__ }); \
-    array_push (&game->media.background_textures, texture);                          \
+#define DEF_BACKGROUND(number, path, flag, ...)                                               \
+{                                                                                             \
+    SDL_Texture* texture = game_get_sdl_texture (game, "media/" path, flag, { __VA_ARGS__ }); \
+    array_push (&game->media.background_textures, texture);                                   \
 }
 
 Return_code game_load_background_textures (Game* game) {
@@ -146,7 +146,7 @@ Return_code game_load_background_textures (Game* game) {
     Player_Skin skin = {};                                       \
     array_ctor (&skin.legs_hitbox, AET_HITBOX_RECT);             \
     array_ctor (&skin.good_hitbox, AET_HITBOX_RECT);             \
-    skin.texture = game_get_sdl_texture (game, path);            \
+    skin.texture = game_get_sdl_texture (game, "media/" path);   \
     def_texture_offset                                           \
     def_platform_hitboxes                                        \
     def_good_hitboxes                                            \
