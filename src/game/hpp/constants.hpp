@@ -25,34 +25,25 @@ const size_t SIZE_T_SIZE = sizeof (size_t);
 const size_t CHAR_SIZE   = sizeof (char);
 
 //--------------------------------------------------
-
-#define PLATFORM_SKIN1_PATH "media/platform.png"
-#define PLATFORM_SKIN2_PATH "media/platform_fake.png"
-#define PLATFORM_SKIN3_PATH "media/platform_cloud.png"
-
-//--------------------------------------------------
 // players
 
 
 const double BIG_HORIZONTAL_STEP   = 2;
 const double SMALL_HORIZONTAL_STEP = 1;
 
-
-const int PLAYER_TEXTURE_WIDTH  = 92;
-const int PLAYER_TEXTURE_HEIGHT = 67;
-
 //--------------------------------------------------
 // platforms
 
 
 const size_t PLATFORM_TYPES_COUNT = 1;
-
 const double VERTICAL_PLATFORM_GENERATION_BUFFER_COEFFICIENT = 0;
 
 
-const int PLATFORM_TEXTURE_WIDTH  = 115;
-const int PLATFORM_TEXTURE_HEIGHT = 30;
+//--------------------------------------------------
+// background
 
+const size_t DEFAULT_BACKGROUND      = 0;
+const size_t DEFAULT_TRUE_BACKGROUND = 5;
 
 //--------------------------------------------------
 #endif

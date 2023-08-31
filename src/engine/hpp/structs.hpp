@@ -56,6 +56,21 @@ typedef struct Player_Skin {
 //--------------------------------------------------
 
 
+typedef struct Platform_Skin {
+
+    Array platform_types;
+
+    SDL_Texture* texture;
+    SDL_Rect texture_offset;
+
+    Array hitbox;
+
+} Platform_Skin; const size_t PLATFORM_SKIN_SIZE = sizeof (Platform_Skin);
+
+
+//--------------------------------------------------
+
+
 typedef struct Player {
 
     Object_Motion motion;

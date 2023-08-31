@@ -18,21 +18,40 @@
 
 typedef struct Players {
 
-    List  player_list;
+    List  list;
     Array skins;
 
 } Players; const size_t PLAYERS_SIZE = sizeof (Players);
 
 
-typedef struct Platforms {
+//--------------------------------------------------
 
-    List list;
+
+typedef struct Platforms_Data {
 
     double min_y;
     double max_y;
     double max_material_y;
 
+    size_t cur_default_skin;
+    size_t cur_moving_skin;
+    size_t cur_fake_skin;
+    size_t cur_cloud_skin;
+
+} Platforms_Data; const size_t PLATFORMS_DATA_SIZE = sizeof (Platforms_Data);
+
+
+typedef struct Platforms {
+
+    List  list;
+    Array skins;
+
+    Platforms_Data data;
+
 } Platforms; const size_t PLATFORMS_SIZE = sizeof (Platforms);
+
+
+//--------------------------------------------------
 
 
 typedef struct Game_Engine {

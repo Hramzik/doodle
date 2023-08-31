@@ -8,6 +8,8 @@ enum Array_element_type {
     AET_SDL_TEXTURE,
     AET_HITBOX_RECT,
     AET_PLAYER_SKIN,
+    AET_PLATFORM_SKIN,
+    AET_PLATFORM_TYPE,
 };
 
 

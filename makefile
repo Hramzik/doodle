@@ -63,7 +63,7 @@ game:
 	$(ENGINE_FOLDER)/platforms.cpp \
 	$(SINGLEPLAYER_FOLDER)/singleplayer.cpp \
 	$(SINGLEPLAYER_FOLDER)/c-dtors.cpp \
-	$(SINGLEPLAYER_FOLDER)/cheats.cpp \
+	$(SINGLEPLAYER_FOLDER)/events.cpp \
 	$(SINGLEPLAYER_FOLDER)/keyboard.cpp \
 	-o $(default_path) $(flags_sdl) $(flags_cut_bc_of_sdl)
 

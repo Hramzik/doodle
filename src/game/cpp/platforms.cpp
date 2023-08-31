@@ -2,7 +2,16 @@
 
 //--------------------------------------------------
 
+
 #include "../hpp/game.hpp"
+
+
+//--------------------------------------------------
+
+
+static bool node_is_platform_dead                   (Node node);
+static bool node_is_platform_off_screen (Game* game, Node node);
+
 
 //--------------------------------------------------
 
@@ -33,7 +42,6 @@ Return_code update_max_y (Game* game, Platform platform) {
 
     return SUCCESS;
 }
-
 
 
 Platform generate_static_platform (Game* game, Point gaps, Platform_type type) {
@@ -82,3 +90,64 @@ Return_code spawn_moving_platform (Game* game, Point gaps, Object_Motion dynamic
     return SUCCESS;
 }
 
+
+Platform_Skin game_get_platform_skin (Game* game, Platform platform) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return nullptr; }
+
+
+    return engine_get_platform_skin (game->engine, platform);
+}
+
+
+Return_code game_despawn_platforms (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    List* list = &game->engine.platforms.list;
+
+
+    Node* next_node = nullptr;
+    Node* delete_flag = false;
+
+
+    for (Node* node = list->first; node; node = next_node) {
+
+        next_node   = node->next;
+        delete_flag = false;
+
+        delete_flag |= node_is_platform_dead             (*node);
+        delete_flag |= node_is_platform_off_screen (game, *node);
+
+        if (delete_flag) list_delete (list, node);
+    }
+
+
+    return SUCCESS;
+}
+
+
+static bool node_is_platform_dead (Node node) {
+
+    if (node_get_platform (node)->dead) return true;
+
+
+    return false;
+}
+
+
+static bool node_is_platform_off_screen (Game* game, Node node) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return false; }
+
+
+    Platform* platform         = node_get_platform (node);
+    double    texture_y_offset = game_get_platform_skin (game, node).texture_offset.y;
+
+
+    if (platform->motion.y + texture_y_offset < game->data.camera_y) return true;
+
+
+    return false;
+}

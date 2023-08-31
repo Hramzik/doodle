@@ -5,7 +5,7 @@
 //--------------------------------------------------
 
 
-#include "../../headers/common/enums.hpp"
+#include "../../headers/data/enums.hpp"
 
 
 #include "Stack.hpp"

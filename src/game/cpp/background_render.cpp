@@ -3,7 +3,20 @@
 
 //--------------------------------------------------
 
+
 #include "../hpp/game.hpp"
+
+
+//--------------------------------------------------
+
+
+static SDL_Texture* game_get_background_texture      (Game* game);
+static SDL_Texture* game_get_true_background_texture (Game* game);
+
+
+static SDL_Rect game_get_background_texture_offset      (Game* game);
+static SDL_Rect game_get_true_background_texture_offset (Game* game);
+
 
 //--------------------------------------------------
 
@@ -60,7 +73,7 @@ Return_code game_render_background (Game* game) {
 
     Object_Motion motion         = game_get_background_motion (game);
     SDL_Rect      texture_offset = game_get_background_texture_offset (game);
-    SDL_Rect      dstrect        = game_get_render_rect (game, &motion, texture_offset);
+    SDL_Rect      dstrect        = game_get_render_rect (game, motion, texture_offset);
 
 
     SDL_RenderCopy (game->output.renderer, texture, &srcrect, &dstrect);
@@ -82,7 +95,7 @@ Return_code game_render_true_background (Game* game) {
 
     Object_Motion motion    = game_get_true_background_motion (game);
     SDL_Rect texture_offset = game_get_true_background_texture_offset (game);
-    SDL_Rect dstrect = game_get_render_rect (game, &motion, texture_offset);
+    SDL_Rect dstrect = game_get_render_rect (game, motion, texture_offset);
 
 
     SDL_RenderCopy (game->output.renderer, texture, &srcrect, &dstrect);
@@ -92,7 +105,7 @@ Return_code game_render_true_background (Game* game) {
 }
 
 
-SDL_Texture* game_get_background_texture (Game* game) {
+static SDL_Texture* game_get_background_texture (Game* game) {
 
     if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
 
@@ -101,7 +114,7 @@ SDL_Texture* game_get_background_texture (Game* game) {
 }
 
 
-SDL_Texture* game_get_true_background_texture (Game* game) {
+static SDL_Texture* game_get_true_background_texture (Game* game) {
 
     if (!game)     { LOG_ERROR (BAD_ARGS); return nullptr; }
 
@@ -110,7 +123,7 @@ SDL_Texture* game_get_true_background_texture (Game* game) {
 }
 
 
-SDL_Rect game_get_background_texture_offset (Game* game) {
+static SDL_Rect game_get_background_texture_offset (Game* game) {
 
     SDL_Rect offset;
 
@@ -125,7 +138,7 @@ SDL_Rect game_get_background_texture_offset (Game* game) {
 }
 
 
-SDL_Rect game_get_true_background_texture_offset (Game* game) {
+static SDL_Rect game_get_true_background_texture_offset (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
 

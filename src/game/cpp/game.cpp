@@ -31,7 +31,7 @@ Return_code game_add_player (Game* game, Player player) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    list_push_back (&game->engine.players.player_list, player);
+    list_push_back (&game->engine.players.list, player);
 
 
     return SUCCESS;
@@ -73,8 +73,8 @@ Return_code game_work (Game* game) {
 
         if ((size_t) timer_get_total_delay_ms (timer) % 10000 == 0) {
 
-            printf ("score: %.0lf\n", list_get_player (game->engine.players.player_list, 0)->score);
-            player_dump (list_get_player (game->engine.players.player_list, 0));
+            // printf ("score: %.0lf\n", list_get_player (game->engine.players.list, 0)->score);
+            // player_dump (list_get_player (game->engine.players.list, 0));
             //timer_print_fps (timer);
         }
     }
@@ -175,38 +175,6 @@ Return_code game_despawn_objects (Game* game) {
 
     //game_spawn_players   (game);
     game_despawn_platforms (game);
-
-
-    return SUCCESS;
-}
-
-
-Return_code game_despawn_platforms (Game* game) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
-
-
-    List* list = &game->engine.platforms.list;
-
-
-    Node* next_node = nullptr;
-
-    for (Node* node = list->first; node; node = next_node) {
-
-        next_node = node->next;
-
-        if (node_get_platform (node)->dead) {
-
-            list_delete (list, node);
-            continue;
-        }
-
-        if (node_get_platform (node)->motion.y + PLATFORM_TEXTURE_HEIGHT < game->data.camera_y) {
-
-            list_delete (list, node);
-            continue;
-        }
-    }
 
 
     return SUCCESS;

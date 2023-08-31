@@ -19,9 +19,11 @@ size_t get_array_element_size (Array_element_type element_type) {
 
     switch (element_type) {
 
-        case AET_SDL_TEXTURE: return sizeof (SDL_Texture*);
-        case AET_HITBOX_RECT: return HITBOX_RECT_SIZE;
-        case AET_PLAYER_SKIN: return PLAYER_SKIN_SIZE;
+        case AET_SDL_TEXTURE:   return sizeof (SDL_Texture*);
+        case AET_HITBOX_RECT:   return HITBOX_RECT_SIZE;
+        case AET_PLAYER_SKIN:   return PLAYER_SKIN_SIZE;
+        case AET_PLATFORM_SKIN: return PLATFORM_SKIN_SIZE;
+        case AET_PLATFORM_TYPE: return sizeof (Platform_type);
 
         default: LOG_ERROR (CRITICAL); return 0;
     }
@@ -46,6 +48,20 @@ Player_Skin array_get_player_skin (Array array, size_t index) {
 
 
     return *(Player_Skin*) array_get_void_ptr (array, index);
+}
+
+
+Platform_Skin array_get_platform_skin (Array array, size_t index) {
+
+
+    return *(Platform_Skin*) array_get_void_ptr (array, index);
+}
+
+
+Platform_type array_get_platform_type (Array array, size_t index) {
+
+
+    return *(Platform_type*) array_get_void_ptr (array, index);
 }
 
 
@@ -119,6 +135,32 @@ Return_code array_push (Array* array, Player_Skin skin) {
 
 
     array_push_notypecontrol (array, &skin);
+
+
+    return SUCCESS;
+}
+
+
+Return_code array_push (Array* array, Platform_Skin skin) {
+
+    if (!array)                                   CODE_BAD_ARGS;
+    if (array->element_type != AET_PLATFORM_SKIN) CODE_BAD_ARGS;
+
+
+    array_push_notypecontrol (array, &skin);
+
+
+    return SUCCESS;
+}
+
+
+Return_code array_push (Array* array, Platform_type type) {
+
+    if (!array)                                   CODE_BAD_ARGS;
+    if (array->element_type != AET_PLATFORM_TYPE) CODE_BAD_ARGS;
+
+
+    array_push_notypecontrol (array, &type);
 
 
     return SUCCESS;

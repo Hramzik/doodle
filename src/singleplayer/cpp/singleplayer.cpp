@@ -12,7 +12,7 @@ Return_code game_spawn_players_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    if (game->engine.players.player_list.len >= 1) return SUCCESS;
+    if (game->engine.players.list.len >= 1) return SUCCESS;
 
 
     Player player = generate_default_player (game);
@@ -96,7 +96,7 @@ Difficulty game_get_difficulty_singleplayer (Game* game) {
     if (!game) { LOG_ERROR (BAD_ARGS); return {}; }
 
 
-    double score = list_get_player (game->engine.players.player_list, 0)->score;
+    double score = list_get_player (game->engine.players.list, 0)->score;
 
     for (size_t i = 1; i < DATA.num_difficulties; i++) {
 
@@ -211,7 +211,7 @@ Return_code game_update_scores_camera_y_singleplayer (Game* game, double camera_
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    list_get_player (game->engine.players.player_list, 0)->score += camera_distance * CAMERA_Y_SCORE_COEFFICIENT;
+    list_get_player (game->engine.players.list, 0)->score += camera_distance * CAMERA_Y_SCORE_COEFFICIENT;
 
 
     return SUCCESS;

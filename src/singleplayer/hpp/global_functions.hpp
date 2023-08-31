@@ -20,7 +20,8 @@ Return_code game_spawn_platforms_singleplayer (Game* game);
 //--------------------------------------------------
 // keyboard input
 
-Return_code game_handle_keyboard_input_singleplayer (Game* game);
+Return_code game_handle_keydown_singleplayer (Game* game, SDL_KeyboardEvent event);
+Return_code game_handle_keyup_singleplayer   (Game* game, SDL_KeyboardEvent event);
 
 //--------------------------------------------------
 // score

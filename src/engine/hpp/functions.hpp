@@ -29,8 +29,9 @@ double players_get_min_player_y (Players* players);
 //--------------------------------------------------
 // platforms
 
-Return_code platforms_ctor (Platforms* platforms);
-Return_code platforms_dtor (Platforms* platforms);
+Return_code platforms_data_ctor (Platforms_Data* data);
+Return_code platforms_ctor      (Platforms* platforms);
+Return_code platforms_dtor      (Platforms* platforms);
 
 Hitbox_Rect platform_get_true_hitbox_rect (Platform platform);
 Hitbox_Rect get_platform_hitbox_rect      (void);
@@ -39,6 +40,9 @@ Hitbox_Rect get_platform_hitbox_rect      (void);
 Return_code engine_move_platforms     (Game_Engine* engine);
 Return_code engine_move_platform      (Game_Engine* engine, Platform* platform);
 Return_code ensure_platform_on_screen (Game_Engine* engine, Platform* platform);
+
+Return_code   platforms_data_update_cur_skins (Platforms_Data* data, Array platform_types, size_t skin);
+Platform_Skin engine_get_platform_skin        (Game_Engine engine, Platform platform);
 
 //--------------------------------------------------
 // engine

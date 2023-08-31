@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "cmath": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "limits": "cpp"
     },
     "files.exclude": {
         "**/.git": true,

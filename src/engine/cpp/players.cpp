@@ -34,7 +34,7 @@ double players_get_min_player_y (Players* players) {
     double min_player_y = 0;
 
 
-    for (Node* node = players->player_list.first; node; node = node->next) {
+    for (Node* node = players->list.first; node; node = node->next) {
 
         Player* player = node_get_player (node);
 
@@ -54,9 +54,9 @@ Return_code engine_move_players (Game_Engine* engine) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < engine->players.player_list.len; i++) {
+    for (size_t i = 0; i < engine->players.list.len; i++) {
 
-        engine_move_player (engine, list_get_player (engine->players.player_list, i));
+        engine_move_player (engine, list_get_player (engine->players.list, i));
     }
 
 
@@ -86,9 +86,9 @@ Return_code engine_update_players (Game_Engine* engine) {
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
 
-    for (size_t i = 0; i < engine->players.player_list.len; i++) {
+    for (size_t i = 0; i < engine->players.list.len; i++) {
 
-        player_update (list_get_player (engine->players.player_list, i));
+        player_update (list_get_player (engine->players.list, i));
     }
 
 

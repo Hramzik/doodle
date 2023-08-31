@@ -28,7 +28,7 @@ Object_Motion generate_platform_dynamics        (Difficulty difficulty, Platform
 Object_Motion generate_moving_platform_dynamics (Difficulty difficulty);
 
 //--------------------------------------------------
-// cheats
+// events
 
 Return_code player_teleport_mid     (Game* game);
 Return_code player_fly_up_launch    (Game* game);
@@ -36,6 +36,8 @@ Return_code player_fly_up_terminate (Game* game);
 Return_code player_freeze_launch    (Game* game);
 Return_code player_freeze_terminate (Game* game);
 Return_code player_switch_texture_direction (Game* game);
+Return_code player_next_skin (Game* game);
+Return_code player_prev_skin (Game* game);
 
 //--------------------------------------------------
 // other

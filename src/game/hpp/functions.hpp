@@ -27,17 +27,10 @@ SDL_Texture* game_get_sdl_texture
 (Game* game, const char* path, bool transparent_flag = false, My_RGB clr = {});
 
 Return_code game_load_media (Game* game);
-Return_code game_media_push_doodler_texture    (Game_Media* media, SDL_Texture* texture);
-Return_code game_media_push_platform_texture   (Game_Media* media, SDL_Texture* texture);
-Return_code game_media_push_background_texture (Game_Media* media, SDL_Texture* texture);
 
 Return_code game_load_player_skins        (Game* game);
-Return_code game_load_platform_textures   (Game* game);
+Return_code game_load_platform_skins      (Game* game);
 Return_code game_load_background_textures (Game* game);
-
-Return_code game_load_doodler_texture    (Game* game, const char* path);
-Return_code game_load_platform_texture   (Game* game, const char* path);
-Return_code game_load_background_texture (Game* game, const char* path);
 
 //--------------------------------------------------
 // game
@@ -61,6 +54,10 @@ Return_code game_update_scores_camera_y (Game* game, double camera_disance);
 //--------------------------------------------------
 // render
 
+int game_get_window_width  (Game* game);
+int game_get_window_height (Game* game);
+
+
 Return_code game_clear_screen  (Game* game);
 Return_code game_set_drawcolor (Game* game, Uint8 r, Uint8 g, Uint8 b);
 Return_code game_draw_rect     (Game* game, SDL_Rect rect);
@@ -69,12 +66,12 @@ Return_code game_render           (Game* game);
 Return_code game_render_players   (Game* game);
 Return_code game_render_platforms (Game* game);
 
-Return_code      game_render_player        (Game* game, Player* player);
-Return_code      game_render_player_hitboxes (Game* game, Player* player);
-SDL_RendererFlip player_get_sdl_flip       (Player* player);
+Return_code      game_render_player          (Game* game, Player player);
+Return_code      game_render_player_hitboxes (Game* game, Player player);
+SDL_RendererFlip player_get_sdl_flip         (Player player);
 
-Return_code game_render_platform        (Game* game, Platform* platform);
-Return_code game_render_platform_hitbox (Game* game, Platform* platform);
+Return_code game_render_platform        (Game* game, Platform platform);
+Return_code game_render_platform_hitbox (Game* game, Platform platform);
 
 Return_code   game_render_background          (Game* game);
 Return_code   game_render_true_background     (Game* game);
@@ -87,41 +84,17 @@ Return_code game_draw_object_hitbox
 Return_code game_draw_object_hitbox_rect
 (Game* game, Object_Motion coords, Hitbox_Rect hitbox_rect);
 
-SDL_Texture* game_get_platform_texture        (Game* game, Platform* platform);
-SDL_Texture* game_get_background_texture      (Game* game);
-SDL_Texture* game_get_true_background_texture (Game* game);
+SDL_Texture* game_get_platform_texture        (Game* game, Platform platform);
 
-int          game_get_window_width     (Game* game);
-int          game_get_window_height    (Game* game);
 
-SDL_Rect game_get_player_texture_offset     (Game* game, Player* player);
-SDL_Rect get_platform_texture_offset        (void);
-SDL_Rect get_platform_hitbox_offset         (void);
-SDL_Rect game_get_background_texture_offset (Game* game);
-SDL_Rect game_get_true_background_texture_offset (Game* game);
 
 SDL_Rect hitbox_rect_to_sdl_rect  (Hitbox_Rect rect);
-SDL_Rect game_get_render_rect (Game* game, Object_Motion* motion, SDL_Rect texture_offset);
+SDL_Rect game_get_render_rect (Game* game, Object_Motion motion, SDL_Rect texture_offset);
 
 //--------------------------------------------------
 // keyboard_input
 
-Return_code game_handle_keyboard_input              (Game* game);
-Return_code game_handle_keydown_singleplayer (Game* game, SDL_Event event);
-Return_code game_handle_keyup_singleplayer   (Game* game, SDL_Event event);
-Return_code game_handle_left_down_singleplayer  (Game* game);
-Return_code game_handle_right_down_singleplayer (Game* game);
-Return_code game_handle_a_down_singleplayer     (Game* game);
-Return_code game_handle_d_down_singleplayer     (Game* game);
-Return_code game_handle_left_up_singleplayer  (Game* game);
-Return_code game_handle_right_up_singleplayer (Game* game);
-Return_code game_handle_a_up_singleplayer     (Game* game);
-Return_code game_handle_d_up_singleplayer     (Game* game);
-
-Return_code game_handle_comma_up    (Game* game);
-Return_code game_handle_period_up (Game* game);
-
-Return_code game_toggle_fullscreen (Game* game);
+Return_code game_handle_keyboard_input (Game* game);
 
 //--------------------------------------------------
 // platforms
@@ -132,6 +105,8 @@ Return_code update_max_y      (Game* game, Platform platform);
 Platform    generate_static_platform (Game* game, Point gaps, Platform_type type);
 Return_code spawn_static_platform    (Game* game, Point gaps, Platform_type type);
 Return_code spawn_moving_platform    (Game* game, Point gaps, Object_Motion dynamics, Platform_type type);
+
+Platform_Skin game_get_platform_skin (Game* game, Platform platform);
 
 //--------------------------------------------------
 

@@ -151,8 +151,8 @@ Return_code game_data_ctor (Game_Data* data) {
     data->game_mode  = SINGLE_PLAYER;
     data->camera_y   = 0;
 
-    data->background      = 0;
-    data->true_background = 2;
+    data->background      = DEFAULT_BACKGROUND;
+    data->true_background = DEFAULT_TRUE_BACKGROUND;
 
     singleplayer_data_ctor (&data->singleplayer);
 
