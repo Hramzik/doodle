@@ -18,6 +18,7 @@
 #define GAME_FIELD_HEIGHT_INT (int) (game->engine.data.field_height)
 
 #define RENDER_HITBOXES game->conditions.render_hitboxes
+#define RENDER_CROSSES  game->conditions.render_crosses
 
 
 //--------------------------------------------------

@@ -99,6 +99,7 @@ Return_code game_conditions_ctor (Game_Conditions* conditions) {
 
     conditions->exit            = false;
     conditions->render_hitboxes = false;
+    conditions->render_crosses  = false;
 
 
     conditions->switching_background = GB_TRUE;

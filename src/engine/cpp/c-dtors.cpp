@@ -2,7 +2,16 @@
 
 //--------------------------------------------------
 
+
 #include "../hpp/engine.hpp"
+
+
+//--------------------------------------------------
+
+
+static Return_code engine_data_ctor    (Engine_Data* data);
+static Return_code platforms_data_ctor (Platforms_Data* data);
+
 
 //--------------------------------------------------
 
@@ -40,7 +49,7 @@ Return_code players_dtor (Players* players) {
 }
 
 
-Return_code platforms_data_ctor (Platforms_Data* data) {
+static Return_code platforms_data_ctor (Platforms_Data* data) {
 
     if (!data) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -87,7 +96,7 @@ Return_code platforms_dtor (Platforms* platforms) {
 }
 
 
-Return_code engine_data_ctor (Engine_Data* data) {
+static Return_code engine_data_ctor (Engine_Data* data) {
 
     if (!data) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 

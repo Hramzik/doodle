@@ -49,8 +49,9 @@ Platform generate_static_platform (Game* game, Point gaps, Platform_type type) {
     if (!game) LOG_ERROR (BAD_ARGS);
 
 
-    double min_x = PLATFORM_TEXTURE_WIDTH / 2;
-    double     x = min_x + random_scale (DEFAULT_WINDOW_WIDTH - PLATFORM_TEXTURE_WIDTH);
+    SDL_Rect texture_offset = engine_get_platform_type_skin (game->engine, type).texture_offset;
+    double min_x = - texture_offset.x;
+    double     x = min_x + random_scale (GAME_WINDOW_WIDTH - texture_offset.w);
 
     double min_y = gaps.min + MAX_Y;
     double     y = min_y + random_scale (gaps.max - gaps.min);
@@ -91,15 +92,6 @@ Return_code spawn_moving_platform (Game* game, Point gaps, Object_Motion dynamic
 }
 
 
-Platform_Skin game_get_platform_skin (Game* game, Platform platform) {
-
-    if (!game) { LOG_ERROR (BAD_ARGS); return nullptr; }
-
-
-    return engine_get_platform_skin (game->engine, platform);
-}
-
-
 Return_code game_despawn_platforms (Game* game) {
 
     if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
@@ -109,14 +101,14 @@ Return_code game_despawn_platforms (Game* game) {
 
 
     Node* next_node = nullptr;
-    Node* delete_flag = false;
+    bool  delete_flag = false;
 
 
     for (Node* node = list->first; node; node = next_node) {
 
         next_node   = node->next;
-        delete_flag = false;
 
+        delete_flag  = false;
         delete_flag |= node_is_platform_dead             (*node);
         delete_flag |= node_is_platform_off_screen (game, *node);
 
@@ -143,7 +135,7 @@ static bool node_is_platform_off_screen (Game* game, Node node) {
 
 
     Platform* platform         = node_get_platform (node);
-    double    texture_y_offset = game_get_platform_skin (game, node).texture_offset.y;
+    double    texture_y_offset = engine_get_platform_skin (game->engine, *platform).texture_offset.y;
 
 
     if (platform->motion.y + texture_y_offset < game->data.camera_y) return true;

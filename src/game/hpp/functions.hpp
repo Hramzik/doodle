@@ -68,7 +68,7 @@ Return_code game_render_platforms (Game* game);
 
 Return_code      game_render_player          (Game* game, Player player);
 Return_code      game_render_player_hitboxes (Game* game, Player player);
-SDL_RendererFlip player_get_sdl_flip         (Player player);
+SDL_RendererFlip player_get_sdl_flip         (Player player, Player_Skin skin);
 
 Return_code game_render_platform        (Game* game, Platform platform);
 Return_code game_render_platform_hitbox (Game* game, Platform platform);
@@ -105,8 +105,6 @@ Return_code update_max_y      (Game* game, Platform platform);
 Platform    generate_static_platform (Game* game, Point gaps, Platform_type type);
 Return_code spawn_static_platform    (Game* game, Point gaps, Platform_type type);
 Return_code spawn_moving_platform    (Game* game, Point gaps, Object_Motion dynamics, Platform_type type);
-
-Platform_Skin game_get_platform_skin (Game* game, Platform platform);
 
 //--------------------------------------------------
 

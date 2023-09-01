@@ -13,6 +13,7 @@ static Return_code next_background             (Game* game);
 static Return_code prev_background             (Game* game);
 static Return_code toggle_fullscreen           (Game* game);
 static Return_code toggle_render_hitboxes      (Game* game);
+static Return_code toggle_render_crosses       (Game* game);
 static Return_code toggle_switching_background (Game* game);
 static size_t*     get_changing_background     (Game* game);
 
@@ -96,6 +97,7 @@ static Return_code handle_keyup (Game* game, SDL_KeyboardEvent event) {
         case SDLK_COMMA:  prev_background             (game); break;
         case SDLK_PERIOD: next_background             (game); break;
         case SDLK_h:      toggle_render_hitboxes      (game); break;
+        case SDLK_c:      toggle_render_crosses       (game); break;
         case SDLK_b:      toggle_switching_background (game); break;
         case SDLK_F11:    toggle_fullscreen           (game); break;
 
@@ -179,6 +181,18 @@ static Return_code toggle_render_hitboxes (Game* game) {
 
 
     bool_reverse (&game->conditions.render_hitboxes);
+
+
+    return SUCCESS;
+}
+
+
+static Return_code toggle_render_crosses (Game* game) {
+
+    if (!game) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
+
+
+    bool_reverse (&game->conditions.render_crosses);
 
 
     return SUCCESS;

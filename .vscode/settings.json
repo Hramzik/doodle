@@ -21,7 +21,8 @@
         "src\\timer": true,
         "src\\main.cpp": true,
         "src\\array": true,
-        "src\\list": true
+        "src\\list": true,
+        "src\\singleplayer": false
     },
     "explorerExclude.backup": {}
 }

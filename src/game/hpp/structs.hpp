@@ -58,6 +58,7 @@ typedef struct Game_Conditions {
     bool pressed_right;
 
     bool render_hitboxes;
+    bool render_crosses;
     bool fullscreen;
     Game_background switching_background;
 

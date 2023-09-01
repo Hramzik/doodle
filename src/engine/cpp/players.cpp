@@ -2,8 +2,21 @@
 
 //--------------------------------------------------
 
+
 #include "../hpp/engine.hpp"
 #include "../hpp/dsl.hpp"
+
+
+//--------------------------------------------------
+
+static Return_code move_player (Game_Engine* engine, Player* player);
+
+static Return_code player_update               (Player* player);
+static Return_code player_facing_update        (Player* player);
+static Return_code player_max_curjump_y_update (Player* player);
+
+static Return_code ensure_player_on_screen (Game_Engine* engine, Player* player);
+
 
 //--------------------------------------------------
 
@@ -17,9 +30,14 @@ Return_code player_dump (Player* player) {
 
 
     printf ("dumping player..\n");
+
+    printf ("facing: ");
+    if (player->facing == PFD_RIGHT) printf ("right\n");
+    else                             printf ("left\n");
+
     printf ("x,   y:   %5.2lf %5.2lf\n", motion.x,   motion.y);
-    printf ("dx,  dy:  %5.2lf %5.2lf\n", motion.dx,  motion.dy);
-    printf ("ddx, ddy: %5.2lf %5.2lf\n", motion.ddx, motion.ddy);
+    //printf ("dx,  dy:  %5.2lf %5.2lf\n", motion.dx,  motion.dy);
+    //printf ("ddx, ddy: %5.2lf %5.2lf\n", motion.ddx, motion.ddy);
 
 
     return SUCCESS;
@@ -56,7 +74,7 @@ Return_code engine_move_players (Game_Engine* engine) {
 
     for (size_t i = 0; i < engine->players.list.len; i++) {
 
-        engine_move_player (engine, list_get_player (engine->players.list, i));
+        move_player (engine, list_get_player (engine->players.list, i));
     }
 
 
@@ -64,7 +82,7 @@ Return_code engine_move_players (Game_Engine* engine) {
 }
 
 
-Return_code engine_move_player (Game_Engine* engine, Player* player) {
+static Return_code move_player (Game_Engine* engine, Player* player) {
 
     if (!engine) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -96,7 +114,7 @@ Return_code engine_update_players (Game_Engine* engine) {
 }
 
 
-Return_code player_update (Player* player) {
+static Return_code player_update (Player* player) {
 
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -109,7 +127,7 @@ Return_code player_update (Player* player) {
 }
 
 
-Return_code player_facing_update (Player* player) {
+static Return_code player_facing_update (Player* player) {
 
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -122,7 +140,7 @@ Return_code player_facing_update (Player* player) {
 }
 
 
-Return_code player_max_curjump_y_update (Player* player) {
+static Return_code player_max_curjump_y_update (Player* player) {
 
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -137,7 +155,7 @@ Return_code player_max_curjump_y_update (Player* player) {
 }
 
 
-Return_code ensure_player_on_screen (Game_Engine* engine, Player* player) {
+static Return_code ensure_player_on_screen (Game_Engine* engine, Player* player) {
 
     if (!player) { LOG_ERROR (BAD_ARGS); return BAD_ARGS; }
 
@@ -147,5 +165,30 @@ Return_code ensure_player_on_screen (Game_Engine* engine, Player* player) {
 
 
     return SUCCESS;
+}
+
+
+Hitbox_Rect player_get_true_hitbox_rect (Player player, Player_Skin skin, size_t index) {
+
+    Hitbox_Rect relative_player_rect = array_get_hitbox_rect (skin.legs_hitbox, index);
+
+    if (player.facing != skin.default_face_direction) {
+
+        hitbox_rect_mirror_horizontally (&relative_player_rect);
+    }
+
+
+    Hitbox_Rect true_player_rect =
+        motion_get_true_hitbox_rect (player.motion, relative_player_rect);
+
+
+    return true_player_rect;
+}
+
+
+Player_Skin engine_get_player_skin (Game_Engine engine, Player player) {
+
+
+    return array_get_player_skin (engine.players.skins, player.skin);
 }
 

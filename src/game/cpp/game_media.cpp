@@ -134,17 +134,17 @@ Return_code game_load_background_textures (Game* game) {
 //--------------------------------------------------
 // PLAYER PART START
 
-#define DEF_SKIN(number, path, def_texture_offset, def_legs_hitbox, def_good_hitbox) \
-{                                                                                    \
-    Player_Skin skin = {};                                                           \
-    array_ctor (&skin.legs_hitbox, AET_HITBOX_RECT);                                 \
-    array_ctor (&skin.good_hitbox, AET_HITBOX_RECT);                                 \
-    skin.texture = game_get_sdl_texture (game, "media/" path);                       \
-    def_texture_offset                                                               \
-    def_legs_hitbox                                                                  \
-    def_good_hitbox                                                                  \
-                                                                                     \
-    array_push (&game->engine.players.skins, skin);                                  \
+#define DEF_SKIN(number, path, facing, def_texture_offset, def_hitboxes) \
+{                                                                        \
+    Player_Skin skin = {};                                               \
+    array_ctor (&skin.legs_hitbox, AET_HITBOX_RECT);                     \
+    array_ctor (&skin.good_hitbox, AET_HITBOX_RECT);                     \
+    skin.texture = game_get_sdl_texture (game, "media/" path);           \
+    skin.default_face_direction = facing;                                \
+    def_texture_offset                                                   \
+    def_hitboxes                                                         \
+                                                                         \
+    array_push (&game->engine.players.skins, skin);                      \
 }
 
 #define DEF_TEXTURE_OFFSET(x, y, w, h)  \
