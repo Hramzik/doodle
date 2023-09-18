@@ -15,11 +15,11 @@
         "src\\lib": true,
         "src\\linked_list": true,
         "exe": true,
-        ".gitignore": true,
+        ".gitignore": false,
         "makefile": false,
         "readme.md": true,
         "src\\timer": true,
-        "src\\main.cpp": true,
+        "src\\main.cpp": false,
         "src\\array": true,
         "src\\list": true,
         "src\\singleplayer": false

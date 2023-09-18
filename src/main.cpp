@@ -10,6 +10,7 @@
 int main (void) {
 
     srand ( (unsigned) time (nullptr));
+    initialize_sdl ();
 
     Game* game = create_game ();
 
@@ -22,7 +23,7 @@ int main (void) {
 
     printf ("goodbye!\n");
 
-
+    quit_sdl ();
     return 0;
 }
 
